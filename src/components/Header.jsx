@@ -2,6 +2,7 @@ import icon from "../assets/dev.svg";
 import React from "react";
 import "../assets/hero.css";
 import { Typewriter } from "react-simple-typewriter";
+import { Button } from "react-bootstrap";
 
 function Header() {
   return (
@@ -59,7 +60,7 @@ function Header() {
             </div>
             {/* Text Column */}
             <div className="col-12 col-md-6">
-              <h1 className="display-4 fw-bold">
+              <h1 className="display-4 fw-bold mt-3 px-3 px-md-0">
                 Elevate Your <span>Development</span> Skills and Build a{" "}
                 <span>
                   <Typewriter
@@ -91,6 +92,9 @@ function Header() {
                 Join us to enhance your skills and contribute to innovative
                 solutions.
               </p>
+              <Button  style={{backgroundColor:"#FF6F61"}}>
+                Get Started
+              </Button>
             </div>
           </div>
         </div>
