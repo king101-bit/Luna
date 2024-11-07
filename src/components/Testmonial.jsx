@@ -1,35 +1,73 @@
-import { Card,Row,Col,Container } from "react-bootstrap"
+import React from "react";
+import { Carousel, Container, Row, Col } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../App.css";
 
-function Testmonial() {
-    return(
-        <Container className="py-5">
-      <h1 className="text-center mb-5">Testmonial</h1>
-      <Row xs={1} md={2} lg={3} className="g-4 row-card">
-          <Col>
-            <Card className="h-100 shadow-sm">
-              <Card.Body className="d-flex flex-column">
-                <Card.Title><strong>Mr. Cardmakurry Zehn</strong></Card.Title>
-                 <Card.Subtitle>Now works at 8-11 agency</Card.Subtitle>
-                <Card.Text>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae impedit eveniet iste assumenda non, totam blanditiis modi quae atque aliquid maxime tempora cupiditate veritatis eos vel, magni fugiat quibusdam unde.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col>
-          <Card className="h-100 shadow-sm">
-              <Card.Body className="d-flex flex-column">
-                <Card.Title><strong>Mr. Cardmakurry Zehn</strong></Card.Title>
-                 <Card.Subtitle>Now works at 8-11 agency</Card.Subtitle>
-                <Card.Text>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae impedit eveniet iste assumenda non, totam blanditiis modi quae atque aliquid maxime tempora cupiditate veritatis eos vel, magni fugiat quibusdam unde.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-      </Row>
+export default function Component() {
+  const testimonials = [
+    {
+      name: "John Doe",
+      role: "CEO, TechCorp",
+      content:
+        "This product has revolutionized our workflow. Highly recommended!",
+      rating: 5,
+      image:
+        "https://i.pinimg.com/236x/32/31/0d/32310da376cfa3e893da62e09b600668.jpg",
+    },
+    {
+      name: "Jane Smith",
+      role: "Designer, CreativeCo",
+      content:
+        "The user interface is intuitive and the features are exactly what we needed.",
+      rating: 4,
+      image:
+        "https://i.pinimg.com/236x/32/31/0d/32310da376cfa3e893da62e09b600668.jpg",
+    },
+    {
+      name: "Mike Johnson",
+      role: "Developer, WebSolutions",
+      content:
+        "Outstanding support team and regular updates keep this product at the top of its class.",
+      rating: 5,
+      image:
+        "https://i.pinimg.com/236x/32/31/0d/32310da376cfa3e893da62e09b600668.jpg",
+    },
+  ];
+
+  return (
+    <Container className="py-5">
+      <h2 className="text-center mb-5 text-4xl font-bold">
+        What Our Students Say
+      </h2>
+      <Carousel fade indicators={false} className="testimonial-carousel">
+        {testimonials.map((testimonial, index) => (
+          <Carousel.Item key={index}>
+            <Row className="justify-content-center">
+              <Col md={8} lg={6} className="text-center">
+                <div className="testimonial-item p-4 bg-white rounded-lg shadow-lg">
+                  <img
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="rounded-circle mx-auto mb-4 testimonial-image"
+                    width={100}
+                    height={100}
+                  />
+                  <p className="mb-4 text-lg">{testimonial.content}</p>
+                  <h5 className="font-bold mb-1">{testimonial.name}</h5>
+                  <p className="text-muted mb-3">{testimonial.role}</p>
+                  <div className="testimonial-rating">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <span key={i} className="text-warning">
+                        &#9733;
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          </Carousel.Item>
+        ))}
+      </Carousel>
     </Container>
-    );
+  );
 }
-
-export default Testmonial;
