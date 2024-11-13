@@ -9,7 +9,7 @@ export default function Component() {
       name: "John Doe",
       role: "CEO, TechCorp",
       content:
-        "This product has revolutionized our workflow. Highly recommended!",
+        "This site helped me land my job 6 months after enrolling in their courses. Highly recommended!",
       rating: 5,
       image:
         "https://i.pinimg.com/236x/32/31/0d/32310da376cfa3e893da62e09b600668.jpg",
@@ -18,17 +18,17 @@ export default function Component() {
       name: "Jane Smith",
       role: "Designer, CreativeCo",
       content:
-        "The user interface is intuitive and the features are exactly what we needed.",
+        "The user interface is intuitive and the features are exactly what I needed.",
       rating: 4,
       image:
         "https://i.pinimg.com/236x/32/31/0d/32310da376cfa3e893da62e09b600668.jpg",
     },
     {
       name: "Mike Johnson",
-      role: "Developer, WebSolutions",
+      role: "Front-end Developer, WebSolutions",
       content:
-        "Outstanding support team and regular updates keep this product at the top of its class.",
-      rating: 5,
+        "Outstanding support team and an active community keeps it at the top of its class.",
+      rating: 4,
       image:
         "https://i.pinimg.com/236x/32/31/0d/32310da376cfa3e893da62e09b600668.jpg",
     },

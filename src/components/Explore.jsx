@@ -1,12 +1,36 @@
-import React from 'react'
-import { Container, Row, Col, Card, Button, } from 'react-bootstrap'
-import myImage from '../assets/arif.jpg'
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import myImage from "../assets/arif.jpg";
 
 const courses = [
-  { id: 1, title: "Introduction to Web Development", category: "Web Development", level: "Beginner", duration: "8 weeks" },
-  { id: 2, title: "Advanced JavaScript Concepts", category: "Programming", level: "Intermediate", duration: "6 weeks" },
-  { id: 3, title: "Data Science Fundamentals", category: "Data Science", level: "Beginner", duration: "10 weeks" },
-]
+  {
+    id: 1,
+    title: "Introduction to Web Development",
+    category: "Web Development",
+    level: "Beginner",
+    duration: "8 weeks",
+  },
+  {
+    id: 2,
+    title: "Advanced JavaScript Concepts",
+    category: "Programming",
+    level: "Intermediate",
+    duration: "6 weeks",
+  },
+  {
+    id: 3,
+    title: "Data Science Fundamentals",
+    category: "Data Science",
+    level: "Beginner",
+    duration: "10 weeks",
+  },
+  {
+    id: 4,
+    title: "Introduction to AI/ML",
+    category: "Programming",
+    level: "Intermediate",
+    duration: "5 weeks",
+  },
+];
 
 function Explore() {
   return (
@@ -20,14 +44,16 @@ function Explore() {
               <Card.Body className="d-flex flex-column">
                 <Card.Title>{course.title}</Card.Title>
                 <Card.Text>
-                  <strong>Category:</strong> {course.category}<br />
-                  <strong>Level:</strong> {course.level}<br />
+                  <strong>Category:</strong> {course.category}
+                  <br />
+                  <strong>Level:</strong> {course.level}
+                  <br />
                   <strong>Duration:</strong> {course.duration}
                 </Card.Text>
-                <Button 
-                  variant="primary" 
+                <Button
+                  variant="primary"
                   className="mt-auto"
-                  style={{ backgroundColor: '#FF6F61', borderColor: '#FF6F61' }}
+                  style={{ backgroundColor: "#FF6F61", borderColor: "#FF6F61" }}
                 >
                   Learn More
                 </Button>
@@ -37,6 +63,6 @@ function Explore() {
         ))}
       </Row>
     </Container>
-  )
+  );
 }
 export default Explore;

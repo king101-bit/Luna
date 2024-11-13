@@ -1,19 +1,33 @@
 span {
-  color: #ff6f61; /* Text color */
-  letter-spacing: 0.5px; /* Adds spacing between letters */
-  transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transition */
-  opacity: 0.9; /* Slightly transparent for depth */
+  color: #ff6f61;
+  /* Text color */
+  letter-spacing: 0.5px;
+  /* Adds spacing between letters */
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  /* Smooth transition */
+  opacity: 0.9;
+  /* Slightly transparent for depth */
 }
 
 span:hover {
-  transform: scale(1.05); /* Slightly enlarges on hover */
-  opacity: 1; /* Fully opaque on hover */
+  transform: scale(1.05);
+  /* Slightly enlarges on hover */
+  opacity: 1;
+  /* Fully opaque on hover */
 }
 
-.navbar {
-  background-color: white !important;
+.navbar-brand,
+.nav-item {
+  color: white !important;
 }
 
 .row-card {
   margin-left: 50px;
+}
+
+.main,
+nav {
+  background-image: url(./bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
