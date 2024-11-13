@@ -1,4 +1,3 @@
-import React from "react";
 import Explore from "./Explore";
 import Footer from "./Footer";
 import CNavbar from "./CNavbar";
