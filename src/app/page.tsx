@@ -34,15 +34,19 @@ const Page = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="space-x-4"
             >
-              <Button className="bg-blue-600 text-white hover:bg-blue-700">
-                Get Started
-              </Button>
-              <Button
-                variant="outline"
-                className="text-blue-400 bg-black border-blue-400 hover:bg-blue-400/10 hover:text-white"
-              >
-                Explore Courses
-              </Button>
+              <Link href="/dashboard">
+                <Button className="bg-blue-600 text-white hover:bg-blue-700">
+                  Get Started
+                </Button>
+              </Link>
+              <Link href="/courses">
+                <Button
+                  variant="outline"
+                  className="text-blue-400 bg-black border-blue-400 hover:bg-blue-400/10 hover:text-white"
+                >
+                  Explore Courses
+                </Button>
+              </Link>
             </motion.div>
           </div>
         </div>
