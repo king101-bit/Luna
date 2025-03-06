@@ -42,23 +42,24 @@ export function UserAvatar({ name, imageUrl }: UserAvatarProps) {
     <DropdownMenu>
       {/* Dropdown Trigger */}
       <DropdownMenuTrigger asChild>
-        <Avatar className="cursor-pointer hover:opacity-80">
-          {/* User Image */}
-          <AvatarImage
-            src={imageUrl || "/placeholder.svg?height=32&width=32"}
-            alt={name}
-            onError={(e) => (e.currentTarget.style.display = "none")} // Hide image on error
-          />
-          {/* Fallback Avatar */}
-          <AvatarFallback>
-            <BoringAvatar
-              size={32} // Matches your existing size
-              name={name} // Dynamic name
-              variant="beam" // Options: "marble", "beam", "pixel", "sunset", "ring", "bauhaus"
-              colors={["#E63946", "#F1FAEE", "#A8DADC", "#457B9D", "#1D3557"]}
+        {imageUrl ? (
+          <Avatar className="cursor-pointer hover:opacity-80">
+            {/* User Image */}
+            <AvatarImage
+              src={imageUrl}
+              alt={name}
+              onError={(e) => (e.currentTarget.style.display = "none")} // Hide image on error
             />
-          </AvatarFallback>
-        </Avatar>
+          </Avatar>
+        ) : (
+          <BoringAvatar
+            size={32} // Matches your existing size
+            name={name} // Dynamic name
+            variant="marble" // Options: "marble", "beam", "pixel", "sunset", "ring", "bauhaus"
+            size={45} // Matches your existing size
+            colors={["#E63946", "#F1FAEE", "#A8DADC", "#457B9D", "#1D3557"]}
+          />
+        )}
       </DropdownMenuTrigger>
 
       {/* Dropdown Content */}

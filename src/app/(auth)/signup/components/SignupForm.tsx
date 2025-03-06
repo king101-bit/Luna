@@ -13,8 +13,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signup } from "@/lib/auth-actions";
+import useAuthRedirect from "@/hook/useAuthRedirect";
 
 export function SignUpForm() {
+  useAuthRedirect();
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>

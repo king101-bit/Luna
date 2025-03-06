@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,9 +12,11 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import Sidebar from "@/components/ui/sidebar";
-import { Flame, BookOpen } from "lucide-react";
+import { Flame, BookOpen, Loader2 } from "lucide-react";
 import UserGreetText from "@/components/ui/UserGreetText";
 import { UserAvatar } from "@/components/ui/UserAvatar";
+import { createBrowserClient } from "@supabase/ssr";
+import useUserStore from "@/stores/UserStore";
 
 const DashboardPage = () => {
   const getGreeting = () => {
@@ -24,7 +26,61 @@ const DashboardPage = () => {
     if (hour >= 17 && hour < 21) return "Good Evening";
     return "Good Night";
   };
+
   const [progress, setProgress] = useState(50);
+  const { login, user, loading, setLoading } = useUserStore();
+
+  useEffect(() => {
+    const supabase = createBrowserClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    );
+
+    const fetchUser = async () => {
+      setLoading(true); // Set loading to true before fetching
+      try {
+        const result = await supabase.auth.getUser();
+
+        if (!result.data) {
+          console.error("No user data found");
+          setLoading(false); // Set loading to false if no data
+          return;
+        }
+
+        const { user } = result.data;
+        login(user!);
+        console.log("User From Dashboard:", user);
+      } catch (error) {
+        console.error("Auth error:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching
+      }
+    };
+
+    fetchUser();
+  }, [login, setLoading]);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen bg-background">
+        <Sidebar />
+        <div className="flex-1 flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin" /> {/* Loading spinner */}
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="flex min-h-screen bg-background">
+        <Sidebar />
+        <div className="flex-1 flex items-center justify-center">
+          <p>No user found. Please log in.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -45,8 +101,8 @@ const DashboardPage = () => {
                   </Badge>
                 </Button>
                 <UserAvatar
-                  name="John Doe" // Dynamic name
-                  imageUrl="/path/to/user-image.jpg"
+                  name={user.user_metadata.name} // Dynamic name
+                  imageUrl={user.user_metadata.avatar_url}
                 />
               </div>
             </div>
@@ -56,7 +112,7 @@ const DashboardPage = () => {
               <h2 className="text-2xl font-bold tracking-tight">
                 <span>
                   {getGreeting()},
-                  <UserGreetText />
+                  <UserGreetText user={user} />
                 </span>
               </h2>
               <p className="text-muted-foreground">

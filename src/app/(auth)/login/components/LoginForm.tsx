@@ -1,5 +1,5 @@
 "use client";
-import type React from "react";
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,11 +8,31 @@ import { Label } from "@/components/ui/label";
 import { login } from "@/lib/auth-actions";
 import Link from "next/link";
 import SigninWithGoogleButton from "./SigninWithGoogleButton";
+import { Loader2 } from "lucide-react";
+import useAuthRedirect from "@/hook/useAuthRedirect";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [IsLoading, setIsLoading] = useState(false);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+    setIsLoading(true);
+    // console.log("Login", data);
+    await login(data);
+    setIsLoading(false);
+    // if (result.error) {
+    //   alert(result.error);
+    // } else {
+    //   window.location.href = "/";
+    // }
+  };
+  useAuthRedirect();
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <div
@@ -24,7 +44,7 @@ export function LoginForm({
       >
         <Card className="w-full overflow-hidden">
           <CardContent className="grid p-0">
-            <form className="p-6 md:p-8" action={login}>
+            <form className="p-6 md:p-8" onSubmit={onSubmit}>
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col items-center text-center">
                   <h1 className="text-2xl font-bold">Welcome back</h1>
@@ -63,7 +83,11 @@ export function LoginForm({
                 </div>
 
                 <Button type="submit" className="w-full">
-                  Login
+                  {IsLoading ? (
+                    <Loader2 className="h-8 w-8 animate-spin" />
+                  ) : (
+                    "Login"
+                  )}
                 </Button>
 
                 <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">

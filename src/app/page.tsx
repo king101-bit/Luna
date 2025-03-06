@@ -5,8 +5,13 @@ import Navbar from "../components/ui/Navbar";
 import { Terminal, BookOpen, Users, Zap, Globe, Code } from "lucide-react";
 import Link from "next/link";
 import { Input } from "../components/ui/input";
-
+import useAuthRedirect from "@/hook/useAuthRedirect";
 const Page = () => {
+  const user = useAuthRedirect();
+  if (user.user) {
+    return null;
+  }
+
   return (
     <>
       <Navbar />

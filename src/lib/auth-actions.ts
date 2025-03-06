@@ -10,32 +10,45 @@ const handleError = (error: any, message: string = "Error occurred") => {
   redirect(`/error?message=${encodeURIComponent(message)}`);
 };
 
-export async function login(formData: FormData) {
+export async function login({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) {
   const supabase = await createClient();
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
 
   if (!email || !password) {
     console.error("Login failed: Email and password are required"); // Log the error
-    return handleError(
-      new Error("Email and password are required"),
-      "Login failed",
-    );
+    // return handleError(
+    // new Error("Email and password are required"),
+    //  "Login failed",
+    //   );
   }
 
-  try {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) throw error;
-
-    revalidatePath("/", "layout");
-    return redirect("/dashboard");
-  } catch (error) {
-    console.error("Login failed:", error); // Log the error
+  const { error, data } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+  if (error?.code === "AUTH_INVALID_EMAIL_PASSWORD_COMBINATION") {
+    console.error("Login failed: Invalid email or password"); // Log the error
+    return handleError(new Error("Invalid email or password"), "Login failed");
+  }
+  if (error?.code === "AUTH_USER_NOT_FOUND") {
+    console.error("Login failed: User not found"); // Log the error
+    return handleError(new Error("User not found"), "Login failed");
+  }
+  if (error?.code === "email_not_confirmed") {
+    console.error("Login failed: Email not confirmed"); // Log the error
+    redirect("/confirm-email");
+  } else if (error) {
+    console.error("Login failed:", error.message); // Log the error
     return handleError(error, "Login failed");
   }
+  console.log(data);
+  revalidatePath("/", "layout");
+  redirect("/dashboard");
 }
 
 export async function signup(formData: FormData) {
@@ -50,60 +63,49 @@ export async function signup(formData: FormData) {
     return handleError(new Error("All fields are required"), "Signup failed");
   }
 
-  try {
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: `${firstName} ${lastName}`,
-        },
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        full_name: `${firstName} ${lastName}`,
       },
-    });
+    },
+  });
 
-    if (error) throw error;
+  if (error) throw error;
 
-    revalidatePath("/", "layout");
-    return redirect("/dashboard");
-  } catch (error) {
-    console.error("Signup failed:", error); // Log the error
-    return handleError(error, "Signup failed");
-  }
+  revalidatePath("/", "layout");
+  redirect("/confirm-email");
 }
 
 export async function signout() {
   const supabase = await createClient();
 
-  try {
-    const { error } = await supabase.auth.signOut();
-    if (error) throw error;
-    return redirect("/login"); // Redirect to login page after signout
-  } catch (error) {
-    console.error("Signout failed:", error); // Log the error
-    return handleError(error);
-  }
+  const { error } = await supabase.auth.signOut();
+  if (error) throw error;
+  redirect("/login"); // Redirect to login page after signout
 }
 
 export async function signInWithGoogle() {
   const supabase = await createClient();
 
-  try {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        queryParams: {
-          access_type: "offline",
-          prompt: "consent",
-        },
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      queryParams: {
+        access_type: "offline",
+        prompt: "consent",
       },
-    });
+    },
+  });
 
-    if (error) throw error;
+  if (error) {
+    throw error;
+  } else {
     if (!data?.url) throw new Error("No redirect URL provided");
 
-    return redirect(data.url);
-  } catch (error) {
-    console.error("Google sign-in failed:", error); // Log the error
-    return handleError(error, "Google sign-in failed");
+    redirect(data.url);
+    // redirect("/dashboard");
   }
 }
