@@ -1,10 +1,10 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { Button } from "../components/ui/button";
 import { motion } from "framer-motion";
-import Navbar from "@/components/ui/Navbar";
+import Navbar from "../components/ui/Navbar";
 import { Terminal, BookOpen, Users, Zap, Globe, Code } from "lucide-react";
 import Link from "next/link";
-import { Input } from "@/components/ui/input";
+import { Input } from "../components/ui/input";
 
 const Page = () => {
   return (

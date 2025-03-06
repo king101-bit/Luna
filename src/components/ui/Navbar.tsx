@@ -28,9 +28,11 @@ const Navbar = () => {
         >
           Courses
         </Link>
-        <Button className="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md">
-          Get Started
-        </Button>
+        <Link href="/dashboard">
+          <Button className="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md">
+            Get Started
+          </Button>
+        </Link>
       </nav>
     </header>
   );

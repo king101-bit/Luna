@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +13,8 @@ import {
 import { Progress } from "@/components/ui/progress";
 import Sidebar from "@/components/ui/sidebar";
 import { Flame, BookOpen } from "lucide-react";
+import UserGreetText from "@/components/ui/UserGreetText";
+import { UserAvatar } from "@/components/ui/UserAvatar";
 
 const DashboardPage = () => {
   const getGreeting = () => {
@@ -36,7 +37,6 @@ const DashboardPage = () => {
           {/* Navbar */}
           <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background px-6">
             <div className="flex flex-1 items-center gap-4">
-              <h1 className="text-xl font-semibold md:hidden">CodeLearn</h1>
               <div className="ml-auto flex items-center gap-4">
                 <Button variant="outline" size="icon" className="relative">
                   <Flame className="h-5 w-5" />
@@ -44,20 +44,20 @@ const DashboardPage = () => {
                     7
                   </Badge>
                 </Button>
-                <Avatar>
-                  <AvatarImage
-                    src="/placeholder.svg?height=32&width=32"
-                    alt="User"
-                  />
-                  <AvatarFallback>JZ</AvatarFallback>
-                </Avatar>
+                <UserAvatar
+                  name="John Doe" // Dynamic name
+                  imageUrl="/path/to/user-image.jpg"
+                />
               </div>
             </div>
           </header>
           <main className="container mx-auto p-4 md:p-6 lg:p-8">
             <div className="mb-8">
               <h2 className="text-2xl font-bold tracking-tight">
-                {getGreeting()}, Jane Doe!
+                <span>
+                  {getGreeting()},
+                  <UserGreetText />
+                </span>
               </h2>
               <p className="text-muted-foreground">
                 Continue your learning journey where you left off.
