@@ -1,3 +1,4 @@
+"use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import useUserStore from "@/stores/UserStore"; // Adjust the import path

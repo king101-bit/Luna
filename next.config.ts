@@ -1,9 +1,10 @@
-// next.config.js
+import path from "path"; // Use ES modules import syntax
+
 const nextConfig = {
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      "@": path.resolve(__dirname),
+      "@": path.resolve(__dirname), // Use the path module
     };
     return config;
   },
@@ -12,4 +13,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig; // Use ES modules export syntax

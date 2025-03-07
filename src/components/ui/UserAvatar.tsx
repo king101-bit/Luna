@@ -6,7 +6,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu"; // Shadcn UI Dropdown
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"; // Shadcn UI Avatar
+import { Avatar, AvatarImage } from "@/components/ui/avatar"; // Shadcn UI Avatar
 import BoringAvatar from "boring-avatars";
 import { useRouter } from "next/navigation"; // For navigation
 import { signout } from "@/lib/auth-actions"; // Import the signout function
