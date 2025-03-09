@@ -1,3 +1,4 @@
+"use client";
 import useAuthRedirect from "@/hook/useAuthRedirect";
 
 const ConfirmEmailPage = () => {

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware"; // Import persist middleware
+import { persist, createJSONStorage } from "zustand/middleware"; // Import persist middleware and createJSONStorage
 import { User } from "@supabase/supabase-js";
 
 interface UserStore {
@@ -32,7 +32,7 @@ const useUserStore = create<UserStore>()(
     }),
     {
       name: "user-storage", // Unique name for the persisted state
-      getStorage: () => localStorage, // Use localStorage for persistence
+      storage: createJSONStorage(() => localStorage), // Use localStorage with JSON serialization
     },
   ),
 );

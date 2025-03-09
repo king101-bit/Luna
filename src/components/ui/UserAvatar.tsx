@@ -56,7 +56,6 @@ export function UserAvatar({ name, imageUrl }: UserAvatarProps) {
             size={32} // Matches your existing size
             name={name} // Dynamic name
             variant="marble" // Options: "marble", "beam", "pixel", "sunset", "ring", "bauhaus"
-            size={45} // Matches your existing size
             colors={["#E63946", "#F1FAEE", "#A8DADC", "#457B9D", "#1D3557"]}
           />
         )}

@@ -39,7 +39,7 @@ const Page = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="space-x-4"
             >
-              <Link href="/dashboard">
+              <Link href="/signup">
                 <Button className="bg-blue-600 text-white hover:bg-blue-700">
                   Get Started
                 </Button>

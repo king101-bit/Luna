@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, FormEvent } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -15,22 +15,23 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const [IsLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData);
+    const formData = new FormData(e.currentTarget);
+
+    // Explicitly type the data object
+    const data = {
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+    };
+
     setIsLoading(true);
-    // console.log("Login", data);
-    await login(data);
+    await login(data); // Now `data` matches the expected type
     setIsLoading(false);
-    // if (result.error) {
-    //   alert(result.error);
-    // } else {
-    //   window.location.href = "/";
-    // }
   };
+
   useAuthRedirect();
 
   return (
@@ -82,8 +83,8 @@ export function LoginForm({
                   </Link>
                 </div>
 
-                <Button type="submit" className="w-full">
-                  {IsLoading ? (
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? (
                     <Loader2 className="h-8 w-8 animate-spin" />
                   ) : (
                     "Login"

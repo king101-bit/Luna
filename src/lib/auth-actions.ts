@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "../../utils/supabase/server";
 
 // Generic error handler
+// // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const handleError = (error: any, message: string = "Error occurred") => {
   console.error(`${message}:`, error); // Log the error to the console
   redirect(`/error?message=${encodeURIComponent(message)}`);
