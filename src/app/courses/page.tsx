@@ -16,9 +16,11 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Code, Database, Server, Globe, Lock } from "lucide-react";
 import Sidebar from "@/components/ui/sidebar";
+import Link from "next/link";
 
 const courses = [
   {
+    id: "responsive-web-design",
     title: "Responsive Web Design",
     description: "Learn HTML, CSS, and responsive design principles",
     category: "Frontend",
@@ -29,6 +31,7 @@ const courses = [
     locked: false,
   },
   {
+    id: "javascript-fundamentals",
     title: "JavaScript Fundamentals",
     description: "Master the basics of JavaScript programming",
     category: "Frontend",
@@ -39,6 +42,7 @@ const courses = [
     locked: false,
   },
   {
+    id: "introduction-to-databases",
     title: "Introduction to Databases",
     description: "Understand database concepts and SQL",
     category: "Backend",
@@ -49,6 +53,7 @@ const courses = [
     locked: false,
   },
   {
+    id: "react-basics",
     title: "React Basics",
     description: "Build interactive UIs with React",
     category: "Frontend",
@@ -59,6 +64,7 @@ const courses = [
     locked: true,
   },
   {
+    id: "nodejs-essentials",
     title: "Node.js Essentials",
     description: "Server-side JavaScript with Node.js",
     category: "Backend",
@@ -121,34 +127,36 @@ export default function Courses() {
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filteredCourses.map((course, index) => (
-              <Card key={index} className={course.locked ? "opacity-75" : ""}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <course.icon className="h-5 w-5" />
-                    {course.title}
-                    {course.locked && (
-                      <Lock className="h-4 w-4 text-muted-foreground" />
-                    )}
-                  </CardTitle>
-                  <CardDescription>{course.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <Badge variant="secondary">{course.category}</Badge>
-                    <Badge variant="secondary">{course.level}</Badge>
-                    <Badge variant="secondary">{course.duration}</Badge>
-                  </div>
-                  <Progress value={course.progress} className="h-2" />
-                  <p className="text-sm text-muted-foreground mt-2">
-                    {course.progress}% complete
-                  </p>
-                </CardContent>
-                <CardFooter>
-                  <Button className="w-full" disabled={course.locked}>
-                    {course.progress > 0 ? "Continue" : "Start"} Course
-                  </Button>
-                </CardFooter>
-              </Card>
+              <Link key={index} href={`/courses/${course.id}`} passHref>
+                <Card className={course.locked ? "opacity-75" : ""}>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <course.icon className="h-5 w-5" />
+                      {course.title}
+                      {course.locked && (
+                        <Lock className="h-4 w-4 text-muted-foreground" />
+                      )}
+                    </CardTitle>
+                    <CardDescription>{course.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      <Badge variant="secondary">{course.category}</Badge>
+                      <Badge variant="secondary">{course.level}</Badge>
+                      <Badge variant="secondary">{course.duration}</Badge>
+                    </div>
+                    <Progress value={course.progress} className="h-2" />
+                    <p className="text-sm text-muted-foreground mt-2">
+                      {course.progress}% complete
+                    </p>
+                  </CardContent>
+                  <CardFooter>
+                    <Button className="w-full" disabled={course.locked}>
+                      {course.progress > 0 ? "Continue" : "Start"} Course
+                    </Button>
+                  </CardFooter>
+                </Card>
+              </Link>
             ))}
           </div>
 
