@@ -78,7 +78,7 @@ const Page = () => {
                     <Button
                       size="lg"
                       variant="outline"
-                      className="border-slate-700 text-slate-300 hover:bg-slate-800"
+                      className="border-slate-700 text-black hover:bg-slate-800 hover:text-white"
                     >
                       <BookOpen className="w-4 h-4 mr-2" />
                       Explore Courses
@@ -690,16 +690,6 @@ const Page = () => {
                       answer:
                         "Our platform is designed to be flexible. You can switch between learning paths or take courses from different paths simultaneously. We recommend focusing on one path initially, but the choice is yours.",
                     },
-                    {
-                      question: "How does the mentorship program work?",
-                      answer:
-                        "Pro and Teams plan members get access to 1-on-1 mentorship sessions with experienced developers. You can schedule sessions based on your availability, submit questions in advance, and get personalized feedback on your projects.",
-                    },
-                    {
-                      question: "Is there a money-back guarantee?",
-                      answer:
-                        "Yes, we offer a 14-day money-back guarantee. If you're not satisfied with our platform within the first 14 days, you can request a full refund, no questions asked.",
-                    },
                   ].map((faq, index) => (
                     <AccordionItem
                       key={index}
@@ -786,17 +776,15 @@ const Page = () => {
                     projects, and advancing your career.
                   </p>
                   <div className="flex gap-4">
-                    {["Twitter", "GitHub", "LinkedIn", "YouTube"].map(
-                      (social) => (
-                        <Link
-                          key={social}
-                          href="#"
-                          className="text-slate-400 hover:text-white transition-colors"
-                        >
-                          {social}
-                        </Link>
-                      ),
-                    )}
+                    {["GitHub"].map((social) => (
+                      <Link
+                        key={social}
+                        href="#"
+                        className="text-slate-400 hover:text-white transition-colors"
+                      >
+                        {social}
+                      </Link>
+                    ))}
                   </div>
                 </div>
 
