@@ -29,9 +29,9 @@ const Navbar = () => {
                 </Link>
               </div>
               <div className="flex items-center gap-3">
-                <Button variant="ghost" className="text-slate-300">
-                  Log in
-                </Button>
+                <Link href="/login" className="text-slate-300">
+                  Login
+                </Link>
                 <Button className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400">
                   Get Started
                 </Button>

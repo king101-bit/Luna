@@ -129,7 +129,7 @@ const Page = () => {
                     <div className="p-4 font-mono text-sm text-slate-300 overflow-hidden">
                       <pre className="text-blue-400">
                         <span className="text-slate-500">
-                          // Luna interactive code example
+                          {" // Luna interactive code example"}
                         </span>
                         {"\n"}
                         <span className="text-purple-400">function</span>{" "}
@@ -138,9 +138,12 @@ const Page = () => {
                       </pre>
                       <pre className="pl-4">
                         <span className="text-purple-400">const</span> skills =
-                        [<span className="text-green-400">"HTML"</span>,{" "}
-                        <span className="text-green-400">"CSS"</span>,{" "}
-                        <span className="text-green-400">"JavaScript"</span>];
+                        [<span className="text-green-400">&#34;HTML&#34;</span>,{" "}
+                        <span className="text-green-400">&#34;CSS&#34;</span>,{" "}
+                        <span className="text-green-400">
+                          &#34;JavaScript&#34;
+                        </span>
+                        ];
                         {"\n"}
                         <span className="text-purple-400">const</span> projects
                         ={" "}
@@ -152,7 +155,7 @@ const Page = () => {
                       </pre>
                       <pre className="text-blue-400">{"}"}</pre>
                       <div className="mt-2 border-l-4 border-blue-500 pl-3 text-slate-400">
-                        Start your coding journey with Luna today!
+                        {"// Start your coding journey with Luna today!"}
                       </div>
                     </div>
                   </div>

@@ -74,9 +74,10 @@ export function LoginForm({
                     type="password"
                     name="password"
                     required
+                    placeholder="*********"
                   />
                   <Link
-                    href="/reset"
+                    href="/forgot-password"
                     className="ml-auto text-sm underline-offset-2 hover:underline"
                   >
                     Forgot your password?
