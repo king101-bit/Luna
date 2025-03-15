@@ -27,17 +27,25 @@ import Sidebar from "@/components/ui/sidebar"
 
 // Define the type for the params prop
 interface PageProps {
-  params: {
-    courseId: string
-  }
+  params: Promise<{ courseId: string }>
 }
 
 export default function CourseDetailPage({ params }: PageProps) {
-  // Extract courseId from params
-  const courseId = params.courseId
+  const [courseId, setCourseId] = useState<string | null>(null)
+
+  // Resolve the params Promise
+  useEffect(() => {
+    params.then((resolvedParams) => {
+      setCourseId(resolvedParams.courseId)
+    })
+  }, [params])
 
   // Find the course by ID or use the first course as fallback
   const course = courses.find((c) => c.id.toString() === courseId) || courses[0]
+
+  if (!courseId) {
+    return <div>Loading...</div>
+  }
 
   return (
     <>
