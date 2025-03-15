@@ -1,8 +1,8 @@
-"use client";
-import useAuthRedirect from "@/hook/useAuthRedirect";
+"use client"
+import useAuthRedirect from "@/hook/useAuthRedirect"
 
 const ConfirmEmailPage = () => {
-  useAuthRedirect();
+  useAuthRedirect()
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center p-4">
@@ -35,7 +35,7 @@ const ConfirmEmailPage = () => {
         </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ConfirmEmailPage;
+export default ConfirmEmailPage

@@ -6,6 +6,6 @@ const nextConfig = {
   images: {
     domains: ["picsum.photos"],
   },
-};
+}
 
-export default nextConfig; // Use ES modules export syntax
+export default nextConfig // Use ES modules export syntax

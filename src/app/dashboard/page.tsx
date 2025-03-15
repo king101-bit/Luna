@@ -1,7 +1,7 @@
-"use client";
-import { useState, useEffect } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+"use client"
+import { useState, useEffect } from "react"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -9,56 +9,56 @@ import {
   CardTitle,
   CardFooter,
   CardDescription,
-} from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import Sidebar from "@/components/ui/sidebar";
-import { Flame, BookOpen, Loader2 } from "lucide-react";
-import UserGreetText from "@/components/ui/UserGreetText";
-import { UserAvatar } from "@/components/ui/UserAvatar";
-import { createBrowserClient } from "@supabase/ssr";
-import useUserStore from "@/stores/UserStore";
+} from "@/components/ui/card"
+import { Progress } from "@/components/ui/progress"
+import Sidebar from "@/components/ui/sidebar"
+import { Flame, BookOpen, Loader2 } from "lucide-react"
+import UserGreetText from "@/components/ui/UserGreetText"
+import { UserAvatar } from "@/components/ui/UserAvatar"
+import { createBrowserClient } from "@supabase/ssr"
+import useUserStore from "@/stores/UserStore"
 
 const DashboardPage = () => {
   const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour >= 5 && hour < 12) return "Good Morning";
-    if (hour >= 12 && hour < 17) return "Good Afternoon";
-    if (hour >= 17 && hour < 21) return "Good Evening";
-    return "Good Night";
-  };
+    const hour = new Date().getHours()
+    if (hour >= 5 && hour < 12) return "Good Morning"
+    if (hour >= 12 && hour < 17) return "Good Afternoon"
+    if (hour >= 17 && hour < 21) return "Good Evening"
+    return "Good Night"
+  }
 
-  const [progress, setProgress] = useState(50);
-  const { login, user, loading, setLoading } = useUserStore();
+  const [progress, setProgress] = useState(50)
+  const { login, user, loading, setLoading } = useUserStore()
 
   useEffect(() => {
     const supabase = createBrowserClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    );
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    )
 
     const fetchUser = async () => {
-      setLoading(true); // Set loading to true before fetching
+      setLoading(true) // Set loading to true before fetching
       try {
-        const result = await supabase.auth.getUser();
+        const result = await supabase.auth.getUser()
 
         if (!result.data) {
-          console.error("No user data found");
-          setLoading(false); // Set loading to false if no data
-          return;
+          console.error("No user data found")
+          setLoading(false) // Set loading to false if no data
+          return
         }
 
-        const { user } = result.data;
-        login(user!);
-        console.log("User From Dashboard:", user);
+        const { user } = result.data
+        login(user!)
+        console.log("User From Dashboard:", user)
       } catch (error) {
-        console.error("Auth error:", error);
+        console.error("Auth error:", error)
       } finally {
-        setLoading(false); // Set loading to false after fetching
+        setLoading(false) // Set loading to false after fetching
       }
-    };
+    }
 
-    fetchUser();
-  }, [login, setLoading]);
+    fetchUser()
+  }, [login, setLoading])
 
   if (loading) {
     return (
@@ -68,7 +68,7 @@ const DashboardPage = () => {
           <Loader2 className="h-8 w-8 animate-spin" /> {/* Loading spinner */}
         </div>
       </div>
-    );
+    )
   }
 
   if (!user) {
@@ -79,7 +79,7 @@ const DashboardPage = () => {
           <p>No user found. Please log in.</p>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -194,7 +194,7 @@ const DashboardPage = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default DashboardPage;
+export default DashboardPage

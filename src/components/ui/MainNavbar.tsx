@@ -1,14 +1,14 @@
-"use client";
+"use client"
 
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Code, Flame } from "lucide-react";
-import { UserAvatar } from "@/components/ui/UserAvatar";
-import useUserStore from "@/stores/UserStore";
-import Link from "next/link";
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Code, Flame } from "lucide-react"
+import { UserAvatar } from "@/components/ui/UserAvatar"
+import useUserStore from "@/stores/UserStore"
+import Link from "next/link"
 
 export const MainNavbar = () => {
-  const { user } = useUserStore();
+  const { user } = useUserStore()
 
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background px-4 sm:px-6">
@@ -35,5 +35,5 @@ export const MainNavbar = () => {
         </div>
       </div>
     </header>
-  );
-};
+  )
+}

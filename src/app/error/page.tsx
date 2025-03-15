@@ -1,10 +1,10 @@
-"use client";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+"use client"
+import { useRouter } from "next/navigation"
+import { Button } from "@/components/ui/button"
+import Image from "next/image"
 
 export default function Error() {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-6 text-center">
@@ -35,5 +35,5 @@ export default function Error() {
         </Button>
       </div>
     </div>
-  );
+  )
 }

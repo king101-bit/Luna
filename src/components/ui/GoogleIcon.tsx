@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 export const GoogleIcon = ({ className }: { className?: string }) => (
   <svg
@@ -23,4 +23,4 @@ export const GoogleIcon = ({ className }: { className?: string }) => (
       fill="#EA4335"
     />
   </svg>
-);
+)

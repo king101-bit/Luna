@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import { useState } from "react";
+import { useState } from "react"
 import {
   Card,
   CardContent,
@@ -8,16 +8,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Code, Database, Server, Globe, Lock } from "lucide-react";
-import Sidebar from "@/components/ui/sidebar";
-import Link from "next/link";
-import { MainNavbar } from "@/components/ui/MainNavbar";
+} from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Progress } from "@/components/ui/progress"
+import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Code, Database, Server, Globe, Lock } from "lucide-react"
+import Sidebar from "@/components/ui/sidebar"
+import Link from "next/link"
+import { MainNavbar } from "@/components/ui/MainNavbar"
 
 const courses = [
   {
@@ -75,17 +75,17 @@ const courses = [
     icon: Server,
     locked: true,
   },
-];
+]
 
 export default function Courses() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState("All")
 
   const filteredCourses = courses.filter(
     (course) =>
       course.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (selectedCategory === "All" || course.category === selectedCategory),
-  );
+      (selectedCategory === "All" || course.category === selectedCategory)
+  )
 
   return (
     <div className="flex min-h-screen">
@@ -175,5 +175,5 @@ export default function Courses() {
         </div>
       </div>
     </div>
-  );
+  )
 }

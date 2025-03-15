@@ -1,45 +1,45 @@
-"use client";
-import React, { useState, FormEvent } from "react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { login } from "@/lib/auth-actions";
-import Link from "next/link";
-import SigninWithGoogleButton from "./SigninWithGoogleButton";
-import { Loader2 } from "lucide-react";
-import useAuthRedirect from "@/hook/useAuthRedirect";
+"use client"
+import React, { useState, FormEvent } from "react"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { login } from "@/lib/auth-actions"
+import Link from "next/link"
+import SigninWithGoogleButton from "./SigninWithGoogleButton"
+import { Loader2 } from "lucide-react"
+import useAuthRedirect from "@/hook/useAuthRedirect"
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
 
     // Explicitly type the data object
     const data = {
       email: formData.get("email") as string,
       password: formData.get("password") as string,
-    };
+    }
 
-    setIsLoading(true);
-    await login(data); // Now `data` matches the expected type
-    setIsLoading(false);
-  };
+    setIsLoading(true)
+    await login(data) // Now `data` matches the expected type
+    setIsLoading(false)
+  }
 
-  useAuthRedirect();
+  useAuthRedirect()
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <div
         className={cn(
           "w-full max-w-md flex flex-col gap-6 justify-center items-center",
-          className,
+          className
         )}
         {...props}
       >
@@ -119,5 +119,5 @@ export function LoginForm({
         </div>
       </div>
     </div>
-  );
+  )
 }

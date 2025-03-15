@@ -1,46 +1,46 @@
-"use client";
+"use client"
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { LogOut, CheckCircle } from "lucide-react";
+import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
+import { LogOut, CheckCircle } from "lucide-react"
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
+} from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Progress } from "@/components/ui/progress"
 
 const LogoutPage = () => {
-  const router = useRouter();
-  const [progress, setProgress] = useState(0);
-  const redirectTime = 2000; // 2 seconds
-  const updateInterval = 50; // Update progress every 50ms
+  const router = useRouter()
+  const [progress, setProgress] = useState(0)
+  const redirectTime = 2000 // 2 seconds
+  const updateInterval = 50 // Update progress every 50ms
 
   useEffect(() => {
     const redirectTimeout = setTimeout(() => {
-      router.push("/dashboard");
-    }, redirectTime);
+      router.push("/dashboard")
+    }, redirectTime)
 
     // Update progress bar
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
-        const newProgress = prev + (updateInterval / redirectTime) * 100;
-        return newProgress > 100 ? 100 : newProgress;
-      });
-    }, updateInterval);
+        const newProgress = prev + (updateInterval / redirectTime) * 100
+        return newProgress > 100 ? 100 : newProgress
+      })
+    }, updateInterval)
 
     return () => {
-      clearTimeout(redirectTimeout);
-      clearInterval(progressInterval);
-    };
-  }, [router]);
+      clearTimeout(redirectTimeout)
+      clearInterval(progressInterval)
+    }
+  }, [router])
 
   const handleManualRedirect = () => {
-    router.push("/dashboard");
-  };
+    router.push("/dashboard")
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-background to-muted p-4">
@@ -72,7 +72,7 @@ const LogoutPage = () => {
         </CardFooter>
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default LogoutPage;
+export default LogoutPage

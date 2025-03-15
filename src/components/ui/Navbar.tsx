@@ -1,10 +1,10 @@
-import { Code, Menu, X } from "lucide-react";
-import Link from "next/link";
-import { Button } from "./button";
-import { useState } from "react";
+import { Code, Menu, X } from "lucide-react"
+import Link from "next/link"
+import { Button } from "./button"
+import { useState } from "react"
 
 const Navbar = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <>
@@ -94,7 +94,7 @@ const Navbar = () => {
       </header>
       ;
     </>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

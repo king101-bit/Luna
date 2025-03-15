@@ -1,22 +1,22 @@
-"use client";
+"use client"
 
-import type * as React from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import type * as React from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Book, Home, Medal, Settings, Zap } from "lucide-react";
+} from "@/components/ui/tooltip"
+import { Book, Home, Medal, Settings } from "lucide-react"
 
 interface NavItem {
-  title: string;
-  href: string;
-  icon: React.ComponentType<{ className?: string }>;
+  title: string
+  href: string
+  icon: React.ComponentType<{ className?: string }>
 }
 
 const navItems: NavItem[] = [
@@ -40,10 +40,10 @@ const navItems: NavItem[] = [
     href: "/settings",
     icon: Settings,
   },
-];
+]
 
 export function Sidebar() {
-  const pathname = usePathname();
+  const pathname = usePathname()
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -58,7 +58,7 @@ export function Sidebar() {
                   size="icon"
                   className={cn(
                     "h-10 w-10 rounded-lg",
-                    pathname === item.href && "bg-muted",
+                    pathname === item.href && "bg-muted"
                   )}
                 >
                   <Link href={item.href}>
@@ -75,6 +75,6 @@ export function Sidebar() {
         </nav>
       </div>
     </TooltipProvider>
-  );
+  )
 }
-export default Sidebar;
+export default Sidebar

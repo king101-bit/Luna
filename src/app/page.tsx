@@ -1,6 +1,6 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import Navbar from "@/components/ui/Navbar";
+"use client"
+import { Button } from "@/components/ui/button"
+import Navbar from "@/components/ui/Navbar"
 import {
   BookOpen,
   Users,
@@ -14,23 +14,23 @@ import {
   Clock,
   ArrowRight,
   ChevronDown,
-} from "lucide-react";
-import Link from "next/link";
-import useAuthRedirect from "@/hook/useAuthRedirect";
-import Image from "next/image";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+} from "lucide-react"
+import Link from "next/link"
+import useAuthRedirect from "@/hook/useAuthRedirect"
+import Image from "next/image"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import BoringAvatar from "boring-avatars";
+} from "@/components/ui/accordion"
+import BoringAvatar from "boring-avatars"
 
 const Page = () => {
-  const user = useAuthRedirect();
+  const user = useAuthRedirect()
   if (user.user) {
-    return null;
+    return null
   }
 
   return (
@@ -190,7 +190,7 @@ const Page = () => {
                       >
                         {company}
                       </div>
-                    ),
+                    )
                   )}
                 </div>
               </div>
@@ -826,7 +826,7 @@ const Page = () => {
                             {item}
                           </Link>
                         </li>
-                      ),
+                      )
                     )}
                   </ul>
                 </div>
@@ -885,7 +885,7 @@ const Page = () => {
         </main>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page
