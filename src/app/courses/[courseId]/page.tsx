@@ -25,11 +25,14 @@ import { Badge } from "@/components/ui/badge"
 import { MainNavbar } from "@/components/ui/MainNavbar"
 import Sidebar from "@/components/ui/sidebar"
 
-export default function CourseDetailPage({
-  params,
-}: {
-  params: { courseId: string }
-}) {
+// Define the type for the params prop
+interface PageProps {
+  params: {
+    courseId: string
+  }
+}
+
+export default function CourseDetailPage({ params }: PageProps) {
   // Extract courseId from params
   const courseId = params.courseId
 
