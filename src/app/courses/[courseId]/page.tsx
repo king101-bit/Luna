@@ -1,7 +1,11 @@
-import { AccordionContent } from "@/components/ui/accordion"
-import { AccordionTrigger } from "@/components/ui/accordion"
-import { AccordionItem } from "@/components/ui/accordion"
-import { Accordion } from "@/components/ui/accordion"
+"use client"
+import { useState, useEffect } from "react"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import {
