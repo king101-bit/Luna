@@ -25,8 +25,12 @@ import { Badge } from "@/components/ui/badge"
 import { MainNavbar } from "@/components/ui/MainNavbar"
 import Sidebar from "@/components/ui/sidebar"
 
-export default function CourseDetailPage({ params }) {
-  // In a real app, you would fetch the course data based on the courseId
+export default function CourseDetailPage({
+  params,
+}: {
+  params: { courseId: string }
+}) {
+  // Extract courseId from params
   const courseId = params.courseId
 
   // Find the course by ID or use the first course as fallback
@@ -37,22 +41,23 @@ export default function CourseDetailPage({ params }) {
       <MainNavbar />
       <div className="flex flex-1">
         <Sidebar />
-        <div className="container py-10 px-4">
+        <div className="container px-4 py-10">
           <div className="grid gap-6 lg:grid-cols-3">
-            <div className="lg:col-span-2 space-y-6">
+            <div className="space-y-6 lg:col-span-2">
+              {/* Rest of your JSX remains the same */}
               <div>
-                <h1 className="text-3xl font-bold tracking-tight mb-2">
+                <h1 className="mb-2 text-3xl font-bold tracking-tight">
                   {course.title}
                 </h1>
-                <p className="text-muted-foreground mb-4">
+                <p className="mb-4 text-muted-foreground">
                   {course.description}
                 </p>
 
-                <div className="flex flex-wrap gap-4 mb-6">
+                <div className="mb-6 flex flex-wrap gap-4">
                   <div className="flex items-center">
                     <Star className="mr-1 h-4 w-4 fill-primary text-primary" />
                     <span className="font-medium">{course.rating}</span>
-                    <span className="text-muted-foreground ml-1">
+                    <span className="ml-1 text-muted-foreground">
                       ({course.reviews} reviews)
                     </span>
                   </div>
@@ -70,7 +75,7 @@ export default function CourseDetailPage({ params }) {
                   </div>
                 </div>
 
-                <div className="aspect-video relative rounded-lg overflow-hidden mb-8">
+                <div className="relative mb-8 aspect-video overflow-hidden rounded-lg">
                   <Image
                     src={
                       course.image || "/placeholder.svg?height=450&width=800"
@@ -88,6 +93,7 @@ export default function CourseDetailPage({ params }) {
                 </div>
               </div>
 
+              {/* Rest of your JSX remains the same */}
               <Tabs defaultValue="overview" className="w-full">
                 <TabsList className="mb-6">
                   <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -98,7 +104,7 @@ export default function CourseDetailPage({ params }) {
 
                 <TabsContent value="overview" className="space-y-4">
                   <div>
-                    <h2 className="text-xl font-bold mb-2">
+                    <h2 className="mb-2 text-xl font-bold">
                       About This Course
                     </h2>
                     <p className="text-muted-foreground">
@@ -107,7 +113,7 @@ export default function CourseDetailPage({ params }) {
                   </div>
 
                   <div>
-                    <h2 className="text-xl font-bold mb-2">
+                    <h2 className="mb-2 text-xl font-bold">
                       What You&apos;ll Learn
                     </h2>
                     <ul className="grid gap-2 sm:grid-cols-2">
@@ -121,7 +127,7 @@ export default function CourseDetailPage({ params }) {
                   </div>
 
                   <div>
-                    <h2 className="text-xl font-bold mb-2">Requirements</h2>
+                    <h2 className="mb-2 text-xl font-bold">Requirements</h2>
                     <ul className="space-y-1">
                       {course.requirements.map((requirement, index) => (
                         <li key={index} className="flex items-start">
@@ -135,8 +141,8 @@ export default function CourseDetailPage({ params }) {
 
                 <TabsContent value="curriculum">
                   <div className="space-y-4">
-                    <h2 className="text-xl font-bold mb-2">Course Content</h2>
-                    <div className="text-sm text-muted-foreground mb-4">
+                    <h2 className="mb-2 text-xl font-bold">Course Content</h2>
+                    <div className="mb-4 text-sm text-muted-foreground">
                       {course.sections.length} sections • {course.totalLessons}{" "}
                       lessons • {course.duration} total length
                     </div>
@@ -158,7 +164,7 @@ export default function CourseDetailPage({ params }) {
                               {section.lessons.map((lesson, lessonIndex) => (
                                 <div
                                   key={lessonIndex}
-                                  className="flex items-center justify-between p-2 rounded-md hover:bg-muted"
+                                  className="flex items-center justify-between rounded-md p-2 hover:bg-muted"
                                 >
                                   <div className="flex items-center">
                                     {lesson.type === "video" ? (
@@ -184,7 +190,7 @@ export default function CourseDetailPage({ params }) {
                 <TabsContent value="instructor">
                   <div className="space-y-4">
                     <div className="flex items-start gap-4">
-                      <div className="relative h-16 w-16 rounded-full overflow-hidden">
+                      <div className="relative h-16 w-16 overflow-hidden rounded-full">
                         <Image
                           src={
                             course.instructor.avatar ||
@@ -206,7 +212,7 @@ export default function CourseDetailPage({ params }) {
                     </div>
 
                     <div>
-                      <h3 className="font-medium mb-1">About the Instructor</h3>
+                      <h3 className="mb-1 font-medium">About the Instructor</h3>
                       <p className="text-muted-foreground">
                         {course.instructor.bio}
                       </p>
@@ -239,8 +245,8 @@ export default function CourseDetailPage({ params }) {
                           key={index}
                           className="border-b pb-4 last:border-0"
                         >
-                          <div className="flex items-center gap-2 mb-2">
-                            <div className="relative h-8 w-8 rounded-full overflow-hidden">
+                          <div className="mb-2 flex items-center gap-2">
+                            <div className="relative h-8 w-8 overflow-hidden rounded-full">
                               <Image
                                 src={
                                   review.avatar ||
@@ -285,7 +291,7 @@ export default function CourseDetailPage({ params }) {
                       "Enroll for free access"
                     ) : course.discount ? (
                       <span className="flex items-center">
-                        <span className="line-through text-muted-foreground mr-2">
+                        <span className="mr-2 text-muted-foreground line-through">
                           ${course.originalPrice}
                         </span>
                         <Badge
@@ -315,7 +321,7 @@ export default function CourseDetailPage({ params }) {
                   )}
 
                   <div className="text-sm text-muted-foreground">
-                    <div className="font-medium text-foreground mb-1">
+                    <div className="mb-1 font-medium text-foreground">
                       This course includes:
                     </div>
                     <ul className="space-y-2">
