@@ -17,6 +17,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Code, Database, Server, Globe, Lock } from "lucide-react";
 import Sidebar from "@/components/ui/sidebar";
 import Link from "next/link";
+import { MainNavbar } from "@/components/ui/MainNavbar";
 
 const courses = [
   {
@@ -87,11 +88,17 @@ export default function Courses() {
   );
 
   return (
-    <>
-      <div className="flex">
-        <Sidebar />
-        {/*Main content */}
-        <div className="container mx-auto p-4 md:p-6 lg:p-8">
+    <div className="flex min-h-screen">
+      {/* Sidebar */}
+      <Sidebar />
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col">
+        {/* Navbar */}
+        <MainNavbar />
+
+        {/* Main Content */}
+        <div className="container mx-auto p-4 md:p-6 lg:p-8 flex-1">
           <h1 className="text-3xl font-bold mb-6">Explore Courses</h1>
 
           <div className="flex flex-col md:flex-row gap-4 mb-6">
@@ -167,6 +174,6 @@ export default function Courses() {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 }

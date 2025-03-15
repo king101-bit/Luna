@@ -68,13 +68,13 @@ const Page = () => {
                   </p>
 
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Button
-                      size="lg"
-                      className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400"
+                    <Link
+                      href="/login"
+                      className="flex bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
                     >
                       Get Started
-                      <ChevronRight className="w-4 h-4 ml-2" />
-                    </Button>
+                      <ChevronRight className="w-4 h-4" />
+                    </Link>
                     <Button
                       size="lg"
                       variant="outline"
