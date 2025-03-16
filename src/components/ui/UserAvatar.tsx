@@ -53,7 +53,7 @@ export function UserAvatar({ name, imageUrl }: UserAvatarProps) {
           </Avatar>
         ) : (
           <BoringAvatar
-            size={32} // Matches your existing size
+            size={50} // Matches your existing size
             name={name} // Dynamic name
             variant="marble" // Options: "marble", "beam", "pixel", "sunset", "ring", "bauhaus"
             colors={["#E63946", "#F1FAEE", "#A8DADC", "#457B9D", "#1D3557"]}

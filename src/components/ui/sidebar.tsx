@@ -11,7 +11,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Book, Home, Medal, Settings } from "lucide-react"
+import { Book, Code, Home, Medal, Settings } from "lucide-react"
 
 interface NavItem {
   title: string
@@ -46,35 +46,43 @@ export function Sidebar() {
   const pathname = usePathname()
 
   return (
-    <TooltipProvider delayDuration={0}>
-      <div className="flex h-screen w-16 flex-col items-center border-r bg-background py-4">
-        <nav className="flex flex-1 flex-col items-center gap-4">
-          {navItems.map((item) => (
-            <Tooltip key={item.href}>
-              <TooltipTrigger asChild>
-                <Button
-                  asChild
-                  variant="ghost"
-                  size="icon"
-                  className={cn(
-                    "h-10 w-10 rounded-lg",
-                    pathname === item.href && "bg-muted"
-                  )}
-                >
-                  <Link href={item.href}>
-                    <item.icon className="h-5 w-5" />
-                    <span className="sr-only">{item.title}</span>
-                  </Link>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="right" sideOffset={10}>
-                {item.title}
-              </TooltipContent>
-            </Tooltip>
-          ))}
-        </nav>
-      </div>
-    </TooltipProvider>
+    <>
+      <TooltipProvider delayDuration={0}>
+        <div className="flex h-screen w-16 flex-col items-center border-r bg-background py-4">
+          <nav className="flex flex-1 flex-col items-center gap-4">
+            {/* Logo and Brand Name */}
+            <Link href="/" className="flex items-center gap-2 text-white">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600">
+                <Code className="h-5 w-5 text-white" />
+              </div>
+            </Link>
+            {navItems.map((item) => (
+              <Tooltip key={item.href}>
+                <TooltipTrigger asChild>
+                  <Button
+                    asChild
+                    variant="ghost"
+                    size="icon"
+                    className={cn(
+                      "h-10 w-10 rounded-lg",
+                      pathname === item.href && "bg-muted"
+                    )}
+                  >
+                    <Link href={item.href}>
+                      <item.icon className="h-5 w-5" />
+                      <span className="sr-only">{item.title}</span>
+                    </Link>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="right" sideOffset={10}>
+                  {item.title}
+                </TooltipContent>
+              </Tooltip>
+            ))}
+          </nav>
+        </div>
+      </TooltipProvider>
+    </>
   )
 }
 export default Sidebar
