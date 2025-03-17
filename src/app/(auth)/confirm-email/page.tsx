@@ -5,13 +5,13 @@ const ConfirmEmailPage = () => {
   useAuthRedirect()
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center p-4">
-      <div className="max-w-md w-full p-8 text-center">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4">
+      <div className="w-full max-w-md p-8 text-center">
         {/* SVG Graphic */}
         <div className="mb-6">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-24 w-24 mx-auto text-blue-500"
+            className="mx-auto h-24 w-24 text-blue-500"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -26,10 +26,10 @@ const ConfirmEmailPage = () => {
         </div>
 
         {/* Confirmation Message */}
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">
+        <h1 className="mb-4 text-2xl font-bold text-gray-900">
           Please check your email!
         </h1>
-        <p className="text-gray-600 mb-6">
+        <p className="mb-6 text-gray-600">
           We&apos;ve sent a confirmation link to your email. Click the link to
           verify your account and access all features of our platform.
         </p>

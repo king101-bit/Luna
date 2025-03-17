@@ -5,7 +5,7 @@ import React from "react"
 
 const UserGreetText = ({ user }: { user: User }) => {
   return (
-    <h1 className="font-bold inline ml-2">
+    <h1 className="ml-2 inline font-bold">
       {user?.user_metadata?.full_name || "Guest"}
     </h1>
   )

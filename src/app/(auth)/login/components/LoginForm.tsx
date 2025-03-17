@@ -38,7 +38,7 @@ export function LoginForm({
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <div
         className={cn(
-          "w-full max-w-md flex flex-col gap-6 justify-center items-center",
+          "flex w-full max-w-md flex-col items-center justify-center gap-6",
           className
         )}
         {...props}

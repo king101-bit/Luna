@@ -11,19 +11,19 @@ const Navbar = () => {
       <header className="relative z-10">
         <div className="container mx-auto px-4 py-6">
           <nav className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-2 ml-14 text-white">
-              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600">
-                <Code className="w-5 h-5 text-white" />
+            <Link href="/" className="ml-14 flex items-center gap-2 text-white">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600">
+                <Code className="h-5 w-5 text-white" />
               </div>
               <span className="text-xl font-bold">Luna</span>
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-8">
-              <div className="flex gap-6 ml-14">
+            <div className="hidden items-center gap-8 md:flex">
+              <div className="ml-14 flex gap-6">
                 <Link
                   href="/courses"
-                  className="text-slate-300 hover:text-white transition-colors"
+                  className="text-slate-300 transition-colors hover:text-white"
                 >
                   Courses
                 </Link>
@@ -40,50 +40,50 @@ const Navbar = () => {
 
             {/* Mobile menu button */}
             <button
-              className="md:hidden text-slate-300 hover:text-white"
+              className="text-slate-300 hover:text-white md:hidden"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? (
-                <X className="w-6 h-6" />
+                <X className="h-6 w-6" />
               ) : (
-                <Menu className="w-6 h-6" />
+                <Menu className="h-6 w-6" />
               )}
             </button>
           </nav>
 
           {/* Mobile Navigation */}
           {mobileMenuOpen && (
-            <div className="md:hidden absolute top-20 left-0 right-0 bg-slate-900 border-t border-slate-800 p-4 shadow-lg z-50">
+            <div className="absolute left-0 right-0 top-20 z-50 border-t border-slate-800 bg-slate-900 p-4 shadow-lg md:hidden">
               <div className="flex flex-col gap-4">
                 <Link
                   href="/features"
-                  className="text-slate-300 hover:text-white transition-colors py-2"
+                  className="py-2 text-slate-300 transition-colors hover:text-white"
                 >
                   Features
                 </Link>
                 <Link
                   href="/courses"
-                  className="text-slate-300 hover:text-white transition-colors py-2"
+                  className="py-2 text-slate-300 transition-colors hover:text-white"
                 >
                   Courses
                 </Link>
                 <Link
                   href="/pricing"
-                  className="text-slate-300 hover:text-white transition-colors py-2"
+                  className="py-2 text-slate-300 transition-colors hover:text-white"
                 >
                   Pricing
                 </Link>
                 <Link
                   href="/community"
-                  className="text-slate-300 hover:text-white transition-colors py-2"
+                  className="py-2 text-slate-300 transition-colors hover:text-white"
                 >
                   Community
                 </Link>
-                <div className="flex flex-col gap-3 pt-4 border-t border-slate-800">
+                <div className="flex flex-col gap-3 border-t border-slate-800 pt-4">
                   <Button variant="outline" className="justify-center">
                     Log in
                   </Button>
-                  <Button className="bg-gradient-to-r from-blue-600 to-blue-500 justify-center">
+                  <Button className="justify-center bg-gradient-to-r from-blue-600 to-blue-500">
                     Get Started
                   </Button>
                 </div>

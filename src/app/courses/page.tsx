@@ -15,7 +15,6 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Code, Database, Server, Globe, Lock } from "lucide-react"
-import Sidebar from "@/components/ui/sidebar"
 import Link from "next/link"
 import { MainNavbar } from "@/components/ui/MainNavbar"
 
@@ -89,19 +88,16 @@ export default function Courses() {
 
   return (
     <div className="flex min-h-screen">
-      {/* Sidebar */}
-      <Sidebar />
-
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex flex-1 flex-col">
         {/* Navbar */}
         <MainNavbar />
 
         {/* Main Content */}
-        <div className="container mx-auto p-4 md:p-6 lg:p-8 flex-1">
-          <h1 className="text-3xl font-bold mb-6">Explore Courses</h1>
+        <div className="container mx-auto flex-1 p-4 md:p-6 lg:p-8">
+          <h1 className="mb-6 text-3xl font-bold">Explore Courses</h1>
 
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
+          <div className="mb-6 flex flex-col gap-4 md:flex-row">
             <Input
               placeholder="Search courses..."
               value={searchTerm}
@@ -147,13 +143,13 @@ export default function Courses() {
                     <CardDescription>{course.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="flex flex-wrap gap-2 mb-4">
+                    <div className="mb-4 flex flex-wrap gap-2">
                       <Badge variant="secondary">{course.category}</Badge>
                       <Badge variant="secondary">{course.level}</Badge>
                       <Badge variant="secondary">{course.duration}</Badge>
                     </div>
                     <Progress value={course.progress} className="h-2" />
-                    <p className="text-sm text-muted-foreground mt-2">
+                    <p className="mt-2 text-sm text-muted-foreground">
                       {course.progress}% complete
                     </p>
                   </CardContent>
@@ -168,7 +164,7 @@ export default function Courses() {
           </div>
 
           {filteredCourses.length === 0 && (
-            <p className="text-center text-muted-foreground mt-8">
+            <p className="mt-8 text-center text-muted-foreground">
               No courses found. Try adjusting your search or filters.
             </p>
           )}

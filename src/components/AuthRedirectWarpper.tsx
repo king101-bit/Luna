@@ -32,7 +32,7 @@ const AuthRedirectWrapper = ({
   // Show a loading spinner or nothing while checking authentication
   if (isCheckingAuth) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex min-h-screen items-center justify-center">
         <p>Loading...</p>
       </div>
     )

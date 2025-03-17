@@ -27,7 +27,6 @@ import {
 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { MainNavbar } from "@/components/ui/MainNavbar"
-import Sidebar from "@/components/ui/sidebar"
 
 // Define the type for the params prop
 interface PageProps {
@@ -55,7 +54,6 @@ export default function CourseDetailPage({ params }: PageProps) {
     <>
       <MainNavbar />
       <div className="flex flex-1">
-        <Sidebar />
         <div className="container px-4 py-10">
           <div className="grid gap-6 lg:grid-cols-3">
             <div className="space-y-6 lg:col-span-2">

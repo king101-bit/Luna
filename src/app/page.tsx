@@ -37,50 +37,50 @@ const Page = () => {
     <>
       <div className="min-h-screen overflow-x-hidden bg-gradient-to-b from-slate-950 to-slate-900">
         {/* Decorative elements */}
-        <div className="fixed inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
-          <div className="absolute top-1/3 -left-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl" />
+        <div className="pointer-events-none fixed inset-0 overflow-hidden">
+          <div className="absolute -right-40 -top-40 h-80 w-80 rounded-full bg-purple-500/10 blur-3xl" />
+          <div className="absolute -left-40 top-1/3 h-80 w-80 rounded-full bg-blue-500/10 blur-3xl" />
+          <div className="absolute bottom-1/4 right-1/4 h-80 w-80 rounded-full bg-blue-500/5 blur-3xl" />
         </div>
         <Navbar />
         <main className="relative overflow-x-hidden">
           {/* Hero Section */}
-          <section className="relative z-10 pt-12 lg:pt-24 pb-20 p-14">
+          <section className="relative z-10 p-14 pb-20 pt-12 lg:pt-24">
             <div className="container mx-auto px-4">
-              <div className="flex flex-col lg:flex-row gap-12 items-center">
-                <div className="lg:w-1/2 space-y-8">
-                  <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-950/50 border border-blue-800/30 text-blue-400 text-sm">
-                    <Sparkles className="w-4 h-4 mr-2" />
+              <div className="flex flex-col items-center gap-12 lg:flex-row">
+                <div className="space-y-8 lg:w-1/2">
+                  <div className="inline-flex items-center rounded-full border border-blue-800/30 bg-blue-950/50 px-3 py-1 text-sm text-blue-400">
+                    <Sparkles className="mr-2 h-4 w-4" />
                     <span>The modern way to learn coding</span>
                   </div>
 
-                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                  <h1 className="text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
                     Master Coding with{" "}
                     <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
                       Luna
                     </span>
                   </h1>
 
-                  <p className="text-lg text-slate-300 max-w-xl">
+                  <p className="max-w-xl text-lg text-slate-300">
                     Learn to code through interactive lessons, real-world
                     projects, and expert mentorship. Start your journey to
                     becoming a professional developer today.
                   </p>
 
-                  <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="flex flex-col gap-4 sm:flex-row">
                     <Link
                       href="/login"
-                      className="flex bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                      className="flex rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600"
                     >
                       Get Started
-                      <ChevronRight className="w-4 h-4" />
+                      <ChevronRight className="h-4 w-4" />
                     </Link>
                     <Button
                       size="lg"
                       variant="outline"
                       className="border-slate-700 text-black hover:bg-slate-800 hover:text-white"
                     >
-                      <BookOpen className="w-4 h-4 mr-2" />
+                      <BookOpen className="mr-2 h-4 w-4" />
                       Explore Courses
                     </Button>
                   </div>
@@ -90,7 +90,7 @@ const Page = () => {
                       {[1, 2, 3, 4].map((i) => (
                         <div
                           key={i}
-                          className="w-8 h-8 rounded-full border-2 border-slate-900 overflow-hidden bg-slate-800"
+                          className="h-8 w-8 overflow-hidden rounded-full border-2 border-slate-900 bg-slate-800"
                         >
                           <BoringAvatar
                             size={32} // Matches your existing size
@@ -107,26 +107,26 @@ const Page = () => {
                       ))}
                     </div>
                     <div className="text-sm text-slate-400">
-                      <span className="text-blue-400 font-medium">2,500+</span>{" "}
+                      <span className="font-medium text-blue-400">2,500+</span>{" "}
                       students enrolled this month
                     </div>
                   </div>
                 </div>
 
-                <div className="lg:w-1/2 relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur-lg opacity-30"></div>
-                  <div className="relative bg-slate-900 border border-slate-800 rounded-lg overflow-hidden shadow-2xl">
-                    <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-800 bg-slate-950">
+                <div className="relative lg:w-1/2">
+                  <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 opacity-30 blur-lg"></div>
+                  <div className="relative overflow-hidden rounded-lg border border-slate-800 bg-slate-900 shadow-2xl">
+                    <div className="flex items-center gap-2 border-b border-slate-800 bg-slate-950 px-4 py-3">
                       <div className="flex gap-1.5">
-                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                        <div className="h-3 w-3 rounded-full bg-red-500"></div>
+                        <div className="h-3 w-3 rounded-full bg-yellow-500"></div>
+                        <div className="h-3 w-3 rounded-full bg-green-500"></div>
                       </div>
-                      <div className="text-xs text-slate-500 font-mono bg-slate-900 px-2 py-1 rounded">
+                      <div className="rounded bg-slate-900 px-2 py-1 font-mono text-xs text-slate-500">
                         index.js
                       </div>
                     </div>
-                    <div className="p-4 font-mono text-sm text-slate-300 overflow-hidden">
+                    <div className="overflow-hidden p-4 font-mono text-sm text-slate-300">
                       <pre className="text-blue-400">
                         <span className="text-slate-500">
                           {" // Luna interactive code example"}
@@ -161,13 +161,13 @@ const Page = () => {
                   </div>
 
                   {/* Floating elements */}
-                  <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-blue-600/20 backdrop-blur-xl rounded-lg border border-blue-500/20 flex items-center justify-center">
+                  <div className="absolute -bottom-6 -right-6 flex h-24 w-24 items-center justify-center rounded-lg border border-blue-500/20 bg-blue-600/20 backdrop-blur-xl">
                     <div className="text-center">
                       <div className="text-2xl font-bold text-white">50+</div>
                       <div className="text-xs text-blue-300">Projects</div>
                     </div>
                   </div>
-                  <div className="absolute -left-4 -top-4 w-20 h-20 bg-purple-600/20 backdrop-blur-xl rounded-lg border border-purple-500/20 flex items-center justify-center">
+                  <div className="absolute -left-4 -top-4 flex h-20 w-20 items-center justify-center rounded-lg border border-purple-500/20 bg-purple-600/20 backdrop-blur-xl">
                     <div className="text-center">
                       <div className="text-xl font-bold text-white">24/7</div>
                       <div className="text-xs text-purple-300">Support</div>
@@ -178,7 +178,7 @@ const Page = () => {
 
               {/* Logos section */}
               <div className="mt-20 border-t border-slate-800 pt-10">
-                <p className="text-center text-sm text-slate-500 mb-6">
+                <p className="mb-6 text-center text-sm text-slate-500">
                   TRUSTED BY DEVELOPERS FROM
                 </p>
                 <div className="flex flex-wrap justify-center gap-8 opacity-70">
@@ -186,7 +186,7 @@ const Page = () => {
                     (company) => (
                       <div
                         key={company}
-                        className="text-slate-400 font-semibold"
+                        className="font-semibold text-slate-400"
                       >
                         {company}
                       </div>
@@ -198,15 +198,15 @@ const Page = () => {
           </section>
 
           {/* Features Section */}
-          <section className="py-24 relative">
+          <section className="relative py-24">
             <div className="absolute inset-0 bg-slate-950/50"></div>
-            <div className="container mx-auto px-4 relative z-10">
-              <div className="text-center max-w-3xl mx-auto mb-16">
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-950/50 border border-blue-800/30 text-blue-400 text-sm mb-4">
-                  <Zap className="w-4 h-4 mr-2" />
+            <div className="container relative z-10 mx-auto px-4">
+              <div className="mx-auto mb-16 max-w-3xl text-center">
+                <div className="mb-4 inline-flex items-center rounded-full border border-blue-800/30 bg-blue-950/50 px-3 py-1 text-sm text-blue-400">
+                  <Zap className="mr-2 h-4 w-4" />
                   <span>Why choose Luna</span>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">
                   Everything you need to become a developer
                 </h2>
                 <p className="text-slate-300">
@@ -216,40 +216,40 @@ const Page = () => {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {[
                   {
-                    icon: <BookOpen className="w-6 h-6" />,
+                    icon: <BookOpen className="h-6 w-6" />,
                     title: "Interactive Curriculum",
                     description:
                       "Learn by doing with our hands-on interactive lessons that make complex concepts easy to understand.",
                   },
                   {
-                    icon: <Users className="w-6 h-6" />,
+                    icon: <Users className="h-6 w-6" />,
                     title: "Expert Mentorship",
                     description:
                       "Get guidance from industry professionals who provide feedback and help you overcome challenges.",
                   },
                   {
-                    icon: <Award className="w-6 h-6" />,
+                    icon: <Award className="h-6 w-6" />,
                     title: "Real-World Projects",
                     description:
                       "Build a portfolio of projects that demonstrate your skills to potential employers.",
                   },
                   {
-                    icon: <Globe className="w-6 h-6" />,
+                    icon: <Globe className="h-6 w-6" />,
                     title: "Global Community",
                     description:
                       "Join a community of learners from around the world to share knowledge and collaborate.",
                   },
                   {
-                    icon: <Clock className="w-6 h-6" />,
+                    icon: <Clock className="h-6 w-6" />,
                     title: "Learn at Your Pace",
                     description:
                       "Our flexible learning platform allows you to learn on your schedule, at your own pace.",
                   },
                   {
-                    icon: <Sparkles className="w-6 h-6" />,
+                    icon: <Sparkles className="h-6 w-6" />,
                     title: "Career Support",
                     description:
                       "Get help with your resume, interview preparation, and job search strategies.",
@@ -257,12 +257,12 @@ const Page = () => {
                 ].map((feature, index) => (
                   <div
                     key={index}
-                    className="bg-slate-900/60 backdrop-blur-sm border border-slate-800 rounded-xl p-6 hover:border-blue-500/50 transition-colors group"
+                    className="group rounded-xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-sm transition-colors hover:border-blue-500/50"
                   >
-                    <div className="w-12 h-12 rounded-lg bg-blue-600/20 flex items-center justify-center mb-4 text-blue-400 group-hover:bg-blue-600/30 transition-colors">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-600/20 text-blue-400 transition-colors group-hover:bg-blue-600/30">
                       {feature.icon}
                     </div>
-                    <h3 className="text-xl font-semibold text-white mb-2">
+                    <h3 className="mb-2 text-xl font-semibold text-white">
                       {feature.title}
                     </h3>
                     <p className="text-slate-400">{feature.description}</p>
@@ -273,14 +273,14 @@ const Page = () => {
           </section>
 
           {/* Courses Section */}
-          <section className="py-24 relative">
+          <section className="relative py-24">
             <div className="container mx-auto px-4">
-              <div className="text-center max-w-3xl mx-auto mb-16">
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-950/50 border border-blue-800/30 text-blue-400 text-sm mb-4">
-                  <BookOpen className="w-4 h-4 mr-2" />
+              <div className="mx-auto mb-16 max-w-3xl text-center">
+                <div className="mb-4 inline-flex items-center rounded-full border border-blue-800/30 bg-blue-950/50 px-3 py-1 text-sm text-blue-400">
+                  <BookOpen className="mr-2 h-4 w-4" />
                   <span>Our curriculum</span>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">
                   Comprehensive learning paths
                 </h2>
                 <p className="text-slate-300">
@@ -291,16 +291,16 @@ const Page = () => {
 
               <Tabs
                 defaultValue="frontend"
-                className="w-full max-w-4xl mx-auto"
+                className="mx-auto w-full max-w-4xl"
               >
-                <TabsList className="grid grid-cols-3 mb-8">
+                <TabsList className="mb-8 grid grid-cols-3">
                   <TabsTrigger value="frontend">Frontend</TabsTrigger>
                   <TabsTrigger value="backend">Backend</TabsTrigger>
                   <TabsTrigger value="fullstack">Full Stack</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="frontend" className="space-y-8">
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid gap-6 md:grid-cols-2">
                     {[
                       {
                         title: "HTML & CSS Fundamentals",
@@ -333,7 +333,7 @@ const Page = () => {
                     ].map((course, index) => (
                       <div
                         key={index}
-                        className="group relative overflow-hidden rounded-xl border border-slate-800 bg-slate-900/60 backdrop-blur-sm hover:border-blue-500/50 transition-all duration-300"
+                        className="group relative overflow-hidden rounded-xl border border-slate-800 bg-slate-900/60 backdrop-blur-sm transition-all duration-300 hover:border-blue-500/50"
                       >
                         <div className="aspect-video overflow-hidden">
                           <Image
@@ -341,31 +341,31 @@ const Page = () => {
                             width={300}
                             height={200}
                             alt={course.title}
-                            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                           />
                         </div>
                         <div className="p-6">
-                          <div className="flex justify-between items-start mb-4">
+                          <div className="mb-4 flex items-start justify-between">
                             <h3 className="text-xl font-semibold text-white">
                               {course.title}
                             </h3>
-                            <div className="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">
+                            <div className="rounded-full bg-blue-500/20 px-2 py-1 text-xs text-blue-400">
                               {course.level}
                             </div>
                           </div>
-                          <div className="flex items-center text-sm text-slate-400 mb-4">
-                            <Clock className="w-4 h-4 mr-1" />
+                          <div className="mb-4 flex items-center text-sm text-slate-400">
+                            <Clock className="mr-1 h-4 w-4" />
                             <span>{course.duration}</span>
                             <span className="mx-2">•</span>
-                            <BookOpen className="w-4 h-4 mr-1" />
+                            <BookOpen className="mr-1 h-4 w-4" />
                             <span>{course.lessons} lessons</span>
                           </div>
                           <Button
                             variant="outline"
-                            className="w-full justify-between group-hover:border-blue-500/50 group-hover:text-blue-400 transition-colors"
+                            className="w-full justify-between transition-colors group-hover:border-blue-500/50 group-hover:text-blue-400"
                           >
                             View Course
-                            <ArrowRight className="w-4 h-4" />
+                            <ArrowRight className="h-4 w-4" />
                           </Button>
                         </div>
                       </div>
@@ -377,13 +377,13 @@ const Page = () => {
                       className="text-blue-400 hover:text-blue-300"
                     >
                       View all Frontend courses
-                      <ChevronRight className="w-4 h-4 ml-1" />
+                      <ChevronRight className="ml-1 h-4 w-4" />
                     </Button>
                   </div>
                 </TabsContent>
 
                 <TabsContent value="backend" className="space-y-8">
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid gap-6 md:grid-cols-2">
                     {[
                       {
                         title: "Node.js Fundamentals",
@@ -416,7 +416,7 @@ const Page = () => {
                     ].map((course, index) => (
                       <div
                         key={index}
-                        className="group relative overflow-hidden rounded-xl border border-slate-800 bg-slate-900/60 backdrop-blur-sm hover:border-blue-500/50 transition-all duration-300"
+                        className="group relative overflow-hidden rounded-xl border border-slate-800 bg-slate-900/60 backdrop-blur-sm transition-all duration-300 hover:border-blue-500/50"
                       >
                         <div className="aspect-video overflow-hidden">
                           <Image
@@ -424,31 +424,31 @@ const Page = () => {
                             width={300}
                             height={200}
                             alt={course.title}
-                            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                           />
                         </div>
                         <div className="p-6">
-                          <div className="flex justify-between items-start mb-4">
+                          <div className="mb-4 flex items-start justify-between">
                             <h3 className="text-xl font-semibold text-white">
                               {course.title}
                             </h3>
-                            <div className="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">
+                            <div className="rounded-full bg-blue-500/20 px-2 py-1 text-xs text-blue-400">
                               {course.level}
                             </div>
                           </div>
-                          <div className="flex items-center text-sm text-slate-400 mb-4">
-                            <Clock className="w-4 h-4 mr-1" />
+                          <div className="mb-4 flex items-center text-sm text-slate-400">
+                            <Clock className="mr-1 h-4 w-4" />
                             <span>{course.duration}</span>
                             <span className="mx-2">•</span>
-                            <BookOpen className="w-4 h-4 mr-1" />
+                            <BookOpen className="mr-1 h-4 w-4" />
                             <span>{course.lessons} lessons</span>
                           </div>
                           <Button
                             variant="outline"
-                            className="w-full justify-between group-hover:border-blue-500/50 group-hover:text-blue-400 transition-colors"
+                            className="w-full justify-between transition-colors group-hover:border-blue-500/50 group-hover:text-blue-400"
                           >
                             View Course
-                            <ArrowRight className="w-4 h-4" />
+                            <ArrowRight className="h-4 w-4" />
                           </Button>
                         </div>
                       </div>
@@ -460,13 +460,13 @@ const Page = () => {
                       className="text-blue-400 hover:text-blue-300"
                     >
                       View all Backend courses
-                      <ChevronRight className="w-4 h-4 ml-1" />
+                      <ChevronRight className="ml-1 h-4 w-4" />
                     </Button>
                   </div>
                 </TabsContent>
 
                 <TabsContent value="fullstack" className="space-y-8">
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid gap-6 md:grid-cols-2">
                     {[
                       {
                         title: "Full Stack JavaScript",
@@ -499,7 +499,7 @@ const Page = () => {
                     ].map((course, index) => (
                       <div
                         key={index}
-                        className="group relative overflow-hidden rounded-xl border border-slate-800 bg-slate-900/60 backdrop-blur-sm hover:border-blue-500/50 transition-all duration-300"
+                        className="group relative overflow-hidden rounded-xl border border-slate-800 bg-slate-900/60 backdrop-blur-sm transition-all duration-300 hover:border-blue-500/50"
                       >
                         <div className="aspect-video overflow-hidden">
                           <Image
@@ -507,31 +507,31 @@ const Page = () => {
                             width={300}
                             height={200}
                             alt={course.title}
-                            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                           />
                         </div>
                         <div className="p-6">
-                          <div className="flex justify-between items-start mb-4">
+                          <div className="mb-4 flex items-start justify-between">
                             <h3 className="text-xl font-semibold text-white">
                               {course.title}
                             </h3>
-                            <div className="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">
+                            <div className="rounded-full bg-blue-500/20 px-2 py-1 text-xs text-blue-400">
                               {course.level}
                             </div>
                           </div>
-                          <div className="flex items-center text-sm text-slate-400 mb-4">
-                            <Clock className="w-4 h-4 mr-1" />
+                          <div className="mb-4 flex items-center text-sm text-slate-400">
+                            <Clock className="mr-1 h-4 w-4" />
                             <span>{course.duration}</span>
                             <span className="mx-2">•</span>
-                            <BookOpen className="w-4 h-4 mr-1" />
+                            <BookOpen className="mr-1 h-4 w-4" />
                             <span>{course.lessons} lessons</span>
                           </div>
                           <Button
                             variant="outline"
-                            className="w-full justify-between group-hover:border-blue-500/50 group-hover:text-blue-400 transition-colors"
+                            className="w-full justify-between transition-colors group-hover:border-blue-500/50 group-hover:text-blue-400"
                           >
                             View Course
-                            <ArrowRight className="w-4 h-4" />
+                            <ArrowRight className="h-4 w-4" />
                           </Button>
                         </div>
                       </div>
@@ -543,7 +543,7 @@ const Page = () => {
                       className="text-blue-400 hover:text-blue-300"
                     >
                       View all Full Stack courses
-                      <ChevronRight className="w-4 h-4 ml-1" />
+                      <ChevronRight className="ml-1 h-4 w-4" />
                     </Button>
                   </div>
                 </TabsContent>
@@ -552,15 +552,15 @@ const Page = () => {
           </section>
 
           {/* Testimonials Section */}
-          <section className="py-24 relative">
+          <section className="relative py-24">
             <div className="absolute inset-0 bg-slate-950/50"></div>
-            <div className="container mx-auto px-4 relative z-10">
-              <div className="text-center max-w-3xl mx-auto mb-16">
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-950/50 border border-blue-800/30 text-blue-400 text-sm mb-4">
-                  <Star className="w-4 h-4 mr-2" />
+            <div className="container relative z-10 mx-auto px-4">
+              <div className="mx-auto mb-16 max-w-3xl text-center">
+                <div className="mb-4 inline-flex items-center rounded-full border border-blue-800/30 bg-blue-950/50 px-3 py-1 text-sm text-blue-400">
+                  <Star className="mr-2 h-4 w-4" />
                   <span>Success stories</span>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">
                   What our students say
                 </h2>
                 <p className="text-slate-300">
@@ -569,7 +569,7 @@ const Page = () => {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {[
                   {
                     name: "Alex Johnson",
@@ -616,16 +616,16 @@ const Page = () => {
                 ].map((testimonial, index) => (
                   <div
                     key={index}
-                    className="bg-slate-900/60 backdrop-blur-sm border border-slate-800 rounded-xl p-6 hover:border-blue-500/50 transition-colors"
+                    className="rounded-xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-sm transition-colors hover:border-blue-500/50"
                   >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-12 h-12 rounded-full overflow-hidden">
+                    <div className="mb-4 flex items-center gap-3">
+                      <div className="h-12 w-12 overflow-hidden rounded-full">
                         <Image
                           src={testimonial.image || "/placeholder.svg"}
                           width={80}
                           height={80}
                           alt={testimonial.name}
-                          className="object-cover w-full h-full"
+                          className="h-full w-full object-cover"
                         />
                       </div>
                       <div>
@@ -637,11 +637,11 @@ const Page = () => {
                         </p>
                       </div>
                     </div>
-                    <div className="flex mb-4">
+                    <div className="mb-4 flex">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <Star
                           key={star}
-                          className="w-4 h-4 fill-yellow-400 text-yellow-400"
+                          className="h-4 w-4 fill-yellow-400 text-yellow-400"
                         />
                       ))}
                     </div>
@@ -653,15 +653,15 @@ const Page = () => {
           </section>
 
           {/* FAQ Section */}
-          <section className="py-24 relative">
+          <section className="relative py-24">
             <div className="absolute inset-0 bg-slate-950/50"></div>
-            <div className="container mx-auto px-4 relative z-10">
-              <div className="text-center max-w-3xl mx-auto mb-16">
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-950/50 border border-blue-800/30 text-blue-400 text-sm mb-4">
-                  <ChevronDown className="w-4 h-4 mr-2" />
+            <div className="container relative z-10 mx-auto px-4">
+              <div className="mx-auto mb-16 max-w-3xl text-center">
+                <div className="mb-4 inline-flex items-center rounded-full border border-blue-800/30 bg-blue-950/50 px-3 py-1 text-sm text-blue-400">
+                  <ChevronDown className="mr-2 h-4 w-4" />
                   <span>FAQ</span>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">
                   Frequently asked questions
                 </h2>
                 <p className="text-slate-300">
@@ -670,7 +670,7 @@ const Page = () => {
                 </p>
               </div>
 
-              <div className="max-w-3xl mx-auto">
+              <div className="mx-auto max-w-3xl">
                 <Accordion type="single" collapsible className="space-y-4">
                   {[
                     {
@@ -697,9 +697,9 @@ const Page = () => {
                     <AccordionItem
                       key={index}
                       value={`item-${index}`}
-                      className="border border-slate-800 rounded-lg overflow-hidden"
+                      className="overflow-hidden rounded-lg border border-slate-800"
                     >
-                      <AccordionTrigger className="px-6 py-4 hover:bg-slate-900/60 text-white font-medium text-left">
+                      <AccordionTrigger className="px-6 py-4 text-left font-medium text-white hover:bg-slate-900/60">
                         {faq.question}
                       </AccordionTrigger>
                       <AccordionContent className="px-6 py-4 text-slate-300">
@@ -713,43 +713,43 @@ const Page = () => {
           </section>
 
           {/* CTA Section */}
-          <section className="py-24 relative">
+          <section className="relative py-24">
             <div className="container mx-auto px-4">
               <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 p-8 md:p-12">
-                <div className="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
+                <div className="absolute right-0 top-0 -mr-20 -mt-20 h-80 w-80 rounded-full bg-white/10 blur-3xl"></div>
+                <div className="absolute bottom-0 left-0 -mb-20 -ml-20 h-80 w-80 rounded-full bg-white/10 blur-3xl"></div>
 
-                <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                <div className="relative z-10 flex flex-col items-center justify-between gap-8 md:flex-row">
                   <div className="max-w-xl">
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                    <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">
                       Ready to start your coding journey?
                     </h2>
-                    <p className="text-blue-100 text-lg mb-6">
+                    <p className="mb-6 text-lg text-blue-100">
                       Join thousands of students who have transformed their
                       careers with Luna. Get started today with a 7-day free
                       trial.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex flex-col gap-4 sm:flex-row">
                       <Link
                         href="/"
-                        className="bg-white text-blue-600 hover:bg-blue-50 rounded-lg p-2 py-2"
+                        className="rounded-lg bg-white p-2 py-2 text-blue-600 hover:bg-blue-50"
                       >
                         Get Started
                       </Link>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4 bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                  <div className="flex items-center gap-4 rounded-xl border border-white/20 bg-white/10 p-6 backdrop-blur-sm">
                     <div className="text-center">
                       <div className="text-4xl font-bold text-white">30K+</div>
                       <div className="text-blue-100">Students</div>
                     </div>
-                    <div className="w-px h-16 bg-white/20"></div>
+                    <div className="h-16 w-px bg-white/20"></div>
                     <div className="text-center">
                       <div className="text-4xl font-bold text-white">95%</div>
                       <div className="text-blue-100">Completion</div>
                     </div>
-                    <div className="w-px h-16 bg-white/20"></div>
+                    <div className="h-16 w-px bg-white/20"></div>
                     <div className="text-center">
                       <div className="text-4xl font-bold text-white">87%</div>
                       <div className="text-blue-100">Job Placement</div>
@@ -761,20 +761,20 @@ const Page = () => {
           </section>
 
           {/* Footer */}
-          <footer className="py-12 border-t border-slate-800">
+          <footer className="border-t border-slate-800 py-12">
             <div className="container mx-auto px-4">
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+              <div className="grid grid-cols-2 gap-8 md:grid-cols-5">
                 <div className="col-span-2">
                   <Link
                     href="/"
-                    className="flex items-center gap-2 text-white mb-4"
+                    className="mb-4 flex items-center gap-2 text-white"
                   >
-                    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600">
-                      <Code className="w-5 h-5 text-white" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600">
+                      <Code className="h-5 w-5 text-white" />
                     </div>
                     <span className="text-xl font-bold">Luna</span>
                   </Link>
-                  <p className="text-slate-400 mb-4">
+                  <p className="mb-4 text-slate-400">
                     Luna is the modern platform for learning to code, building
                     projects, and advancing your career.
                   </p>
@@ -783,7 +783,7 @@ const Page = () => {
                       <Link
                         key={social}
                         href="#"
-                        className="text-slate-400 hover:text-white transition-colors"
+                        className="text-slate-400 transition-colors hover:text-white"
                       >
                         {social}
                       </Link>
@@ -792,7 +792,7 @@ const Page = () => {
                 </div>
 
                 <div>
-                  <h3 className="font-semibold text-white mb-4">Platform</h3>
+                  <h3 className="mb-4 font-semibold text-white">Platform</h3>
                   <ul className="space-y-2">
                     {[
                       "Courses",
@@ -804,7 +804,7 @@ const Page = () => {
                       <li key={item}>
                         <Link
                           href="#"
-                          className="text-slate-400 hover:text-white transition-colors"
+                          className="text-slate-400 transition-colors hover:text-white"
                         >
                           {item}
                         </Link>
@@ -814,14 +814,14 @@ const Page = () => {
                 </div>
 
                 <div>
-                  <h3 className="font-semibold text-white mb-4">Company</h3>
+                  <h3 className="mb-4 font-semibold text-white">Company</h3>
                   <ul className="space-y-2">
                     {["About Us", "Careers", "Blog", "Press", "Contact"].map(
                       (item) => (
                         <li key={item}>
                           <Link
                             href="#"
-                            className="text-slate-400 hover:text-white transition-colors"
+                            className="text-slate-400 transition-colors hover:text-white"
                           >
                             {item}
                           </Link>
@@ -832,7 +832,7 @@ const Page = () => {
                 </div>
 
                 <div>
-                  <h3 className="font-semibold text-white mb-4">Resources</h3>
+                  <h3 className="mb-4 font-semibold text-white">Resources</h3>
                   <ul className="space-y-2">
                     {[
                       "Documentation",
@@ -844,7 +844,7 @@ const Page = () => {
                       <li key={item}>
                         <Link
                           href="#"
-                          className="text-slate-400 hover:text-white transition-colors"
+                          className="text-slate-400 transition-colors hover:text-white"
                         >
                           {item}
                         </Link>
@@ -854,27 +854,27 @@ const Page = () => {
                 </div>
               </div>
 
-              <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p className="text-slate-400 text-sm">
+              <div className="mt-12 flex flex-col items-center justify-between border-t border-slate-800 pt-8 md:flex-row">
+                <p className="text-sm text-slate-400">
                   © {new Date().getFullYear()} Luna Learning, Inc. All rights
                   reserved.
                 </p>
-                <div className="flex gap-6 mt-4 md:mt-0">
+                <div className="mt-4 flex gap-6 md:mt-0">
                   <Link
                     href="#"
-                    className="text-slate-400 hover:text-white text-sm transition-colors"
+                    className="text-sm text-slate-400 transition-colors hover:text-white"
                   >
                     Privacy Policy
                   </Link>
                   <Link
                     href="#"
-                    className="text-slate-400 hover:text-white text-sm transition-colors"
+                    className="text-sm text-slate-400 transition-colors hover:text-white"
                   >
                     Terms of Service
                   </Link>
                   <Link
                     href="#"
-                    className="text-slate-400 hover:text-white text-sm transition-colors"
+                    className="text-sm text-slate-400 transition-colors hover:text-white"
                   >
                     Cookie Policy
                   </Link>

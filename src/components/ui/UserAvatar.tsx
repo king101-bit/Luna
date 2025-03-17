@@ -32,12 +32,6 @@ export function UserAvatar({ name, imageUrl }: UserAvatarProps) {
     }
   }
 
-  // Handle profile action
-  const handleProfile = () => {
-    console.log("Navigating to profile...")
-    router.push("/profile") // Redirect to profile page
-  }
-
   return (
     <DropdownMenu>
       {/* Dropdown Trigger */}
@@ -63,7 +57,6 @@ export function UserAvatar({ name, imageUrl }: UserAvatarProps) {
 
       {/* Dropdown Content */}
       <DropdownMenuContent className="w-48" align="end">
-        <DropdownMenuItem onSelect={handleProfile}>Profile</DropdownMenuItem>
         <DropdownMenuItem onSelect={handleLogout}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
