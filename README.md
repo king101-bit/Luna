@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Luna
+
+**Luna** is a modern web application built with [Next.js](https://nextjs.org/), designed to provide a seamless and interactive user experience for users to learn and explore the world of Programming. This project leverages the latest features of Next.js, including the App Router, Server Components, and optimized font loading with [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts).
+
+![Luna Screenshot](../public/Luna.png) <!-- Add a screenshot of your project here -->
+
+---
+
+## Features
+
+- **Next.js 13+**: Utilizes the App Router and Server Components for enhanced performance and scalability.
+- **Geist Font**: Optimized font loading using [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts).
+- **Responsive Design**: Fully responsive layout for desktop, tablet, and mobile devices.
+- **Interactive UI**: Smooth animations and transitions for a polished user experience.
+- **Vercel Deployment**: Ready for deployment on Vercel with minimal configuration.
+
+---
 
 ## Getting Started
 
-First, run the development server:
+Follow these steps to set up and run the project locally.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Prerequisites
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Node.js (version 18 or higher recommended)
+- npm, yarn, pnpm, or bun (package manager of your choice preferably pnpm)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/king101-bit/Luna.git
 
-## Learn More
+2. Navigate to the project directory:
+   ```bash
+   cd Luna
 
-To learn more about Next.js, take a look at the following resources:
+   # Install dependencies
+   pnpm install
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   # Start the development server
+   pnpm dev
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   # Build for production
+   pnpm build
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   # Start the production server
+   pnpm start
