@@ -2,7 +2,7 @@
 
 **Luna** is a modern web application built with [Next.js](https://nextjs.org/), designed to provide a seamless and interactive user experience for users to learn and explore the world of Programming. This project leverages the latest features of Next.js, including the App Router, Server Components, and optimized font loading with [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts).
 
-![Luna Screenshot](../public/Luna.png) <!-- Add a screenshot of your project here -->
+![Luna Screenshot](https://raw.githubusercontent.com/king101-bit/Luna/main/public/Luna.png)
 
 ---
 
