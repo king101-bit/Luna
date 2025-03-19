@@ -33,6 +33,7 @@ import {
   Database,
   Check,
 } from "lucide-react"
+import Image from "next/image"
 
 export default function Profile() {
   const { user } = useUserStore()
@@ -59,6 +60,7 @@ export default function Profile() {
                 <UserAvatar
                   name={user?.user_metadata?.name || "User"} // Fallback for name
                   imageUrl={user?.user_metadata?.avatar_url}
+                  size={120}
                 />
               </div>
               <div className="flex-1 pb-2">
@@ -174,9 +176,7 @@ export default function Profile() {
                         <p className="mt-1 text-sm text-gray-400">
                           Next in your path
                         </p>
-                        <Badge variant="outline" className="mt-2 text-gray-500">
-                          Coming up
-                        </Badge>
+                        <Badge className="mt-2 text-gray-500">Coming up</Badge>
                       </div>
 
                       {/* Future step */}
@@ -188,9 +188,7 @@ export default function Profile() {
                         <p className="mt-1 text-sm text-gray-400">
                           Unlock after JavaScript Fundamentals
                         </p>
-                        <Badge variant="outline" className="mt-2 text-gray-500">
-                          Locked
-                        </Badge>
+                        <Badge className="mt-2 text-gray-500">Locked</Badge>
                       </div>
                     </div>
                   </CardContent>
@@ -441,15 +439,10 @@ export default function Profile() {
                   </div>
 
                   <div className="my-4 flex flex-wrap gap-2">
-                    <Badge
-                      variant="secondary"
-                      className="bg-blue-50 text-blue-700 hover:bg-blue-100"
-                    >
+                    <Badge className="bg-blue-50 text-blue-700 hover:bg-blue-100">
                       Frontend
                     </Badge>
-                    <Badge variant="outline" className="text-gray-600">
-                      40 hours
-                    </Badge>
+                    <Badge className="text-gray-600">40 hours</Badge>
                   </div>
 
                   <div className="mt-4 flex items-center justify-between">
@@ -467,7 +460,7 @@ export default function Profile() {
               {/* Course card 2 */}
               <Card className="overflow-hidden">
                 <div className="relative aspect-video bg-gray-100">
-                  <img
+                  <Image
                     src="/placeholder.svg?height=200&width=400"
                     alt="JavaScript Fundamentals"
                     className="h-full w-full object-cover"
@@ -498,15 +491,10 @@ export default function Profile() {
                   </div>
 
                   <div className="my-4 flex flex-wrap gap-2">
-                    <Badge
-                      variant="secondary"
-                      className="bg-blue-50 text-blue-700 hover:bg-blue-100"
-                    >
+                    <Badge className="bg-blue-50 text-blue-700 hover:bg-blue-100">
                       Frontend
                     </Badge>
-                    <Badge variant="outline" className="text-gray-600">
-                      50 hours
-                    </Badge>
+                    <Badge className="text-gray-600">50 hours</Badge>
                   </div>
 
                   <div className="mt-4 flex items-center justify-between">
@@ -524,7 +512,7 @@ export default function Profile() {
               {/* Course card 3 */}
               <Card className="overflow-hidden">
                 <div className="relative aspect-video bg-gray-100">
-                  <img
+                  <Image
                     src="/placeholder.svg?height=200&width=400"
                     alt="Introduction to Databases"
                     className="h-full w-full object-cover"
@@ -555,15 +543,10 @@ export default function Profile() {
                   </div>
 
                   <div className="my-4 flex flex-wrap gap-2">
-                    <Badge
-                      variant="secondary"
-                      className="bg-purple-50 text-purple-700 hover:bg-purple-100"
-                    >
+                    <Badge className="bg-purple-50 text-purple-700 hover:bg-purple-100">
                       Backend
                     </Badge>
-                    <Badge variant="outline" className="text-gray-600">
-                      30 hours
-                    </Badge>
+                    <Badge className="text-gray-600">30 hours</Badge>
                   </div>
 
                   <div className="mt-4 flex items-center justify-between">
@@ -680,7 +663,7 @@ export default function Profile() {
                         Earned
                       </Badge>
                     ) : (
-                      <Badge variant="outline" className="text-gray-400">
+                      <Badge className="text-gray-400">
                         {achievement.progress}
                       </Badge>
                     )}

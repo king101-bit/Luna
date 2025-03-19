@@ -21,6 +21,7 @@ import {
   Calendar,
   Clock,
   FileText,
+  Loader2,
   Play,
   Star,
   Users,
@@ -47,7 +48,11 @@ export default function CourseDetailPage({ params }: PageProps) {
   const course = courses.find((c) => c.id.toString() === courseId) || courses[0]
 
   if (!courseId) {
-    return <div>Loading...</div>
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    )
   }
 
   return (
@@ -90,9 +95,7 @@ export default function CourseDetailPage({ params }: PageProps) {
 
                 <div className="relative mb-8 aspect-video overflow-hidden rounded-lg">
                   <Image
-                    src={
-                      course.image || "/placeholder.svg?height=450&width=800"
-                    }
+                    src={course.image || "/globe.svg"}
                     alt={course.title}
                     fill
                     className="object-cover"

@@ -15,9 +15,10 @@ import toast from "react-hot-toast" // For toast notifications
 interface UserAvatarProps {
   name: string // User's name for the fallback avatar
   imageUrl?: string // Optional user image URL
+  size?: number // Optional size prop for the avatar (default: 35)
 }
 
-export function UserAvatar({ name, imageUrl }: UserAvatarProps) {
+export function UserAvatar({ name, imageUrl, size = 35 }: UserAvatarProps) {
   const router = useRouter()
 
   // Handle logout action
@@ -37,7 +38,10 @@ export function UserAvatar({ name, imageUrl }: UserAvatarProps) {
       {/* Dropdown Trigger */}
       <DropdownMenuTrigger asChild>
         {imageUrl ? (
-          <Avatar className="cursor-pointer hover:opacity-80">
+          <Avatar
+            className="cursor-pointer hover:opacity-80"
+            style={{ width: size, height: size }} // Apply dynamic size
+          >
             {/* User Image */}
             <AvatarImage
               src={imageUrl}
@@ -47,7 +51,7 @@ export function UserAvatar({ name, imageUrl }: UserAvatarProps) {
           </Avatar>
         ) : (
           <BoringAvatar
-            size={50} // Matches your existing size
+            size={size} // Use the size prop
             name={name} // Dynamic name
             variant="marble" // Options: "marble", "beam", "pixel", "sunset", "ring", "bauhaus"
             colors={["#E63946", "#F1FAEE", "#A8DADC", "#457B9D", "#1D3557"]}

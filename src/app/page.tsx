@@ -14,6 +14,7 @@ import {
   Clock,
   ArrowRight,
   ChevronDown,
+  Github,
 } from "lucide-react"
 import Link from "next/link"
 import useAuthRedirect from "@/hook/useAuthRedirect"
@@ -25,7 +26,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import BoringAvatar from "boring-avatars"
 
 const Page = () => {
   const user = useAuthRedirect()
@@ -84,35 +84,7 @@ const Page = () => {
                       Explore Courses
                     </Button>
                   </div>
-
-                  <div className="flex items-center gap-4 pt-6">
-                    <div className="flex -space-x-2">
-                      {[1, 2, 3, 4].map((i) => (
-                        <div
-                          key={i}
-                          className="h-8 w-8 overflow-hidden rounded-full border-2 border-slate-900 bg-slate-800"
-                        >
-                          <BoringAvatar
-                            size={32} // Matches your existing size
-                            variant="beam" // Options: "marble", "beam", "pixel", "sunset", "ring", "bauhaus"
-                            colors={[
-                              "#E63946",
-                              "#F1FAEE",
-                              "#A8DADC",
-                              "#457B9D",
-                              "#1D3557",
-                            ]}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                    <div className="text-sm text-slate-400">
-                      <span className="font-medium text-blue-400">2,500+</span>{" "}
-                      students enrolled this month
-                    </div>
-                  </div>
                 </div>
-
                 <div className="relative lg:w-1/2">
                   <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 opacity-30 blur-lg"></div>
                   <div className="relative overflow-hidden rounded-lg border border-slate-800 bg-slate-900 shadow-2xl">
@@ -173,25 +145,6 @@ const Page = () => {
                       <div className="text-xs text-purple-300">Support</div>
                     </div>
                   </div>
-                </div>
-              </div>
-
-              {/* Logos section */}
-              <div className="mt-20 border-t border-slate-800 pt-10">
-                <p className="mb-6 text-center text-sm text-slate-500">
-                  TRUSTED BY DEVELOPERS FROM
-                </p>
-                <div className="flex flex-wrap justify-center gap-8 opacity-70">
-                  {["Google", "Microsoft", "Amazon", "Meta", "Apple"].map(
-                    (company) => (
-                      <div
-                        key={company}
-                        className="font-semibold text-slate-400"
-                      >
-                        {company}
-                      </div>
-                    )
-                  )}
                 </div>
               </div>
             </div>
@@ -574,42 +527,42 @@ const Page = () => {
                   {
                     name: "Alex Johnson",
                     role: "Frontend Developer at Spotify",
-                    image: "/placeholder.svg?height=80&width=80",
+                    image: "/face1.jpg",
                     quote:
                       "Luna's curriculum was exactly what I needed to transition from my old career to web development. The projects were challenging but rewarding, and the mentorship was invaluable.",
                   },
                   {
                     name: "Sarah Chen",
                     role: "Full Stack Engineer at Airbnb",
-                    image: "/placeholder.svg?height=80&width=80",
+                    image: "/face1.jpeg",
                     quote:
                       "I tried several other platforms before finding Luna. The difference was night and day. Luna's focus on real-world applications and job preparation helped me land my dream job.",
                   },
                   {
                     name: "Michael Rodriguez",
                     role: "Backend Developer at Stripe",
-                    image: "/placeholder.svg?height=80&width=80",
+                    image: "/face3.jpg",
                     quote:
                       "The community at Luna is what sets it apart. Being able to collaborate with other learners and get feedback from experienced mentors accelerated my learning tremendously.",
                   },
                   {
                     name: "Emily Taylor",
                     role: "Software Engineer at Netflix",
-                    image: "/placeholder.svg?height=80&width=80",
+                    image: "/face6.avif",
                     quote:
                       "As someone with no prior coding experience, I was worried about keeping up. Luna's step-by-step approach made learning to code accessible and even fun!",
                   },
                   {
                     name: "David Kim",
                     role: "DevOps Engineer at Amazon",
-                    image: "/placeholder.svg?height=80&width=80",
+                    image: "/face4.jpg",
                     quote:
                       "The DevOps course at Luna gave me practical skills that I use every day in my job. The hands-on projects with real-world tools were exactly what employers were looking for.",
                   },
                   {
                     name: "Priya Patel",
                     role: "Mobile Developer at Uber",
-                    image: "/placeholder.svg?height=80&width=80",
+                    image: "/face5.avif",
                     quote:
                       "Luna's flexible learning schedule allowed me to balance my full-time job while learning to code. Within 8 months, I was able to switch careers completely.",
                   },
@@ -726,12 +679,11 @@ const Page = () => {
                     </h2>
                     <p className="mb-6 text-lg text-blue-100">
                       Join thousands of students who have transformed their
-                      careers with Luna. Get started today with a 7-day free
-                      trial.
+                      careers with Luna. Get started today!
                     </p>
                     <div className="flex flex-col gap-4 sm:flex-row">
                       <Link
-                        href="/"
+                        href="/login"
                         className="rounded-lg bg-white p-2 py-2 text-blue-600 hover:bg-blue-50"
                       >
                         Get Started
@@ -778,17 +730,6 @@ const Page = () => {
                     Luna is the modern platform for learning to code, building
                     projects, and advancing your career.
                   </p>
-                  <div className="flex gap-4">
-                    {["GitHub"].map((social) => (
-                      <Link
-                        key={social}
-                        href="#"
-                        className="text-slate-400 transition-colors hover:text-white"
-                      >
-                        {social}
-                      </Link>
-                    ))}
-                  </div>
                 </div>
 
                 <div>
@@ -830,27 +771,13 @@ const Page = () => {
                     )}
                   </ul>
                 </div>
-
-                <div>
-                  <h3 className="mb-4 font-semibold text-white">Resources</h3>
-                  <ul className="space-y-2">
-                    {[
-                      "Documentation",
-                      "Tutorials",
-                      "Guides",
-                      "API Reference",
-                      "Support",
-                    ].map((item) => (
-                      <li key={item}>
-                        <Link
-                          href="#"
-                          className="text-slate-400 transition-colors hover:text-white"
-                        >
-                          {item}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+                <div className="flex flex-col items-start space-y-4">
+                  <h3 className="mb-4 text-lg font-semibold text-white">
+                    Socials
+                  </h3>
+                  <Link href="https://github.com/king101-bit/Luna">
+                    <Github className="h-10 w-10 rounded-lg bg-black p-2 text-white transition-all hover:scale-105 hover:bg-gray-900" />{" "}
+                  </Link>
                 </div>
               </div>
 

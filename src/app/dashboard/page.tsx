@@ -66,7 +66,7 @@ const DashboardPage = () => {
       <div className="flex-1">
         {loading ? (
           // Loading State
-          <div className="flex h-full items-center justify-center">
+          <div className="flex h-screen items-center justify-center">
             <Loader2 className="h-8 w-8 animate-spin" /> {/* Loading spinner */}
           </div>
         ) : !user ? (

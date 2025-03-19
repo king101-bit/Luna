@@ -80,6 +80,7 @@ export const MainNavbar = () => {
           <UserAvatar
             name={user?.user_metadata?.name || "User"}
             imageUrl={user?.user_metadata?.avatar_url}
+            size={40}
           />
         </div>
       </div>
