@@ -15,10 +15,3 @@ updates:
       - "king101-bit" # Add reviewers for Dependabot PRs
     assignees:
       - "king101-bit" # Assign Dependabot PRs to specific users
-
-  - package-ecosystem: "github-actions" # For GitHub Actions
-    directory: "/"
-    schedule:
-      interval: "monthly" # Check for updates monthly
-    labels:
-      - "github-actions" # Add a label for GitHub Actions updates
