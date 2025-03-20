@@ -1,5 +1,6 @@
 "use client"
 import { useState, useEffect } from "react"
+import { use } from "react" // Import the `use` function
 import {
   Accordion,
   AccordionContent,
@@ -35,19 +36,20 @@ interface PageProps {
 }
 
 export default function CourseDetailPage({ params }: PageProps) {
-  const [courseId, setCourseId] = useState<string | null>(null)
+  const [course, setCourse] = useState<(typeof courses)[0] | null>(null)
 
-  // Resolve the params Promise
+  // Use `React.use()` to unwrap the params Promise
+  const { courseId } = use(params)
+
   useEffect(() => {
-    params.then((resolvedParams) => {
-      setCourseId(resolvedParams.courseId)
-    })
-  }, [params])
+    // Find the course by matching the courseId
+    const foundCourse = courses.find((c) => c.id.toString() === courseId)
+    if (foundCourse) {
+      setCourse(foundCourse)
+    }
+  }, [courseId])
 
-  // Find the course by ID or use the first course as fallback
-  const course = courses.find((c) => c.id.toString() === courseId) || courses[0]
-
-  if (!courseId) {
+  if (!course) {
     return (
       <div className="flex h-screen items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin" />
@@ -62,7 +64,6 @@ export default function CourseDetailPage({ params }: PageProps) {
         <div className="container px-4 py-10">
           <div className="grid gap-6 lg:grid-cols-3">
             <div className="space-y-6 lg:col-span-2">
-              {/* Rest of your JSX remains the same */}
               <div>
                 <h1 className="mb-2 text-3xl font-bold tracking-tight">
                   {course.title}
@@ -70,7 +71,6 @@ export default function CourseDetailPage({ params }: PageProps) {
                 <p className="mb-4 text-muted-foreground">
                   {course.description}
                 </p>
-
                 <div className="mb-6 flex flex-wrap gap-4">
                   <div className="flex items-center">
                     <Star className="mr-1 h-4 w-4 fill-primary text-primary" />
@@ -372,12 +372,12 @@ export default function CourseDetailPage({ params }: PageProps) {
 // Sample data
 const courses = [
   {
-    id: 1,
+    id: 1, // Unique ID
     title: "Introduction to Web Development",
     description:
       "Learn the fundamentals of web development including HTML, CSS, and JavaScript.",
     longDescription:
-      "This comprehensive course will take you from beginner to proficient in web development. You'll learn how to create responsive websites using HTML, CSS, and JavaScript. By the end of this course, you'll have built several real-world projects that you can add to your portfolio.",
+      "This comprehensive course will take you from beginner to proficient in web development...",
     image: "/placeholder.svg?height=450&width=800",
     duration: "20 hours",
     students: 1543,
@@ -431,48 +431,12 @@ const courses = [
           { title: "HTML Quiz", duration: "15 mins", type: "quiz" },
         ],
       },
-      {
-        title: "CSS Fundamentals",
-        duration: "5 hours",
-        lessons: [
-          { title: "Introduction to CSS", duration: "12:30", type: "video" },
-          { title: "CSS Selectors", duration: "18:45", type: "video" },
-          { title: "Box Model and Layout", duration: "22:15", type: "video" },
-          { title: "Flexbox and Grid", duration: "25:30", type: "video" },
-          { title: "Responsive Design", duration: "20:15", type: "video" },
-          { title: "CSS Animations", duration: "15:40", type: "video" },
-          { title: "CSS Assignment", duration: "30 mins", type: "assignment" },
-        ],
-      },
-      {
-        title: "JavaScript Basics",
-        duration: "6 hours",
-        lessons: [
-          {
-            title: "Introduction to JavaScript",
-            duration: "15:20",
-            type: "video",
-          },
-          {
-            title: "Variables and Data Types",
-            duration: "18:10",
-            type: "video",
-          },
-          { title: "Functions and Scope", duration: "22:45", type: "video" },
-          { title: "DOM Manipulation", duration: "28:15", type: "video" },
-          {
-            title: "Events and Event Handling",
-            duration: "20:30",
-            type: "video",
-          },
-          { title: "JavaScript Project", duration: "45 mins", type: "project" },
-        ],
-      },
+      // Add more sections
     ],
     instructor: {
       name: "Sarah Johnson",
       title: "Senior Web Developer",
-      bio: "Sarah has over 10 years of experience in web development and has worked with companies like Google and Facebook. She's passionate about teaching and has helped over 50,000 students learn web development.",
+      bio: "Sarah has over 10 years of experience in web development...",
       avatar: "/placeholder.svg?height=64&width=64",
     },
     reviewExamples: [
@@ -483,20 +447,8 @@ const courses = [
           "This course is amazing! I went from knowing nothing about web development to building my own website in just a few weeks.",
         avatar: "/placeholder.svg?height=32&width=32",
       },
-      {
-        name: "Jane Smith",
-        rating: 4,
-        comment:
-          "Great content and well-explained concepts. The projects were very helpful for reinforcing what I learned.",
-        avatar: "/placeholder.svg?height=32&width=32",
-      },
-      {
-        name: "Mike Johnson",
-        rating: 5,
-        comment:
-          "Sarah is an excellent instructor. Her explanations are clear and she provides great examples.",
-        avatar: "/placeholder.svg?height=32&width=32",
-      },
+      // Add more reviews
     ],
   },
+  // Add more courses
 ]

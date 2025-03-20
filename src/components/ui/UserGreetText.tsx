@@ -3,11 +3,14 @@
 import { User } from "@supabase/supabase-js"
 import React from "react"
 
-const UserGreetText = ({ user }: { user: User }) => {
+interface UserGreetTextProps {
+  user: User | null
+  className?: string // Allow className to be passed as a prop
+}
+
+const UserGreetText = ({ user, className = "" }: UserGreetTextProps) => {
   return (
-    <h1 className="ml-2 inline font-bold">
-      {user?.user_metadata?.full_name || "Guest"}
-    </h1>
+    <h1 className={className}>{user?.user_metadata?.full_name || "Guest"}</h1>
   )
 }
 

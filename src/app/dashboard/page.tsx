@@ -87,7 +87,10 @@ const DashboardPage = () => {
               <h2 className="text-2xl font-bold tracking-tight">
                 <span>
                   {getGreeting()},
-                  <UserGreetText user={user} />
+                  <UserGreetText
+                    user={user}
+                    className="ml-2 inline text-xl font-bold"
+                  />
                 </span>
               </h2>
               <p className="text-muted-foreground">

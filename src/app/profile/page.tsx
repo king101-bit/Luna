@@ -12,6 +12,7 @@ import { MainNavbar } from "@/components/ui/MainNavbar"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { UserAvatar } from "@/components/ui/UserAvatar"
+import UserGreetText from "@/components/ui/UserGreetText"
 import useUserStore from "@/stores/UserStore"
 import {
   Server,
@@ -31,7 +32,6 @@ import {
   Globe,
   Code,
   Database,
-  Check,
 } from "lucide-react"
 import Image from "next/image"
 
@@ -41,31 +41,36 @@ export default function Profile() {
   return (
     <>
       <MainNavbar />
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-6 sm:py-8">
         {/* Profile header */}
         <div className="relative mb-8">
           {/* Cover image */}
-          <div className="h-48 overflow-hidden rounded-xl bg-gradient-to-r from-primary/80 to-primary md:h-64">
-            <img
-              src="/placeholder.svg?height=256&width=1200"
+          <div className="h-56 overflow-hidden rounded-xl md:h-64">
+            <Image
+              src="/cover.jpeg"
               alt="Cover"
-              className="h-full w-full object-cover opacity-20"
+              width={1500}
+              height={256}
+              className="h-full w-full object-cover"
             />
           </div>
 
           {/* Profile info */}
-          <div className="absolute -bottom-16 left-0 right-0 px-4">
+          <div className="absolute -bottom-16 left-0 right-0 z-10 px-4">
             <div className="flex flex-col items-start gap-4 md:flex-row md:items-end">
-              <div className="mb-3">
+              <div className="mb-3 rounded-full bg-white">
                 <UserAvatar
                   name={user?.user_metadata?.name || "User"} // Fallback for name
                   imageUrl={user?.user_metadata?.avatar_url}
-                  size={120}
+                  size={100}
                 />
               </div>
               <div className="flex-1 pb-2">
-                <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
-                  <h1 className="text-2xl font-bold text-gray-900">Jane Doe</h1>
+                <div className="flex flex-col md:flex-row md:items-center md:gap-4">
+                  <UserGreetText
+                    user={user}
+                    className="text-2xl font-bold text-black"
+                  />
                   <BadgeCheck className="w-fit text-blue-500"></BadgeCheck>
                 </div>
                 <p className="text-gray-500">
@@ -88,8 +93,8 @@ export default function Profile() {
         </div>
 
         {/* Main content tabs */}
-        <Tabs defaultValue="dashboard" className="mt-24 w-full">
-          <TabsList className="mb-6 w-full justify-start rounded-none border-b bg-transparent p-0">
+        <Tabs defaultValue="dashboard" className="mt-20 w-full sm:mt-24">
+          <TabsList className="mb-6 flex max-h-12 w-full justify-start overflow-x-auto whitespace-nowrap rounded-none border-b bg-transparent p-0">
             <TabsTrigger
               value="dashboard"
               className="rounded-none px-4 py-2 data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
@@ -145,9 +150,9 @@ export default function Profile() {
                         <p className="mt-1 text-sm text-gray-500">
                           Completed on March 15, 2023
                         </p>
-                        <Check className="mt-2 bg-green-50 text-green-700 hover:bg-green-100">
+                        <Badge className="mt-2 bg-green-50 text-green-700 hover:bg-green-100">
                           Completed
-                        </Check>
+                        </Badge>
                       </div>
 
                       {/* Current step */}
@@ -322,20 +327,27 @@ export default function Profile() {
                     <CardTitle>Weekly Streak</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="flex items-center justify-between">
+                    <div className="grid w-full grid-cols-7 gap-1 overflow-x-auto pb-2 sm:gap-2">
                       {["M", "T", "W", "T", "F", "S", "S"].map((day, i) => (
-                        <div key={i} className="flex flex-col items-center">
+                        <div
+                          key={i}
+                          className="flex flex-col items-center justify-center"
+                        >
                           <div
-                            className={`mb-1 ml-1 flex h-14 w-14 items-center justify-center rounded-full ${
+                            className={`mb-1 flex h-8 w-8 items-center justify-center rounded-full sm:h-10 sm:w-10 md:h-14 md:w-14 ${
                               i < 5
                                 ? "bg-primary text-white"
                                 : "bg-gray-100 text-gray-400"
                             }`}
                           >
                             {i === 4 ? (
-                              <span className="text-sm font-bold">Today</span>
+                              <span className="text-[10px] font-bold sm:text-xs md:text-sm">
+                                Today
+                              </span>
                             ) : (
-                              <span className="text-sm font-medium">{day}</span>
+                              <span className="text-[10px] font-medium sm:text-xs md:text-sm">
+                                {day}
+                              </span>
                             )}
                           </div>
                           <span className="text-xs text-gray-500">
@@ -408,9 +420,11 @@ export default function Profile() {
               {/* Course card 1 */}
               <Card className="overflow-hidden">
                 <div className="relative aspect-video bg-gray-100">
-                  <img
+                  <Image
                     src="/placeholder.svg?height=200&width=400"
                     alt="Responsive Web Design"
+                    width={400}
+                    height={200}
                     className="h-full w-full object-cover"
                   />
                   <div className="absolute left-3 top-3">
@@ -463,6 +477,8 @@ export default function Profile() {
                   <Image
                     src="/placeholder.svg?height=200&width=400"
                     alt="JavaScript Fundamentals"
+                    width={400}
+                    height={200}
                     className="h-full w-full object-cover"
                   />
                   <div className="absolute left-3 top-3">
@@ -515,6 +531,8 @@ export default function Profile() {
                   <Image
                     src="/placeholder.svg?height=200&width=400"
                     alt="Introduction to Databases"
+                    width={400}
+                    height={200}
                     className="h-full w-full object-cover"
                   />
                   <div className="absolute left-3 top-3">
@@ -832,40 +850,6 @@ export default function Profile() {
                     </div>
                   </CardContent>
                 </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Subscription</CardTitle>
-                    <CardDescription>
-                      Manage your subscription plan
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="mb-4 rounded-lg border border-primary/20 bg-primary/5 p-4">
-                      <div className="mb-2 flex items-center justify-between">
-                        <h3 className="font-semibold">Pro Plan</h3>
-                        <Badge className="border-primary/20 bg-primary/10 text-primary hover:bg-primary/20">
-                          Active
-                        </Badge>
-                      </div>
-                      <p className="mb-2 text-sm text-gray-600">
-                        Unlimited access to all courses and features
-                      </p>
-                      <p className="text-sm font-medium">$15.99 / month</p>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h4 className="font-medium">Next billing date</h4>
-                        <p className="text-sm text-gray-500">April 15, 2023</p>
-                      </div>
-                      <Button variant="outline" size="sm">
-                        Manage
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-
                 <Card>
                   <CardHeader>
                     <CardTitle>Linked Accounts</CardTitle>

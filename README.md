@@ -28,10 +28,14 @@ Follow these steps to set up and run the project locally.
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/king101-bit/Luna.git
 
+   ```
+
 2. Navigate to the project directory:
+
    ```bash
    cd Luna
 
@@ -46,3 +50,4 @@ Follow these steps to set up and run the project locally.
 
    # Start the production server
    pnpm start
+   ```
