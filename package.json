@@ -12,7 +12,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@fontsource/fira-code": "^5.1.1",
+    "@fontsource/fira-code": "^5.2.5",
     "@fontsource/montserrat": "^5.2.5",
     "@radix-ui/react-accordion": "^1.2.3",
     "@radix-ui/react-avatar": "^1.1.3",
