@@ -49,7 +49,7 @@ export default function Profile() {
             <Image
               src="/cover.jpeg"
               alt="Cover"
-              width={1500}
+              width={1300}
               height={256}
               className="h-full w-full object-cover"
             />
@@ -94,12 +94,12 @@ export default function Profile() {
 
         {/* Main content tabs */}
         <Tabs defaultValue="dashboard" className="mt-20 w-full sm:mt-24">
-          <TabsList className="mb-6 flex max-h-12 w-full justify-start overflow-x-auto whitespace-nowrap rounded-none border-b bg-transparent p-0">
+          <TabsList className="mb-6 flex max-h-12 w-full justify-start overflow-hidden whitespace-nowrap rounded-none border-b bg-transparent p-0">
             <TabsTrigger
               value="dashboard"
               className="rounded-none px-4 py-2 data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
             >
-              Dashboard
+              Stats
             </TabsTrigger>
             <TabsTrigger
               value="courses"

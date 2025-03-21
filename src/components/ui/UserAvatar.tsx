@@ -20,7 +20,10 @@ interface UserAvatarProps {
 
 export function UserAvatar({ name, imageUrl, size = 35 }: UserAvatarProps) {
   const router = useRouter()
-
+  // Handle Profile action
+  const handleProfile = async () => {
+    router.push("/profile")
+  }
   // Handle logout action
   const handleLogout = async () => {
     try {
@@ -61,6 +64,7 @@ export function UserAvatar({ name, imageUrl, size = 35 }: UserAvatarProps) {
 
       {/* Dropdown Content */}
       <DropdownMenuContent className="w-48" align="end">
+        <DropdownMenuItem onSelect={handleProfile}>Profile</DropdownMenuItem>
         <DropdownMenuItem onSelect={handleLogout}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
