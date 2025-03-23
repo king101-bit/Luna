@@ -1,6 +1,9 @@
+import ActiveMembers from "@/components/ui/ActiveMembers"
 import { CommunityHeader } from "@/components/ui/communityHeader"
 import { CommunitySearch } from "@/components/ui/communitySearch"
+import DiscussionList from "@/components/ui/DiscussionList"
 import { MainNavbar } from "@/components/ui/MainNavbar"
+import PopularTags from "@/components/ui/PopularTags"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -13,27 +16,19 @@ export default function CommunityPage() {
   return (
     <>
       <MainNavbar />
-      <div className="container mx-auto p-4 py-8">
+      <div className="flex-1 px-4 py-6 sm:px-6 lg:px-8">
         <CommunityHeader />
         <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-center">
               <CommunitySearch />
             </div>
-
-            {/* <Suspense fallback={<DiscussionListSkeleton />}>
-                    <DiscussionList />
-                  </Suspense> */}
+            <DiscussionList />
           </div>
 
           <div className="space-y-8">
-            {/* <Suspense fallback={<Skeleton className="h-[300px] w-full rounded-lg" />}>
-                    <PopularTags />
-                  </Suspense>
-
-                  <Suspense fallback={<Skeleton className="h-[400px] w-full rounded-lg" />}>
-                    <ActiveMembers />
-                  </Suspense> */}
+            <PopularTags />
+            <ActiveMembers />
           </div>
         </div>
       </div>
