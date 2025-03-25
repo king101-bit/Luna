@@ -67,7 +67,7 @@ export const DiscussionCard = () => {
               {/* Title */}
               <h2 className="mb-2 text-xl font-semibold">
                 <Link
-                  href={`/discussions/${discussion.id}`}
+                  href={`/community/discussions/${discussion.id}`}
                   className="hover:underline"
                 >
                   {discussion.title}

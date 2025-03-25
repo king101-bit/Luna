@@ -66,6 +66,7 @@ export const CommunitySearch = () => {
 
       {/* Content Area */}
       <div className="space-y-4">
+        {activeTab === "all" && <div></div>}
         {activeTab === "javascript" && (
           <div className="rounded-lg bg-muted/50 p-6">
             <div className="mb-2 flex items-center gap-3">
