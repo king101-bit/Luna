@@ -44,7 +44,7 @@ type Reply = {
   content: string
   created_at: string
   updated_at?: string
-  user: User
+  user: User[]
   author_id: string
 }
 
