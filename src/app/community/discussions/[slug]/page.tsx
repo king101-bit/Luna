@@ -20,7 +20,7 @@ import ReplyForm from "@/components/ui/reply-form"
 
 type User = {
   id: string
-  full_name?: string
+  full_name?: string | null
   avatar_url?: string | null
 }
 
@@ -42,9 +42,9 @@ type Reply = {
   id: string
   content: string
   created_at: string
-  updated_at?: string
-  user: User
+  updated_at?: string | null
   author_id: string
+  user: User[] // Changed to array to match Supabase's response
 }
 
 type ReactionCounts = {
@@ -133,14 +133,8 @@ export default function DiscussionPage() {
 
       if (error) throw error
 
-      // Transform data to match Reply type
-      const formattedReplies =
-        data?.map((reply) => ({
-          ...reply,
-          user: reply.user || { id: reply.author_id }, // Ensure user exists
-        })) || []
-
-      setReplies(formattedReplies)
+      // Type assertion since we know the data structure
+      setReplies(data as Reply[])
     } catch (error) {
       console.error("Error fetching replies:", error)
       toast.error("Failed to load replies")
@@ -386,15 +380,17 @@ export default function DiscussionPage() {
               <div className="mb-3 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src={reply.user.avatar_url || undefined} />
+                    <AvatarImage src={reply.user[0]?.avatar_url || undefined} />
                     <AvatarFallback>
-                      {reply.user.full_name?.charAt(0).toUpperCase() || "U"}
+                      {reply.user[0]?.full_name?.charAt(0).toUpperCase() || "U"}
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-medium">{reply.user.full_name}</p>
+                    <p className="font-medium">
+                      {reply.user[0]?.full_name || "Unknown User"}
+                    </p>
                     <p className="text-xs text-gray-500 dark:text-gray-400">
-                      {reply.updated_at && " Posted at "}
+                      {reply.updated_at && "Posted at "}
                       {new Date(reply.created_at).toLocaleString()}
                     </p>
                   </div>
