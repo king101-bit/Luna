@@ -1,9 +1,9 @@
-import ActiveMembers from "@/components/ui/ActiveMembers"
+import ActivityStream from "@/components/ui/ActivityStream"
 import { CommunityHeader } from "@/components/ui/communityHeader"
 import { CommunitySearch } from "@/components/ui/communitySearch"
 import DiscussionList from "@/components/ui/DiscussionList"
 import { MainNavbar } from "@/components/ui/MainNavbar"
-import PopularTags from "@/components/ui/PopularTags"
+import { PopularTags } from "@/components/ui/PopularTags"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -28,7 +28,7 @@ export default function CommunityPage() {
 
           <div className="space-y-8">
             <PopularTags />
-            <ActiveMembers />
+            <ActivityStream />
           </div>
         </div>
       </div>

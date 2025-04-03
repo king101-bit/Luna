@@ -11,7 +11,18 @@ export default {
     extend: {
       fontFamily: {
         mono: ["Fira Code", "monospace"],
-        sans: ["Montserrat", "sans-serif"],
+        sans: [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "Helvetica Neue",
+          "Arial",
+          "sans-serif",
+        ],
       },
       colors: {
         background: "hsl(var(--background))",

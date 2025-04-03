@@ -1,30 +1,112 @@
+"use client"
 import { Button } from "./button"
-import {
-  Bold,
-  Code,
-  HelpCircle,
-  Image,
-  Italic,
-  Link2,
-  List,
-  PlusCircle,
-  Send,
-} from "lucide-react"
+import { PlusCircle, Send } from "lucide-react"
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogFooter,
 } from "@/components/ui/dialog"
 import { Label } from "./label"
 import { Input } from "./input"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs"
 import { Textarea } from "./textarea"
+import { FormEvent, useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { createClient } from "@root/utils/supabase/client"
+import { toast } from "sonner"
 
 export const CommunityHeader = () => {
+  const [form, setForm] = useState({
+    title: "",
+    content: "",
+    tag_id: "",
+  })
+  const [tags, setTags] = useState<{ id: number; name: string }[]>([])
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter()
+  const supabase = createClient()
+
+  // Slug generation function
+  const generateSlug = (title: string) => {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-") // Replace spaces & special characters with "-"
+      .replace(/^-+|-+$/g, "") // Remove leading/trailing hyphens
+      .substring(0, 50) // Limit slug length
+  }
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("tags")
+          .select("id, name")
+          .order("name", { ascending: true })
+
+        if (error) throw error
+        setTags(data || [])
+
+        if (data?.length && !form.tag_id) {
+          setForm((prev) => ({ ...prev, tag_id: String(data[0].id) }))
+        }
+      } catch (error) {
+        console.error("Error loading tags:", error)
+        toast.error("Failed to load tags")
+      }
+    }
+
+    fetchTags()
+  }, [])
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    try {
+      // Validate inputs
+      if (!form.title.trim()) throw new Error("Title is required")
+      if (!form.content.trim()) throw new Error("Content is required")
+      if (!form.tag_id) throw new Error("Tag is required")
+
+      // Get authenticated user
+      const {
+        data: { user },
+        error: authError,
+      } = await supabase.auth.getUser()
+      if (authError || !user) throw new Error("Authentication required")
+
+      // Generate slug
+      const slug = generateSlug(form.title)
+
+      // Insert discussion
+      const { data, error } = await supabase
+        .from("discussion")
+        .insert({
+          title: form.title,
+          content: form.content,
+          tag_id: Number(form.tag_id),
+          user_id: user.id,
+          slug, // Store the generated slug
+        })
+        .select()
+        .single()
+
+      if (error) throw error
+
+      toast.success("Discussion created!")
+      router.push(`/community/discussions/${data.slug}`)
+      router.refresh()
+    } catch (error: any) {
+      console.error("Submission error:", error)
+      toast.error(error.message || "Creation failed")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
       <div>
@@ -33,6 +115,7 @@ export const CommunityHeader = () => {
           Connect with fellow learners and instructors
         </p>
       </div>
+
       <Dialog>
         <DialogTrigger asChild>
           <Button className="flex items-center gap-2">
@@ -46,151 +129,55 @@ export const CommunityHeader = () => {
               Create New Discussion
             </DialogTitle>
             <DialogDescription>
-              Share your thoughts, questions, or insights with the Luna
-              community.
+              Share your thoughts, questions, or insights with the community.
             </DialogDescription>
           </DialogHeader>
-          <form className="space-y-6 py-4">
+
+          <form className="space-y-6 py-4" onSubmit={handleSubmit}>
             <div className="space-y-2">
-              <Label htmlFor="title" className="text-base">
-                Title
-              </Label>
+              <Label htmlFor="title">Title</Label>
               <Input
                 id="title"
                 placeholder="What's your discussion about?"
-                className="text-base"
+                value={form.title}
+                onChange={(e) => setForm({ ...form, title: e.target.value })}
                 required
               />
             </div>
+
             <div className="space-y-2">
-              <Label htmlFor="tags" className="text-base">
-                Tags (up to 5)
-              </Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="tags"
-                  placeholder="Add tags separated by comma or enter"
-                  className="flex-1"
-                />
-                <Button type="button" variant="outline">
-                  Add
-                </Button>
-              </div>
+              <Label htmlFor="tag">Tag</Label>
+              <select
+                id="tag"
+                value={form.tag_id}
+                onChange={(e) => setForm({ ...form, tag_id: e.target.value })}
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                required
+              >
+                {tags.map((tag) => (
+                  <option key={tag.id} value={tag.id}>
+                    {tag.name}
+                  </option>
+                ))}
+              </select>
             </div>
+
             <div className="space-y-2">
-              <Label htmlFor="content" className="text-base">
-                Content
-              </Label>
-
-              <Tabs defaultValue="write" className="w-full">
-                <div className="flex items-center justify-between">
-                  <TabsList>
-                    <TabsTrigger value="write">Write</TabsTrigger>
-                    <TabsTrigger value="preview">Preview</TabsTrigger>
-                  </TabsList>
-
-                  <div className="flex items-center space-x-1">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 w-8 p-0"
-                      title="Bold"
-                    >
-                      <Bold className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 w-8 p-0"
-                      title="Italic"
-                    >
-                      <Italic className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 w-8 p-0"
-                      title="Code"
-                    >
-                      <Code className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 w-8 p-0"
-                      title="Link"
-                    >
-                      <Link2 className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 w-8 p-0"
-                      title="Image"
-                    >
-                      <Image className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 w-8 p-0"
-                      title="List"
-                    >
-                      <List className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 w-8 p-0"
-                      title="Help"
-                    >
-                      <HelpCircle className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-                <TabsContent value="write" className="mt-2">
-                  <Textarea
-                    id="content"
-                    placeholder="Share your thoughts, questions, or insights..."
-                    className="min-h-[200px] resize-y font-mono text-base"
-                    required
-                  />
-                </TabsContent>
-                <TabsContent value="preview" className="mt-2">
-                  <h1>Nothing to preview</h1>
-                </TabsContent>{" "}
-              </Tabs>
+              <Label htmlFor="content">Content</Label>
+              <Textarea
+                id="content"
+                placeholder="Share your thoughts..."
+                className="min-h-[200px]"
+                value={form.content}
+                onChange={(e) => setForm({ ...form, content: e.target.value })}
+                required
+              />
             </div>
 
-            <div className="text-xs text-muted-foreground">
-              <p>
-                You can use Markdown to format your content.{" "}
-                <a href="#" className="text-primary hover:underline">
-                  Learn more
-                </a>
-              </p>
-            </div>
-
-            <DialogFooter className="flex items-center justify-between sm:justify-between">
-              <div className="flex items-center gap-2">
-                <Button type="button" variant="outline">
-                  Cancel
-                </Button>
-                <Button type="button" variant="secondary">
-                  Save as Draft
-                </Button>
-              </div>
-
-              <Button type="submit">
+            <DialogFooter>
+              <Button type="submit" disabled={isSubmitting}>
                 <Send className="mr-2 h-4 w-4" />
-                Post Discussion
+                {isSubmitting ? "Posting..." : "Post Discussion"}
               </Button>
             </DialogFooter>
           </form>

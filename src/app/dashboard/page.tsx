@@ -74,7 +74,7 @@ const DashboardPage = () => {
           <div className="flex min-h-screen items-center justify-center">
             <p>
               No user found. Please{" "}
-              <Link href="/login" className="text-blue-600 underline">
+              <Link href="/login" className="hover:underline">
                 log in
               </Link>
               .
@@ -111,19 +111,19 @@ const DashboardPage = () => {
                     <Progress value={progress} className="h-2" />
 
                     <div className="grid grid-cols-3 gap-4 pt-2">
-                      <div className="bg-card flex flex-col items-center justify-center rounded-lg border p-3 shadow-sm">
+                      <div className="flex flex-col items-center justify-center rounded-lg border bg-card p-3 shadow-sm">
                         <div className="text-xl font-bold">12</div>
                         <div className="text-sm font-semibold text-muted-foreground">
                           Lessons
                         </div>
                       </div>
-                      <div className="bg-card flex flex-col items-center justify-center rounded-lg border p-3 shadow-sm">
+                      <div className="flex flex-col items-center justify-center rounded-lg border bg-card p-3 shadow-sm">
                         <div className="text-xl font-bold">5</div>
                         <div className="text-sm font-semibold text-muted-foreground">
                           Challenges
                         </div>
                       </div>
-                      <div className="bg-card flex flex-col items-center justify-center rounded-lg border p-3 shadow-sm">
+                      <div className="flex flex-col items-center justify-center rounded-lg border bg-card p-3 shadow-sm">
                         <div className="text-xl font-bold">7</div>
                         <div className="text-sm font-semibold text-muted-foreground">
                           Day Streak
