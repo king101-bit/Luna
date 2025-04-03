@@ -20,9 +20,8 @@ import ReplyForm from "@/components/ui/reply-form"
 
 type User = {
   id: string
-  name: string
   full_name?: string
-  avatar_url: string | null
+  avatar_url?: string | null
 }
 
 type Tag = {
@@ -44,7 +43,7 @@ type Reply = {
   content: string
   created_at: string
   updated_at?: string
-  user: User[]
+  user: User
   author_id: string
 }
 
@@ -133,7 +132,15 @@ export default function DiscussionPage() {
         .order("created_at", { ascending: true })
 
       if (error) throw error
-      setReplies(data || [])
+
+      // Transform data to match Reply type
+      const formattedReplies =
+        data?.map((reply) => ({
+          ...reply,
+          user: reply.user || { id: reply.author_id }, // Ensure user exists
+        })) || []
+
+      setReplies(formattedReplies)
     } catch (error) {
       console.error("Error fetching replies:", error)
       toast.error("Failed to load replies")
@@ -381,7 +388,7 @@ export default function DiscussionPage() {
                   <Avatar className="h-8 w-8">
                     <AvatarImage src={reply.user.avatar_url || undefined} />
                     <AvatarFallback>
-                      {reply.user.name?.charAt(0).toUpperCase() || "U"}
+                      {reply.user.full_name?.charAt(0).toUpperCase() || "U"}
                     </AvatarFallback>
                   </Avatar>
                   <div>
