@@ -1,7 +1,8 @@
-import { Code, Menu, X } from "lucide-react"
+import { Menu, X } from "lucide-react"
 import Link from "next/link"
 import { Button } from "./button"
 import { useState } from "react"
+import LunaLogo from "./LunaLogo"
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -10,12 +11,9 @@ const Navbar = () => {
     <>
       <header className="relative z-10">
         <div className="container mx-auto px-4 py-6">
-          <nav className="flex items-center justify-between">
-            <Link href="/" className="ml-14 flex items-center gap-2 text-white">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600">
-                <Code className="h-5 w-5 text-white" />
-              </div>
-              <span className="text-xl font-bold">Luna</span>
+          <nav className="ml-12 flex items-center justify-between">
+            <Link href="/" className="flex items-center text-white">
+              <LunaLogo />
             </Link>
 
             {/* Desktop Navigation */}
@@ -30,10 +28,10 @@ const Navbar = () => {
               </div>
               <div className="flex items-center gap-3">
                 <Link href="/login" className="text-slate-300">
-                  Login
+                  Log in
                 </Link>
-                <Button className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400">
-                  Get Started
+                <Button className="justify-center bg-gradient-to-r from-blue-600 to-blue-500">
+                  <Link href="/signup">Sign up</Link>
                 </Button>
               </div>
             </div>
@@ -80,11 +78,11 @@ const Navbar = () => {
                   Community
                 </Link>
                 <div className="flex flex-col gap-3 border-t border-slate-800 pt-4">
-                  <Button variant="outline" className="justify-center">
+                  <Link href="/login" className="justify-center">
                     Log in
-                  </Button>
+                  </Link>
                   <Button className="justify-center bg-gradient-to-r from-blue-600 to-blue-500">
-                    Get Started
+                    <Link href="/signup">Sign up</Link>
                   </Button>
                 </div>
               </div>

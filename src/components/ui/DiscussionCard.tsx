@@ -4,6 +4,7 @@ import Link from "next/link"
 import { UserAvatar } from "./UserAvatar"
 import { createClient } from "@root/utils/supabase/client"
 import { useEffect, useState } from "react"
+import { Badge } from "@/components/ui/badge"
 
 export const DiscussionCard = () => {
   const supabase = createClient()
@@ -17,7 +18,7 @@ export const DiscussionCard = () => {
         const { data, error } = await supabase
           .from("discussion")
           .select(
-            "id, slug, title, content, created_at, likes, replies(id), users(full_name, avatar_url)"
+            "id, slug, title, content, created_at, likes, replies(id), users(full_name, avatar_url),tag:tag_id (name, slug)"
           )
           .order("created_at", { ascending: false })
           .limit(10)
@@ -58,7 +59,7 @@ export const DiscussionCard = () => {
       {discussions.map((discussion) => (
         <div
           key={discussion.id}
-          className="rounded-lg border bg-white p-6 shadow-sm transition-shadow hover:bg-gray-50 hover:shadow-md"
+          className="rounded-lg border p-6 shadow-sm transition-shadow hover:bg-primary/5 hover:shadow-md"
         >
           <div className="flex gap-4">
             {/* Avatar on the left */}
@@ -83,20 +84,23 @@ export const DiscussionCard = () => {
               </h2>
 
               {/* Metadata */}
-              <div className="mb-4 flex items-center gap-2 text-sm text-gray-600">
+              <div className="mb-4 flex items-center gap-2 text-sm">
                 <span className="font-medium">
                   {discussion.users.full_name}
                 </span>
                 <span>•</span>
                 <span>{formatTimeAgo(new Date(discussion.created_at))}</span>
+                <Link href={`/community?tag=${discussion.tag.slug}`}>
+                  <Badge variant="outline" className="text-xs hover:bg-muted">
+                    {discussion.tag.name}
+                  </Badge>
+                </Link>
               </div>
               {/* Description */}
-              <p className="mb-4 line-clamp-2 text-gray-700">
-                {discussion.content}
-              </p>
+              <p className="mb-4 line-clamp-2">{discussion.content}</p>
 
               {/* Interaction Metrics */}
-              <div className="flex items-center space-x-6 text-gray-600">
+              <div className="flex items-center space-x-6">
                 <div className="flex items-center space-x-2">
                   <ThumbsUp className="h-4 w-4" />
                   <span>{discussion.likes || 0}</span>
@@ -114,7 +118,7 @@ export const DiscussionCard = () => {
   )
 }
 
-// Helper function to format date as "time ago"
+//Function to format date as "time ago"
 function formatTimeAgo(date: Date) {
   const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000)
 
@@ -130,7 +134,7 @@ function formatTimeAgo(date: Date) {
   for (const [unit, secondsInUnit] of Object.entries(intervals)) {
     const interval = Math.floor(seconds / secondsInUnit)
     if (interval >= 1) {
-      return `${interval} ${unit}${interval === 1 ? "" : "s"} ago`
+      return `Posted ${interval} ${unit}${interval === 1 ? "" : "s"} ago`
     }
   }
 

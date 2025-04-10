@@ -132,7 +132,7 @@ export const CommunitySearch = () => {
     if (!activeCategory) return null
 
     return (
-      <div className="rounded-lg bg-muted/50 p-6">
+      <div className="rounded-lg bg-primary/5 p-6">
         <div className="mb-2 flex items-center gap-3">
           <h2 className="text-2xl font-bold">{activeCategory.name}</h2>
           <span className="rounded bg-secondary px-2.5 py-0.5 text-sm font-medium text-secondary-foreground">
@@ -164,8 +164,8 @@ export const CommunitySearch = () => {
           className={cn(
             "whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium",
             activeTab === "all"
-              ? "bg-primary text-primary-foreground"
-              : "bg-muted hover:bg-muted/80"
+              ? "bg-accent text-white"
+              : "bg-muted hover:bg-primary/5"
           )}
         >
           All Discussions
@@ -184,7 +184,7 @@ export const CommunitySearch = () => {
                 className={cn(
                   "whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium",
                   activeTab === category.id
-                    ? "bg-primary text-primary-foreground"
+                    ? "bg-accent text-white"
                     : "bg-muted hover:bg-muted/80"
                 )}
               >

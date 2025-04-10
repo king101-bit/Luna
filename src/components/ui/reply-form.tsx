@@ -79,7 +79,11 @@ export default function ReplyForm({
         >
           Clear
         </Button>
-        <Button type="submit" disabled={!content.trim() || isSubmitting}>
+        <Button
+          className="bg-blue-600 text-white"
+          type="submit"
+          disabled={!content.trim() || isSubmitting}
+        >
           {isSubmitting ? "Posting..." : "Post Reply"}
         </Button>
       </div>

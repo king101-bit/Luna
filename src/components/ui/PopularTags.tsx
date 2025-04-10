@@ -52,7 +52,7 @@ export const PopularTags = () => {
             <Link
               href={`/community?tag=${tag.slug}`}
               key={tag.id}
-              className="rounded-full bg-primary px-3 py-1 text-sm font-semibold text-white hover:shadow"
+              className="rounded-full bg-primary/5 px-3 py-1 text-sm font-semibold text-white hover:bg-primary/10 hover:shadow-md"
             >
               <span>{tag.name}</span>
               <span className="ml-1 text-muted-foreground">

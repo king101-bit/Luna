@@ -16,7 +16,7 @@ import { Textarea } from "./textarea"
 import { FormEvent, useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { createClient } from "@root/utils/supabase/client"
-import { toast } from "sonner"
+import { toast, Toaster } from "sonner"
 
 export const CommunityHeader = () => {
   const [form, setForm] = useState({
@@ -108,81 +108,90 @@ export const CommunityHeader = () => {
   }
 
   return (
-    <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-      <div>
-        <h1 className="text-3xl font-bold">Community</h1>
-        <p className="mt-1 text-muted-foreground">
-          Connect with fellow learners and instructors
-        </p>
+    <>
+      <Toaster richColors position="top-center" />
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+        <div>
+          <h1 className="text-3xl font-bold">Community</h1>
+          <p className="mt-1 text-muted-foreground">
+            Connect with fellow learners and instructors
+          </p>
+        </div>
+
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="flex items-center gap-2 bg-accent text-white hover:bg-accent/90">
+              <PlusCircle className="h-4 w-4" />
+              New Discussion
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[800px]">
+            <DialogHeader>
+              <DialogTitle className="text-2xl">
+                Create New Discussion
+              </DialogTitle>
+              <DialogDescription>
+                Share your thoughts, questions, or insights with the community.
+              </DialogDescription>
+            </DialogHeader>
+
+            <form className="space-y-6 py-4" onSubmit={handleSubmit}>
+              <div className="space-y-2">
+                <Label htmlFor="title">Title</Label>
+                <Input
+                  id="title"
+                  placeholder="What's your discussion about?"
+                  value={form.title}
+                  onChange={(e) => setForm({ ...form, title: e.target.value })}
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="tag">Tag</Label>
+                <select
+                  id="tag"
+                  value={form.tag_id}
+                  onChange={(e) => setForm({ ...form, tag_id: e.target.value })}
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  required
+                >
+                  {tags.map((tag) => (
+                    <option key={tag.id} value={tag.id}>
+                      {tag.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="content">Content</Label>
+                <Textarea
+                  id="content"
+                  placeholder="Share your thoughts..."
+                  className="min-h-[200px]"
+                  value={form.content}
+                  onChange={(e) =>
+                    setForm({ ...form, content: e.target.value })
+                  }
+                  required
+                />
+              </div>
+
+              <DialogFooter>
+                <Button
+                  type="submit"
+                  className="bg-accent text-white hover:bg-accent/90"
+                  disabled={isSubmitting}
+                >
+                  <Send className="mr-2 h-4 w-4" />
+                  {isSubmitting ? "Posting..." : "Post Discussion"}
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
       </div>
-
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button className="flex items-center gap-2">
-            <PlusCircle className="h-4 w-4" />
-            New Discussion
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[800px]">
-          <DialogHeader>
-            <DialogTitle className="text-2xl">
-              Create New Discussion
-            </DialogTitle>
-            <DialogDescription>
-              Share your thoughts, questions, or insights with the community.
-            </DialogDescription>
-          </DialogHeader>
-
-          <form className="space-y-6 py-4" onSubmit={handleSubmit}>
-            <div className="space-y-2">
-              <Label htmlFor="title">Title</Label>
-              <Input
-                id="title"
-                placeholder="What's your discussion about?"
-                value={form.title}
-                onChange={(e) => setForm({ ...form, title: e.target.value })}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="tag">Tag</Label>
-              <select
-                id="tag"
-                value={form.tag_id}
-                onChange={(e) => setForm({ ...form, tag_id: e.target.value })}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                required
-              >
-                {tags.map((tag) => (
-                  <option key={tag.id} value={tag.id}>
-                    {tag.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="content">Content</Label>
-              <Textarea
-                id="content"
-                placeholder="Share your thoughts..."
-                className="min-h-[200px]"
-                value={form.content}
-                onChange={(e) => setForm({ ...form, content: e.target.value })}
-                required
-              />
-            </div>
-
-            <DialogFooter>
-              <Button type="submit" disabled={isSubmitting}>
-                <Send className="mr-2 h-4 w-4" />
-                {isSubmitting ? "Posting..." : "Post Discussion"}
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </div>
+    </>
   )
 }

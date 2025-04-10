@@ -134,7 +134,7 @@ const DashboardPage = () => {
                 </CardContent>
                 <CardFooter>
                   <Button
-                    className="w-full"
+                    className="w-full bg-accent text-white hover:bg-accent/90"
                     onClick={() => setProgress(Math.min(progress + 1, 100))}
                   >
                     Continue Learning
@@ -165,7 +165,9 @@ const DashboardPage = () => {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full">Resume Course</Button>
+                  <Button className="w-full bg-accent text-white hover:bg-accent/90">
+                    Resume Course
+                  </Button>
                 </CardFooter>
               </Card>
             </div>
