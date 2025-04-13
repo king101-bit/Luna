@@ -44,7 +44,7 @@ export default function AdminHeader({
         {showActionButton && (
           <Button
             onClick={() => router.push(actionButtonRoute)}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 bg-accent text-white hover:bg-blue-700"
           >
             <Plus className="h-4 w-4" />
             {actionButtonText}

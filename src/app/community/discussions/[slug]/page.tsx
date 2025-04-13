@@ -198,7 +198,6 @@ export default function DiscussionPage() {
           notFound()
           return
         }
-
         setDiscussion(data)
       } catch (error) {
         console.error("Error fetching discussion:", error)

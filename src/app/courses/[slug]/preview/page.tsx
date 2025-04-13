@@ -24,7 +24,6 @@ import {
   Video,
 } from "lucide-react"
 import Link from "next/link"
-import { Metadata } from "next"
 
 interface PageProps {
   params: {

@@ -18,7 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Copy, Edit, Ellipsis, Eye, Plus, Trash2 } from "lucide-react"
+import { Copy, Edit, Ellipsis, Eye, Trash2 } from "lucide-react"
 
 export default function CoursesAdminPage() {
   return (
