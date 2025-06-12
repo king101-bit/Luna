@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 
 export const DiscussionCard = () => {
   const supabase = createClient()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [discussions, setDiscussions] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 

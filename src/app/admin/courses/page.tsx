@@ -1,6 +1,6 @@
 "use client"
 
-import AdminHeader from "@/components/ui/AdminHeader"
+import AdminHeader from "@/components/admin/AdminHeader"
 import { Badge } from "@/components/ui/badge"
 import {
   DropdownMenu,

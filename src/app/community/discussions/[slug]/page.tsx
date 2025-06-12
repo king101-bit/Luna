@@ -20,6 +20,19 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import ReplyForm from "@/components/ui/reply-form"
 import { MainNavbar } from "@/components/ui/MainNavbar"
 import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Discussion, Reply, ReactionCounts } from "@root/global"
 
 export default function DiscussionPage() {
   const { slug } = useParams() as { slug?: string }
@@ -29,11 +42,40 @@ export default function DiscussionPage() {
   const [loading, setLoading] = useState(true)
   const [repliesLoading, setRepliesLoading] = useState(false)
   const [reactionLoading, setReactionLoading] = useState(false)
+  const [deletePost, setDeletePost] = useState(false)
+  const [editPost, setEditPost] = useState(false)
   const [reactions, setReactions] = useState<ReactionCounts>({
     likes: 0,
     dislikes: 0,
     userReaction: null,
   })
+
+  const handleDelete = async () => {
+    const { error } = await supabase
+      .from("discussion")
+      .delete()
+      .eq("id", discussion?.id)
+
+    if (error) {
+      toast.error("Delete error:")
+    } else {
+      toast.success("Post deleted")
+    }
+  }
+
+  const handleEdit = async () => {
+    const { error } = await supabase
+      .from("discussion")
+      .update("content")
+      .eq("id", discussion?.id)
+
+    if (error) {
+      toast.error("Edit error:")
+    } else {
+      toast.success("Post updated")
+      setEditPost(false)
+    }
+  }
 
   const fetchReactions = async () => {
     if (!discussion?.id) return
@@ -198,7 +240,18 @@ export default function DiscussionPage() {
           notFound()
           return
         }
-        setDiscussion(data)
+
+        // Transform the data to match the Discussion type
+        const transformedData: Discussion = {
+          id: data.id,
+          title: data.title,
+          content: data.content,
+          created_at: data.created_at,
+          user: Array.isArray(data.user) ? data.user[0] : data.user,
+          tag: Array.isArray(data.tag) ? data.tag[0] : data.tag,
+        }
+
+        setDiscussion(transformedData)
       } catch (error) {
         console.error("Error fetching discussion:", error)
         toast.error("Failed to load discussion")
@@ -209,13 +262,19 @@ export default function DiscussionPage() {
     const fetchData = async () => {
       setLoading(true)
       await fetchDiscussion()
-      await fetchReplies()
-      await fetchReactions()
       setLoading(false)
     }
 
     fetchData()
   }, [slug, supabase])
+
+  // Fetch reactions and replies after discussion is loaded
+  useEffect(() => {
+    if (discussion) {
+      fetchReplies()
+      fetchReactions()
+    }
+  }, [discussion])
 
   function formatTimeAgo(date: Date) {
     const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000)
@@ -368,12 +427,46 @@ export default function DiscussionPage() {
             <div className="flex items-center justify-between">
               <h1 className="mb-2 text-2xl font-bold">{discussion.title}</h1>
               <div className="flex items-center gap-2">
-                <button
-                  className="text-blue-500 hover:text-blue-700"
-                  title="Edit Post"
-                >
-                  <Pencil size={18} />
-                </button>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="text-blue-500 hover:bg-none"
+                      title="Edit Post"
+                    >
+                      <Pencil size={18} />
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle>Edit your post</DialogTitle>
+                      <DialogDescription>
+                        Make changes to your post here. Click save when you're
+                        done.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="title" className="text-right">
+                          Title
+                        </Label>
+                        <Input id="title" className="col-span-3" />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="content" className="text-right">
+                          Content
+                        </Label>
+                        <Textarea id="content" className="col-span-3" />
+                      </div>
+                    </div>
+                    <DialogFooter>
+                      <Button type="submit" onClick={handleEdit}>
+                        Save changes
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+
                 <button
                   className="text-red-500 hover:text-red-700"
                   title="Delete Post"
@@ -384,7 +477,7 @@ export default function DiscussionPage() {
             </div>
             <div className="mb-4 flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
               <div className="flex items-center gap-2">
-                <span>{discussion.user.full_name}</span>
+                <span>{discussion.user?.full_name}</span>
                 <span>•</span>
                 <span>{formatTimeAgo(new Date(discussion.created_at))}</span>
               </div>
@@ -397,9 +490,11 @@ export default function DiscussionPage() {
             </div>
 
             <div className="mb-6 flex flex-wrap gap-2">
-              <span className="rounded-full border bg-black px-3 py-1 text-xs">
-                {discussion.tag?.name}
-              </span>
+              {discussion.tag && (
+                <span className="rounded-full border bg-black px-3 py-1 text-xs">
+                  {discussion.tag.name}
+                </span>
+              )}
             </div>
 
             <div className="flex items-center gap-4 border-b border-t py-3">

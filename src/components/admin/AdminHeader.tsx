@@ -1,8 +1,9 @@
 "use client"
 import { Plus, Search } from "lucide-react" // Added ArrowLeft for back navigation
-import { Button } from "./button"
-import { Input } from "./input"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { useRouter } from "next/navigation"
+import { AdminHeaderProps } from "@root/global"
 
 export default function AdminHeader({
   title,

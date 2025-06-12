@@ -1,21 +1,14 @@
 "use client"
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-  CardDescription,
-} from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { BookOpen, Loader2 } from "lucide-react"
+import { Loader2 } from "lucide-react"
 import UserGreetText from "@/components/ui/UserGreetText"
 import { createBrowserClient } from "@supabase/ssr"
 import useUserStore from "@/stores/UserStore"
 import { MainNavbar } from "@/components/ui/MainNavbar"
 import Link from "next/link"
+import ContinueLearningCard from "@/components/ui/ContinueLearningCard"
+import LearningProgressCard from "@/components/ui/LearningProgressCard"
+import RecommendedCourses from "@/components/ui/RecommendedCourses"
 
 const DashboardPage = () => {
   const getGreeting = () => {
@@ -65,12 +58,10 @@ const DashboardPage = () => {
       {/* Main Content */}
       <div className="flex-1">
         {loading ? (
-          // Loading State
           <div className="flex h-screen items-center justify-center">
             <Loader2 className="h-8 w-8 animate-spin" /> {/* Loading spinner */}
           </div>
         ) : !user ? (
-          // No User State
           <div className="flex min-h-screen items-center justify-center">
             <p>
               No user found. Please{" "}
@@ -81,8 +72,7 @@ const DashboardPage = () => {
             </p>
           </div>
         ) : (
-          // Dashboard Content
-          <main className="container mx-auto p-4 md:p-6 lg:p-8">
+          <main className="container mx-auto max-w-6xl px-4 py-8">
             <div className="mb-8">
               <h2 className="text-2xl font-bold tracking-tight">
                 <span>
@@ -98,78 +88,11 @@ const DashboardPage = () => {
               </p>
             </div>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {/* Progress Card */}
-              <Card className="col-span-full lg:col-span-2">
-                <CardHeader>
-                  <CardTitle>Your Progress</CardTitle>
-                  <CardDescription>
-                    You&apos;ve completed {progress}% of your current path
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <Progress value={progress} className="h-2" />
-
-                    <div className="grid grid-cols-3 gap-4 pt-2">
-                      <div className="flex flex-col items-center justify-center rounded-lg border bg-card p-3 shadow-sm">
-                        <div className="text-xl font-bold">12</div>
-                        <div className="text-sm font-semibold text-muted-foreground">
-                          Lessons
-                        </div>
-                      </div>
-                      <div className="flex flex-col items-center justify-center rounded-lg border bg-card p-3 shadow-sm">
-                        <div className="text-xl font-bold">5</div>
-                        <div className="text-sm font-semibold text-muted-foreground">
-                          Challenges
-                        </div>
-                      </div>
-                      <div className="flex flex-col items-center justify-center rounded-lg border bg-card p-3 shadow-sm">
-                        <div className="text-xl font-bold">7</div>
-                        <div className="text-sm font-semibold text-muted-foreground">
-                          Day Streak
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Button
-                    className="w-full bg-accent text-white hover:bg-accent/90"
-                    onClick={() => setProgress(Math.min(progress + 1, 100))}
-                  >
-                    Continue Learning
-                  </Button>
-                </CardFooter>
-              </Card>
-
-              {/* Continue Learning Card */}
-              <Card className="col-span-full md:col-span-1">
-                <CardHeader>
-                  <CardTitle>Continue Learning</CardTitle>
-                  <CardDescription>Your current course</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-col gap-4">
-                    <div className="flex items-center gap-4 rounded-md bg-primary/10 p-4">
-                      <BookOpen className="h-8 w-8 text-primary"></BookOpen>
-                      <div>
-                        <h3 className="font-sans font-medium">
-                          Responsive Web Design
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          Module 3 of 5
-                        </p>
-                      </div>
-                    </div>
-                    <Progress value={50} className="h-2"></Progress>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Button className="w-full bg-accent text-white hover:bg-accent/90">
-                    Resume Course
-                  </Button>
-                </CardFooter>
-              </Card>
+              <LearningProgressCard />
+              <ContinueLearningCard />
+            </div>
+            <div className="mt-8">
+              <RecommendedCourses />
             </div>
           </main>
         )}

@@ -16,14 +16,16 @@ interface UserAvatarProps {
   name: string
   imageUrl?: string
   size?: number
-  showDropdown?: boolean // New prop to control dropdown visibility
+  showDropdown?: boolean
+  className?: string
 }
 
 export function UserAvatar({
   name,
   imageUrl,
   size = 35,
-  showDropdown = false, // Default to false
+  showDropdown = false,
+  className = "",
 }: UserAvatarProps) {
   const router = useRouter()
 
@@ -38,9 +40,11 @@ export function UserAvatar({
     }
   }
 
-  // The avatar rendering logic
   const avatar = imageUrl ? (
-    <Avatar className="hover:opacity-80" style={{ width: size, height: size }}>
+    <Avatar
+      className={`hover:opacity-80 ${className}`}
+      style={{ width: size, height: size }}
+    >
       <AvatarImage
         src={imageUrl}
         alt={name}
@@ -53,19 +57,20 @@ export function UserAvatar({
       name={name}
       variant="marble"
       colors={["#E63946", "#F1FAEE", "#A8DADC", "#457B9D", "#1D3557"]}
+      className={className}
     />
   )
 
   return showDropdown ? (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="cursor-pointer">{avatar}</div>
+        <div className={`cursor-pointer`}>{avatar}</div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-48" align="end">
         <DropdownMenuItem onSelect={handleLogout}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   ) : (
-    avatar // Return just the avatar without dropdown
+    avatar
   )
 }
