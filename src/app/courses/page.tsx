@@ -33,7 +33,7 @@ export default function Courses() {
       try {
         setIsLoading(true)
         const { data, error } = await supabase.from("courses").select("*")
-        // console.log(data)
+        console.log(data)
         if (error) throw error
         if (!data) {
           return

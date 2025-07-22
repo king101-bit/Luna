@@ -1,8 +1,10 @@
+// src/app/layout.tsx
 import type { Metadata } from "next"
 import "./globals.css"
 import { Analytics } from "@vercel/analytics/react"
 import { Inter } from "next/font/google"
 import { ThemeProvider } from "./providers"
+import { ReactQueryProvider } from "@/components/QueryProvider"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,10 +30,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <body>
-        <ThemeProvider>
-          {children}
-          <Analytics />
-        </ThemeProvider>
+        <ReactQueryProvider>
+          <ThemeProvider>
+            {children}
+            <Analytics />
+          </ThemeProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   )

@@ -426,7 +426,7 @@ export default function CourseForm({
                 name="price"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Price ($)</FormLabel>
+                    <FormLabel>Price (&#8358;)</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
