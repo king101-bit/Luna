@@ -8,108 +8,145 @@ import {
   CardTitle,
 } from "../ui/card"
 import { Badge } from "../ui/badge"
-import { Clock, GlobeIcon, Users } from "lucide-react"
+import { Clock, GlobeIcon, Play, Star, Users } from "lucide-react"
 import { Progress } from "../ui/progress"
 import Link from "next/link"
 import { Button } from "../ui/button"
+import { formatNaira } from "@root/utils/formatCurrency"
+type Course = {
+  id: string
+  title: string
+  description: string
+  price: number
+  instructor?: string
+  slug: string
+  level?: string
+  thumbnail?: string
+  category: {
+    name: string
+  }
+  hours?: number
+  course_tags?: {
+    tag_id: string
+    name: string
+    tags?: {
+      name: string
+    }
+  }[]
+}
 
-const CourseCard = ({ course, index, setSelectedCategory }) => {
+const CourseCard = ({
+  course,
+  index,
+  setSelectedCategory,
+}: {
+  course: Course
+  index?: number
+  setSelectedCategory?: (category: string) => void
+}) => {
+  const tags = course.course_tags ?? []
+  const visibleTags = tags.slice(0, 3)
+  const remainingCount = tags.length - visibleTags.length
+
   return (
     <>
       <Card
         key={course.id}
-        className="overflow-hidden rounded-2xl border shadow-md transition hover:shadow-lg"
+        className="max-w-sm overflow-hidden rounded-2xl border shadow-md transition hover:shadow-lg"
       >
-        <div
-          className="relative h-24 bg-cover bg-center transition-transform duration-300 hover:scale-105"
-          style={{
-            backgroundImage: "url(/jero)",
-          }}
-        >
-          {/* Category Badge */}
+        <div className="relative h-36 w-full overflow-hidden rounded-t-2xl">
+          {course.thumbnail ? (
+            <img
+              src={course.thumbnail}
+              alt={course.title}
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-gray-200 dark:bg-gray-700">
+              <GlobeIcon className="h-10 w-10 text-gray-500 dark:text-gray-400" />
+            </div>
+          )}
+
           <Badge
-            className="absolute left-4 top-4 bg-white/15 text-black backdrop-blur-sm hover:bg-white/30"
-            onClick={() => setSelectedCategory("frontend")}
+            className="absolute right-3 top-3"
+            variant={
+              course.level === "Beginner"
+                ? "secondary"
+                : course.level === "Intermediate"
+                  ? "default"
+                  : "destructive"
+            }
           >
-            Frontend
+            {course.level}
           </Badge>
-
-          {/* Overlay & Icon */}
-          <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-            <GlobeIcon className="h-10 w-10 text-white opacity-90" />
-          </div>
         </div>
+        <CardHeader className="p-6 pb-3">
+          <Badge variant="outline" className="mb-2 w-fit">
+            {course.category?.name}
+          </Badge>
+          <CardTitle className="line-clamp-2 text-lg font-bold text-gray-900 transition-colors group-hover:text-blue-600 dark:text-gray-100 dark:group-hover:text-blue-400">
+            {course.title}
+          </CardTitle>
 
-        {/* Course Info */}
-        <CardHeader className="px-6 pb-4 pt-6 text-start">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-lg font-semibold">
-              {course.title}
-            </CardTitle>
-            <Badge
-              className="ml-2 bg-green-100 text-green-700 hover:bg-green-100/80"
-              variant="secondary"
-            >
-              Beginner
-            </Badge>
-          </div>
-
-          <CardDescription className="mt-2 line-clamp-3 text-sm">
+          {course.instructor && (
+            <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+              by {course.instructor}
+            </p>
+          )}
+          <CardDescription className="mt-2 line-clamp-2 text-sm text-gray-600 dark:text-gray-400">
             {course.description}
           </CardDescription>
-
-          {/* Stats */}
-          <div className="mt-4 flex items-start justify-start gap-4 text-sm">
-            <Clock className="h-4 w-4" />
-            <span>40 hours</span>
-            <Users className="h-4 w-4" />
-            <span>1,245 students</span>
-          </div>
-
-          {/* Rating */}
-          <div className="mt-2 flex items-start justify-start gap-1 text-sm">
-            <div className="flex text-yellow-400">
-              {"★".repeat(4)}
-              <span className="text-yellow-400/50">☆</span>
-            </div>
-            <span className="font-medium">4.8</span>
-            <span className="">• {course.instructor_name}</span>
-          </div>
         </CardHeader>
 
         {/* Progress */}
         <CardContent className="px-6 pb-4 pt-0">
-          <div className="mb-1 flex justify-between text-xs text-gray-500">
+          {/* <div className="mb-1 flex justify-between text-xs text-gray-500">
             <span>In progress</span>
             <span>60% complete</span>
           </div>
-          <Progress value={60} className="h-2" />
+          <Progress value={60} className="h-2" /> */}
 
           {/* Tags */}
-          <div className="mt-4 flex flex-wrap justify-start gap-2 text-xs">
-            <Badge variant="outline" className="bg-gray-450 text-xs">
-              HTML
-            </Badge>
-            <Badge variant="outline" className="bg-gray-450 text-xs">
-              CSS
-            </Badge>
-            <Badge variant="outline" className="bg-gray-450 text-xs">
-              Responsive
-            </Badge>
+          <div className="mb-4 flex flex-wrap gap-1">
+            {visibleTags.map((tag) => (
+              <Badge key={tag.tag_id} variant="secondary" className="text-xs">
+                {tag.tags?.name}
+              </Badge>
+            ))}
+            {remainingCount > 0 && (
+              <Badge variant="secondary" className="text-xs">
+                +{remainingCount} more
+              </Badge>
+            )}
+          </div>
+
+          <div className="mb-4 flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+            <div className="flex items-center gap-1">
+              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+              <span className="font-medium">4.5</span>
+              <span>(20)</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <Clock className="h-4 w-4" />
+              <span>{course.hours} Hours</span>
+            </div>
           </div>
         </CardContent>
 
         {/* Footer */}
-        <CardFooter className="p-6 pt-0">
-          <Link
-            key={index}
-            className="w-full"
-            href={`/courses/${encodeURIComponent(course.title.toLowerCase().replace(/\s+/g, "-"))}/preview`}
+        <CardFooter className="flex items-center justify-between p-6 pt-0">
+          <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+            {formatNaira(course.price)}
+          </span>
+          <Button
+            asChild
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
           >
-            <Button className="w-full bg-blue-600 text-white hover:bg-blue-700">
-              Continue Course
-            </Button>
-          </Link>
+            <Link href={`/courses/${course.slug}/preview`}>
+              <Play className="h-4 w-4" />
+              Continue
+            </Link>
+          </Button>
         </CardFooter>
       </Card>
     </>

@@ -24,7 +24,15 @@ import { Input } from "./input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs"
 import Link from "next/link"
 
-export const QuizLesson = () => {
+export const QuizLesson = ({
+  lesson,
+  onUpdate,
+  onRemove,
+}: {
+  lesson: any
+  onUpdate: (values: any) => void
+  onRemove: () => void
+}) => {
   return (
     <>
       <div className="flex items-center gap-2">
@@ -37,7 +45,8 @@ export const QuizLesson = () => {
           <Input
             className="flex-grow border bg-transparent p-4 shadow-none focus-visible:ring-0"
             placeholder="New Quiz Lesson"
-            defaultValue="New Quiz Lesson"
+            value={lesson.title}
+            onChange={(e) => onUpdate({ ...lesson, title: e.target.value })}
           />
           <div className="flex items-center gap-2">
             <Clock className="h-4 w-4 text-muted-foreground" />
@@ -45,7 +54,8 @@ export const QuizLesson = () => {
           <Input
             className="w-16 border bg-transparent p-4 text-right text-muted-foreground shadow-none focus-visible:ring-0"
             placeholder="0:00"
-            defaultValue="0:00"
+            value={lesson.duration}
+            onChange={(e) => onUpdate({ ...lesson, duration: e.target.value })}
           />
         </div>
 
@@ -241,6 +251,7 @@ export const QuizLesson = () => {
           variant="ghost"
           size="sm"
           className="text-destructive hover:bg-destructive/10"
+          onClick={onRemove}
         >
           <Trash2 className="h-4 w-4" />
         </Button>

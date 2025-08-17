@@ -9,40 +9,77 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import DOMPurify from "dompurify"
 
-export function TabsComponent() {
+interface TabsComponentProps {
+  lesson: {
+    id: string
+    title: string
+    content?: string
+  } | null
+}
+
+export function TabsComponent({ lesson }: TabsComponentProps) {
   return (
-    <Tabs defaultValue="lessoncontent">
-      <TabsList className="h-10 rounded-lg p-2">
-        <TabsTrigger value="lessoncontent" className="rounded-md">
-          Lesson Content
+    <Tabs defaultValue="lessoncontent" className="w-full">
+      <TabsList className="h-10 rounded-lg bg-muted p-1">
+        <TabsTrigger value="lessoncontent" className="rounded-md px-4">
+          Lesson
         </TabsTrigger>
-        <TabsTrigger value="notes" className="rounded-md">
+        <TabsTrigger value="notes" className="rounded-md px-4">
           Notes
         </TabsTrigger>
-        <TabsTrigger value="resources" className="rounded-md">
+        <TabsTrigger value="resources" className="rounded-md px-4">
           Resources
         </TabsTrigger>
       </TabsList>
-      <Separator className="mt-3" />
-      <TabsContent value="lessoncontent"></TabsContent>
-      <TabsContent className="mt-5" value="notes">
-        <Card>
+
+      <Separator className="mb-6 mt-4" />
+
+      {/* Lesson Content */}
+      <TabsContent value="lessoncontent" className="space-y-4">
+        <h1 className="text-2xl font-bold">{lesson?.title}</h1>
+        <div
+          className="prose dark:prose-invert max-w-none"
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(
+              lesson?.content || "<p>No content available.</p>"
+            ),
+          }}
+        />
+      </TabsContent>
+
+      {/* Notes */}
+      <TabsContent value="notes" className="mt-6">
+        <Card className="w-full">
           <CardHeader>
-            <CardTitle>Your Notes</CardTitle>
+            <CardTitle>Write Notes</CardTitle>
           </CardHeader>
           <CardContent>
-            <Textarea placeholder="Type your notes here...." />
+            <Textarea
+              placeholder="Type your notes here..."
+              rows={6}
+              className="resize-none"
+            />
           </CardContent>
-          <CardFooter className="items-end justify-end">
-            <Button className="bg-accent text-white">Save Notes</Button>
+          <CardFooter className="flex justify-end">
+            <Button variant="default">Save Notes</Button>
           </CardFooter>
         </Card>
       </TabsContent>
-      <TabsContent className="mt-5" value="resources">
-        <h1 className="mb-3 text-xl">Additional Resources</h1>
-        <div className="container space-y-3">
-          {/* Add resource items here */}
+
+      {/* Resources */}
+      <TabsContent value="resources" className="mt-6 space-y-4">
+        <h2 className="text-xl font-semibold">Additional Resources</h2>
+        <div className="space-y-3">
+          {/* TODO: Replace with dynamic resource list */}
+          <Card>
+            <CardContent className="p-4">
+              <p className="text-sm text-muted-foreground">
+                No resources added yet for this lesson.
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </TabsContent>
     </Tabs>

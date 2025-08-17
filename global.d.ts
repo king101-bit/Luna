@@ -1,28 +1,18 @@
-// Define this first since it's used in Lesson and possibly others
-type LessonType =
-  | "text"
-  | "video"
-  | "quiz"
-  | "assignment"
-  | "article"
-  | "pdf"
-  | "slide"
-  | "code"
-  | "demo"
+type LessonType = "text" | "video" | "assignment"
 
 export type Lesson = {
   id: string
+  module_id: string
   title: string
-  content: string
-  duration: number | string
+  type: "video" | "text" | "assignment"
+  duration?: number
+  content?: string
+  video_url?: string | null
+  description?: string
 }
-
-// You can now safely define everything else below
-
-interface PageProps {
-  params: {
-    slug: string
-  }
+type CourseTag = {
+  id: string
+  tags?: Tag[]
 }
 
 interface QuestionOption {
@@ -53,13 +43,33 @@ interface QuizSummaryProps {
   attempts?: number
 }
 
+interface CourseModule {
+  id: string
+  course_id: string
+  title: string
+  description: string
+  order_index: number
+  created_at: string | null
+  updated_at: string | null
+  lessons?: Lesson[]
+}
+
 type Course = {
   id: string
   title: string
   description: string
+  thumbnail: string
+  slug: string
   price: number
-  category: string
-  instructor_name: string
+  isEnrolled?: boolean
+  category: {
+    name: string
+  }
+  instructor: string
+  hours?: number
+  certificate_enabled?: boolean
+  features?: string[]
+  modules: CourseModule[]
 }
 
 export type CourseFormData = {
@@ -98,6 +108,7 @@ type User = {
 }
 
 type Tag = {
+  id?: string
   name: string
   slug: string
 }

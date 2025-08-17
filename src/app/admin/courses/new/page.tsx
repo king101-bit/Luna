@@ -17,6 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import CheckList from "@/components/ui/CheckList"
+import { useForm } from "react-hook-form"
 
 export default function NewCoursePage() {
   const router = useRouter()
@@ -71,11 +72,8 @@ export default function NewCoursePage() {
           </div>
           <div className="w-full lg:w-96 lg:flex-shrink-0">
             <div className="sticky top-6 space-y-4">
-              <CoursePreview
-                titleText=""
-                thumbnailPreview=""
-                descriptionText=""
-              />
+              <CoursePreview />
+
               <CheckList />
             </div>
           </div>

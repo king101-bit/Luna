@@ -2,14 +2,19 @@
 import { createClient } from "@root/utils/supabase/client"
 import { useEffect, useState } from "react"
 
-const UserGreetText = ({ user, className = "" }) => {
+const UserGreetText = ({
+  user,
+  className = "",
+}: {
+  user: any
+  className?: string
+}) => {
   const [name, setName] = useState(user?.user_metadata?.full_name || "Guest")
   const supabase = createClient()
 
   useEffect(() => {
     if (!user?.id || name !== "Guest") return
 
-    // Only fetch if auth metadata doesn't have the name
     const fetchName = async () => {
       const { data } = await supabase
         .from("users")

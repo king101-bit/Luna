@@ -43,7 +43,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select"
-import { formSchema, FormValues } from "./CourseForm"
+import { formSchema, FormValues, LessonFormValues } from "./CourseForm"
+import { LessonType } from "@root/global"
 
 export function ModuleForm({
   module,
@@ -55,6 +56,8 @@ export function ModuleForm({
   moduleIndex: number
   form: any
 }) {
+  interface LessonType extends LessonFormValues {}
+
   const { control, watch, setValue } = form
   const modules = watch("modules")
 
@@ -185,25 +188,24 @@ export function ModuleForm({
                 )
               case "VIDEO":
                 return (
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   <VideoLesson
                     key={lessonIndex}
-                    // lesson={lesson}
-                    // onUpdate={(updatedLesson) =>
-                    //   handleLessonUpdate(lessonIndex, updatedLesson)
-                    // }
-                    // onRemove={() => handleRemoveLesson(lessonIndex)}
+                    lesson={lesson}
+                    onUpdate={(updatedLesson: LessonType) =>
+                      handleLessonUpdate(lessonIndex, updatedLesson)
+                    }
+                    onRemove={() => handleRemoveLesson(lessonIndex)}
                   />
                 )
               case "QUIZ":
                 return (
                   <QuizLesson
                     key={lessonIndex}
-                    // lesson={lesson}
-                    // onUpdate={(updatedLesson) =>
-                    //   handleLessonUpdate(lessonIndex, updatedLesson)
-                    // }
-                    // onRemove={() => handleRemoveLesson(lessonIndex)}
+                    lesson={lesson}
+                    onUpdate={(updatedLesson: LessonType) =>
+                      handleLessonUpdate(lessonIndex, updatedLesson)
+                    }
+                    onRemove={() => handleRemoveLesson(lessonIndex)}
                   />
                 )
               case "ASSIGNMENT":
@@ -229,7 +231,7 @@ export function ModuleForm({
             variant="outline"
             size="sm"
             className="flex items-center gap-2"
-            onClick={() => handleAddLesson("text")}
+            onClick={() => handleAddLesson("TEXT")}
           >
             <FileText className="h-4 w-4" />
             Add Text Lesson
@@ -239,7 +241,7 @@ export function ModuleForm({
             variant="outline"
             size="sm"
             className="flex items-center gap-2"
-            onClick={() => handleAddLesson("video")}
+            onClick={() => handleAddLesson("VIDEO")}
           >
             <Video className="h-4 w-4" />
             Add Video
@@ -249,7 +251,7 @@ export function ModuleForm({
             variant="outline"
             size="sm"
             className="flex items-center gap-2"
-            onClick={() => handleAddLesson("quiz")}
+            onClick={() => handleAddLesson("QUIZ")}
           >
             <ShieldQuestion className="h-4 w-4" />
             Add Quiz
@@ -259,7 +261,7 @@ export function ModuleForm({
             variant="outline"
             size="sm"
             className="flex items-center gap-2"
-            onClick={() => handleAddLesson("assignment")}
+            onClick={() => handleAddLesson("ASSIGNMENT")}
           >
             <Book className="h-4 w-4" />
             Add Assignment
@@ -308,7 +310,7 @@ export function ModuleForm({
 }
 
 // AssignmentLesson Component
-const AssignmentLesson = ({
+export const AssignmentLesson = ({
   lesson,
   onUpdate,
   onRemove,

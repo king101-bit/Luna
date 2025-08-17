@@ -26,29 +26,31 @@ import { useState } from "react"
 import { VideoLesson } from "../admin/VideoLesson"
 import { QuizLesson } from "./QuizLesson"
 import { Lesson, LessonType } from "@root/global"
+import { AssignmentLesson } from "../admin/module"
 
 export default function ModuleCard() {
   const [lessons, setLessons] = useState<Lesson[]>([])
 
   const addLesson = (type: LessonType) => {
-    setLessons((prev) => [...prev, { id: Date.now(), type }])
+    setLessons((prev) => [
+      ...prev,
+      {
+        id: Date.now().toString(),
+        type,
+        module_id: "", // This might be set later when saving to backend
+        title: `New ${type.charAt(0).toUpperCase() + type.slice(1)} Lesson`,
+      },
+    ])
   }
 
   const handleAddTextLesson = () => addLesson("text")
   const handleAddVideoLesson = () => addLesson("video")
-  const handleAddQuiz = () => addLesson("quiz")
   const handleAddAssignment = () => addLesson("assignment")
 
   const lessonComponents = {
     text: TextLesson,
     video: VideoLesson,
-    quiz: QuizLesson,
-    // assignment: AssignmentLesson,
-    // article: ArticleLesson,
-    // pdf: PdfLesson,
-    // slide: SlideLesson,
-    // code: CodeLesson,
-    // demo: DemoLesson,
+    assignment: AssignmentLesson,
   }
   return (
     <>
@@ -90,7 +92,14 @@ export default function ModuleCard() {
             </h2>
             {lessons.map((lesson) => {
               const LessonComponent = lessonComponents[lesson.type]
-              return <LessonComponent key={lesson.id} />
+              return (
+                <LessonComponent
+                  key={lesson.id}
+                  lesson={lesson as any} // Force it with 'as any'
+                  onUpdate={() => {}}
+                  onRemove={() => {}}
+                />
+              )
             })}
           </div>
 
@@ -115,7 +124,7 @@ export default function ModuleCard() {
               <Video className="h-4 w-4" />
               Add Video
             </Button>
-            <Button
+            {/* <Button
               type="button"
               variant="outline"
               size="sm"
@@ -124,12 +133,13 @@ export default function ModuleCard() {
             >
               <ShieldQuestion className="h-4 w-4" />
               Add Quiz
-            </Button>
+            </Button> */}
             <Button
               type="button"
               variant="outline"
               size="sm"
               className="flex items-center gap-2"
+              onClick={handleAddAssignment}
             >
               <FileText className="h-4 w-4" />
               Add Assignment

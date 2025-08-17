@@ -18,9 +18,30 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { createClient } from "@root/utils/supabase/client"
 import { Copy, Edit, Ellipsis, Eye, Trash2 } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export default function CoursesAdminPage() {
+  const [courses, setCourses] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const supabase = createClient()
+  useEffect(() => {
+    const fetchCourses = async () => {
+      const { data, error } = await supabase.from("courses").select("*")
+
+      if (error) {
+        console.error("Error fetching courses:", error)
+      } else {
+        setCourses(data)
+      }
+
+      setLoading(false)
+    }
+
+    fetchCourses()
+  }, [])
+
   return (
     <>
       <MainNavbar />
@@ -49,86 +70,63 @@ export default function CoursesAdminPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">
-                  Responsive Web Design
-                </TableCell>
-                <TableCell>Frontend</TableCell>
-                <TableCell>
-                  <Badge className="bg-green-100 text-green-600">
-                    Beginner
-                  </Badge>
-                </TableCell>
-                <TableCell>Alex Johnson</TableCell>
-                <TableCell className="text-right">1,245</TableCell>
-                <TableCell>
-                  {" "}
-                  <Badge className="bg-blue-100 text-blue-600">Published</Badge>
-                </TableCell>
-                <TableCell>10/15/2023</TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Ellipsis className="cursor-pointer" />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="gap-2" align="end">
-                      <DropdownMenuItem>
-                        <Eye /> View
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Edit /> Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Copy /> Duplicate
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem className="text-red-600">
-                        <Trash2 /> Delete{" "}
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium">
-                  JavaScript Fundamentals{" "}
-                </TableCell>
-                <TableCell>Frontend</TableCell>
-                <TableCell>
-                  <Badge className="bg-green-100 text-green-600">
-                    Beginner
-                  </Badge>
-                </TableCell>
-                <TableCell>Sarah Miller</TableCell>
-                <TableCell className="text-right">2,130</TableCell>
-                <TableCell>
-                  {" "}
-                  <Badge className="bg-blue-100 text-blue-600">Published</Badge>
-                </TableCell>
-                <TableCell>11/2/2023</TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Ellipsis className="cursor-pointer" />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="gap-2" align="end">
-                      <DropdownMenuItem>
-                        <Eye /> View
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Edit /> Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Copy /> Duplicate
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem className="text-red-600">
-                        <Trash2 /> Delete{" "}
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
+              {loading ? (
+                <TableRow>
+                  <TableCell colSpan={8}>Loading...</TableCell>
+                </TableRow>
+              ) : courses.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={8}>No courses found.</TableCell>
+                </TableRow>
+              ) : (
+                courses.map((course) => (
+                  <TableRow key={course.id}>
+                    <TableCell className="font-medium">
+                      {course.title}
+                    </TableCell>
+                    <TableCell>{course.category}</TableCell>
+                    <TableCell>
+                      <Badge className="bg-green-100 text-green-600">
+                        {course.level}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{course.instructor}</TableCell>
+                    <TableCell className="text-right">
+                      {course.students_count ?? 0}
+                    </TableCell>
+                    <TableCell>
+                      <Badge className="bg-blue-100 text-blue-600">
+                        {course.is_published ? "Published" : "Draft"}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      {new Date(course.updated_at).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Ellipsis className="cursor-pointer" />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="gap-2" align="end">
+                          <DropdownMenuItem>
+                            <Eye /> View
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Edit /> Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Copy /> Duplicate
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem className="text-red-600">
+                            <Trash2 /> Delete{" "}
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </div>

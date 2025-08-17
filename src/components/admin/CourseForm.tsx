@@ -37,7 +37,6 @@ import { ModuleForm } from "@/components/admin/module"
 import { useEffect, useState } from "react"
 import { Separator } from "@/components/ui/separator"
 import { Category } from "@root/global"
-import { Instrument_Sans } from "next/font/google"
 import { createClient } from "@root/utils/supabase/client"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 import {
@@ -48,6 +47,7 @@ import {
   CommandItem,
 } from "../ui/command"
 import { cn } from "@/lib/utils"
+import { toast } from "sonner"
 
 // Types for the lesson type options
 export const LESSON_TYPES = ["TEXT", "VIDEO", "QUIZ", "ASSIGNMENT"] as const
@@ -56,22 +56,25 @@ export const VISIBILITY_OPTIONS = ["VISIBLE", "DRAFT", "SCHEDULED"] as const
 
 // Zod schema for the text lesson
 export const LessonSchema = z.object({
-  order_index: z.number().int(),
+  order_index: z.number().int().min(1).default(1),
   title: z.string().min(1, "Title is required"),
   type: z.enum(LESSON_TYPES).default("TEXT"),
-  duration: z.string().regex(/^\d+:\d{2}$/, "Duration must be in format MM:SS"),
-  description: z.string().optional(),
-  content: z.string().optional(),
+  duration: z
+    .string()
+    .regex(/^\d{1,2}:\d{2}$/, "Duration must be in format MM:SS or M:SS")
+    .default("0:00"),
+  description: z.string().optional().default("").optional(),
+  content: z.string().optional().default(""),
   required: z.boolean().default(false),
   visibility: z.enum(VISIBILITY_OPTIONS).default("VISIBLE"),
   submissionType: z
     .enum(["TEXT ENTRY", "FILE UPLOAD", "BOTH"])
     .default("TEXT ENTRY"),
-  instructions: z.string().optional(),
+  video_url: z.string().optional().default(""),
+  instructions: z.string().optional().default(""),
   dueDate: z.date().optional(),
   points: z.number().min(0, "Points must be a positive number").default(0),
 })
-
 // Type derived from the schema
 export type LessonFormValues = z.infer<typeof LessonSchema>
 
@@ -87,34 +90,39 @@ export const formSchema = z.object({
   category: z.string().min(1, "Category is required"),
   level: z.string().min(1, "Level is required"),
   hours: z.number().min(1, "Duration must be at least 1 hour"),
-  price: z.number().min(0).optional(),
+  price: z.number().min(0).optional().default(0),
   instructor: z.string().min(2, "Instructor name is required"),
   tags: z
     .array(
       z.object({
         name: z.string().min(1, "Tag name is required"),
-        id: z.string().optional(), // Assuming tags can have an ID, adjust as needed
+        id: z.string().or(z.number()).optional(),
       })
     )
-    .optional(),
+    .optional()
+    .default([]),
   thumbnail: z.any().optional(),
   isPublished: z.boolean().default(false),
   requiresPrerequisites: z.boolean().default(false),
   allowComments: z.boolean().default(true),
   certificateEnabled: z.boolean().default(true),
-  modules: z.array(
-    z.object({
-      order_index: z
-        .number()
-        .int()
-        .min(1, "Order index must be a positive integer"),
-      title: z.string().min(2, "Module title is required"),
-      description: z.string().min(10, "Module description is required"),
-      lessons: z.array(LessonSchema).default([]),
-    })
-  ),
+  modules: z
+    .array(
+      z.object({
+        order_index: z
+          .number()
+          .int()
+          .min(1, "Order index must be a positive integer"),
+        title: z.string().min(2, "Module title is required"),
+        description: z
+          .string()
+          .min(1, "Module description is required")
+          .optional(), // Changed from 10 to 1
+        lessons: z.array(LessonSchema).default([]),
+      })
+    )
+    .default([]),
 })
-
 export type FormValues = z.infer<typeof formSchema>
 
 export default function CourseForm({
@@ -124,8 +132,8 @@ export default function CourseForm({
   categories: Category[] | null
   loading: boolean
 }) {
-  const [currentStep, setCurrentStep] = useState(1)
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null)
+  const [currentStep, setCurrentStep] = useState(1)
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -155,7 +163,6 @@ export default function CourseForm({
   useEffect(() => {
     const fetchTags = async () => {
       const { data, error } = await supabase.from("tags").select("*")
-      console.log("Fetched tags:", data)
       if (error) {
         console.error("Error fetching tags:", error)
       } else {
@@ -166,75 +173,176 @@ export default function CourseForm({
   }, [])
 
   const onSubmit = async (data: FormValues) => {
+    console.log("🚀 onSubmit called with data:", data)
+
+    // Manual validation trigger to catch any hidden validation errors
+    const isValid = await form.trigger()
+    console.log("Manual validation result:", isValid)
+
+    // Get current form state
+    const formState = form.formState
+    console.log("Form state:", {
+      isValid: formState.isValid,
+      isSubmitting: formState.isSubmitting,
+      errors: formState.errors,
+      isDirty: formState.isDirty,
+    })
+
+    // Check for validation errors
+    const errors = form.formState.errors
+    if (Object.keys(errors).length > 0) {
+      console.log("❌ Form errors found:", errors)
+      console.log("❌ Detailed errors:", JSON.stringify(errors, null, 2))
+
+      // Show specific error messages
+      Object.entries(errors).forEach(([field, error]) => {
+        if (error?.message) {
+          toast.error(`${field}: ${error.message}`)
+        }
+      })
+      return // Don't proceed if there are validation errors
+    }
+
+    console.log("✅ Form validation passed, proceeding with submission...")
+
+    setIsLoading(true)
     try {
-      console.log("Form submitted:", data)
-      const fetchCourses = async () => {
-        try {
-          setIsLoading(true)
-          const { data: response, error } = await supabase
-            .from("courses")
-            .insert([
-              {
-                title: data.title,
-                description: data.description,
-                category: data.category,
-                level: data.level,
-                hours: data.hours,
-                price: data.price,
-                instructor: data.instructor,
-                tags: data.tags,
-                // thumbnail: data.thumbnail, // Assuming thumbnail is a file object
-                is_published: data.isPublished,
-                requires_prerequisites: data.requiresPrerequisites,
-                allow_comments: data.allowComments,
-                certificate_enabled: data.certificateEnabled,
-                modules: data.modules.map((module) => ({
-                  order_index: module.order_index,
-                  title: module.title,
-                  description: module.description,
-                  lessons: module.lessons.map((lesson) => ({
-                    order_index: lesson.order_index,
-                    title: lesson.title,
-                    type: lesson.type, // Assuming type is a string
-                    duration: lesson.duration,
-                    description: lesson.description,
-                    content: lesson.content,
-                    required: lesson.required,
-                    visibility: lesson.visibility,
-                    submission_type: lesson.submissionType,
-                    instructions: lesson.instructions,
-                    due_date: lesson.dueDate
-                      ? lesson.dueDate.toISOString()
-                      : null,
-                    points: lesson.points,
-                  })),
-                })),
-              },
-            ])
-          console.log(response)
-          if (error) throw error
-          if (!data) {
-            return
-          }
-          // setCourses(data)
-        } catch (error) {
-          console.error("Error Fetching Courses:", error)
-        } finally {
-          setIsLoading(false)
+      // Your existing submission logic...
+      console.log("Starting database operations...")
+
+      // 1. Insert course
+      const { data: course, error: courseError } = await supabase
+        .from("courses")
+        .insert([
+          {
+            title: data.title,
+            description: data.description,
+            category_id: data.category,
+            level: data.level,
+            hours: data.hours,
+            price: data.price,
+            instructor: data.instructor,
+            thumbnail: data.thumbnail,
+            is_published: data.isPublished,
+            requires_prerequisites: data.requiresPrerequisites,
+            allow_comments: data.allowComments,
+            certificate_enabled: data.certificateEnabled,
+          },
+        ])
+        .select()
+
+      if (courseError) {
+        console.error("Course insertion error:", courseError)
+        throw courseError
+      }
+
+      console.log("Course inserted successfully:", course)
+      const courseId = course[0].id
+
+      if (data.tags && data.tags.length > 0) {
+        const courseTagsPayload = data.tags.map((tag) => ({
+          course_id: courseId,
+          tag_id: tag.id,
+        }))
+
+        const { error: tagsError } = await supabase
+          .from("course_tags")
+          .insert(courseTagsPayload)
+
+        if (tagsError) {
+          console.warn("Tags insertion failed:", tagsError)
         }
       }
 
-      fetchCourses()
-    } catch (error) {
-      console.error("Error submitting form:", error)
+      // 2. Insert modules
+      for (const module of data.modules) {
+        const { data: insertedModule, error: moduleError } = await supabase
+          .from("course_modules")
+          .insert([
+            {
+              course_id: courseId,
+              title: module.title,
+              description: module.description,
+              order_index: module.order_index,
+            },
+          ])
+          .select()
+
+        if (moduleError) throw moduleError
+        const moduleId = insertedModule[0].id
+        const convertDurationToSeconds = (duration: string) => {
+          const [minutes, seconds] = duration.split(":").map(Number)
+          return minutes * 60 + seconds
+        }
+        // 3. Insert lessons for this module
+        const lessonsPayload = module.lessons.map((lesson) => ({
+          module_id: moduleId,
+          order_index: lesson.order_index,
+          title: lesson.title,
+          type: lesson.type,
+          duration: Math.round(convertDurationToSeconds(lesson.duration) / 60),
+          description: lesson.description,
+          content: lesson.content,
+          required: lesson.required,
+          video_url: lesson.video_url,
+          visibility: lesson.visibility,
+          submission_type: lesson.submissionType,
+          instructions: lesson.instructions,
+          due_date: lesson.dueDate ? lesson.dueDate.toISOString() : null,
+          points: lesson.points,
+        }))
+
+        const { error: lessonError } = await supabase
+          .from("course_lessons")
+          .insert(lessonsPayload)
+
+        if (lessonError) throw lessonError
+      }
+
+      toast.success("Course created successfully!")
+    } catch (error: any) {
+      console.error("Error during submission:", error)
+      toast.error(`Failed to create course: ${error.message}`)
+    } finally {
+      setIsLoading(false)
     }
   }
 
-  const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleThumbnailChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = e.target.files?.[0]
-    if (file) {
-      setValue("thumbnail", file)
-      setThumbnailPreview(URL.createObjectURL(file))
+    if (!file) return
+
+    // Show preview immediately
+    setThumbnailPreview(URL.createObjectURL(file))
+
+    // Prepare file info
+    const fileExt = file.name.split(".").pop()
+    const fileName = `thumbnail-${Date.now()}.${fileExt}`
+    const filePath = `thumbnails/${fileName}`
+
+    // Upload file to Supabase Storage
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from("course-assets")
+      .upload(filePath, file)
+
+    if (uploadError) {
+      console.error("Thumbnail upload error:", uploadError.message)
+      return
+    } else {
+      toast.success("Thumbnail uploaded!")
+    }
+
+    // Get public URL (this method doesn't return an error)
+    const { data: publicUrlData } = supabase.storage
+      .from("course-assets")
+      .getPublicUrl(filePath)
+
+    // Save public URL in form state
+    const publicUrl = publicUrlData?.publicUrl
+    if (publicUrl) {
+      setValue("thumbnail", publicUrl)
     }
   }
 
@@ -273,7 +381,33 @@ export default function CourseForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={(e) => {
+          console.log("Form submit event triggered")
+          e.preventDefault() // Prevent default submission
+
+          // Get current form values for debugging
+          const currentValues = form.getValues()
+          console.log("Current form values:", currentValues)
+
+          // Check form validity
+          const isFormValid = form.formState.isValid
+          console.log("Form valid?", isFormValid)
+
+          // Trigger validation manually
+          form.trigger().then((isValid) => {
+            console.log("Manual validation result:", isValid)
+            if (isValid) {
+              console.log("Calling onSubmit...")
+              form.handleSubmit(onSubmit)()
+            } else {
+              console.log("Form validation failed")
+              console.log("Errors:", form.formState.errors)
+            }
+          })
+        }}
+        className="space-y-8"
+      >
         {/* Step indicators */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -358,7 +492,7 @@ export default function CourseForm({
                       </FormControl>
                       <SelectContent>
                         {categories?.map((category) => (
-                          <SelectItem key={category.id} value={category.name}>
+                          <SelectItem key={category.id} value={category.id}>
                             {category.name}
                           </SelectItem>
                         ))}
@@ -578,7 +712,7 @@ export default function CourseForm({
                             type="button"
                             className="absolute right-1 top-1 z-10 rounded-full bg-white p-1 shadow-sm hover:bg-gray-100"
                             onClick={(e) => {
-                              e.stopPropagation() // Prevent triggering the upload click
+                              e.stopPropagation()
                               setThumbnailPreview(null)
                               setValue("thumbnail", null)
                             }}
@@ -686,7 +820,6 @@ export default function CourseForm({
                 </FormItem>
               )}
             />
-
             <Separator />
 
             <FormField
@@ -754,9 +887,44 @@ export default function CourseForm({
               <ChevronRight className="ml-1 h-4 w-4" />
             </Button>
           ) : (
-            <Button type="submit" onClick={() => console.log(formValues)}>
-              Create Course
-            </Button>
+            <div className="flex gap-2">
+              {/* Debug button to check form state */}
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  console.log("=== FORM DEBUG ===")
+                  console.log("Form values:", form.getValues())
+                  console.log("Form errors:", form.formState.errors)
+                  console.log("Form valid:", form.formState.isValid)
+                  console.log("Categories:", categories)
+                  console.log("=================")
+                }}
+              >
+                Debug
+              </Button>
+
+              {/* Test submit without validation */}
+              <Button
+                type="button"
+                variant="outline"
+                onClick={async () => {
+                  console.log("Manual submit test...")
+                  const values = form.getValues()
+                  await onSubmit(values)
+                }}
+              >
+                Test Submit
+              </Button>
+
+              <Button
+                type="submit"
+                disabled={isLoading}
+                onClick={() => console.log("Submit button clicked")}
+              >
+                {isLoading ? "Creating..." : "Create Course"}
+              </Button>
+            </div>
           )}
         </div>
       </form>

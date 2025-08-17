@@ -3,8 +3,9 @@ import type { Metadata } from "next"
 import "./globals.css"
 import { Analytics } from "@vercel/analytics/react"
 import { Inter } from "next/font/google"
-import { ThemeProvider } from "./providers"
 import { ReactQueryProvider } from "@/components/QueryProvider"
+import { Toaster } from "@/components/ui/sonner"
+import { ThemeProvider } from "next-themes"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,8 +32,9 @@ export default function RootLayout({
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <body>
         <ReactQueryProvider>
-          <ThemeProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
+            <Toaster />
             <Analytics />
           </ThemeProvider>
         </ReactQueryProvider>

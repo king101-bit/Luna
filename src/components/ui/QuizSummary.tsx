@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Eye, Trash2 } from "lucide-react"
 import { Separator } from "./separator"
 import Link from "next/link"
+import { QuizSummaryProps } from "@root/global"
 
 export function QuizSummary({
   questionCount,

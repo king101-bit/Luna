@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "./dropdown-menu"
 import LunaLogo from "./LunaLogo"
+import ThemeToggle from "./ThemeToggle"
 
 export const MainNavbar = () => {
   const { user } = useUserStore()
@@ -151,6 +152,7 @@ export const MainNavbar = () => {
             size={40}
             showDropdown={true}
           />
+          <ThemeToggle />
         </div>
       </div>
     </header>
