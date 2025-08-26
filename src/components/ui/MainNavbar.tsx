@@ -16,6 +16,7 @@ import {
 } from "./dropdown-menu"
 import LunaLogo from "./LunaLogo"
 import ThemeToggle from "./ThemeToggle"
+import { Button } from "./button"
 
 export const MainNavbar = () => {
   const { user } = useUserStore()
@@ -153,6 +154,10 @@ export const MainNavbar = () => {
             showDropdown={true}
           />
           <ThemeToggle />
+          <Button>
+            {" "}
+            <Link href={`/admin/courses`}>Go to Admin</Link>
+          </Button>
         </div>
       </div>
     </header>

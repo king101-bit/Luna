@@ -5,6 +5,7 @@ import DiscussionList from "@/components/ui/DiscussionList"
 import { MainNavbar } from "@/components/ui/MainNavbar"
 import { PopularTags } from "@/components/ui/PopularTags"
 import { Metadata } from "next"
+import { Suspense } from "react"
 
 export const metadata: Metadata = {
   title: "Community | Luna",
@@ -21,9 +22,14 @@ export default function CommunityPage() {
         <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-center">
-              <CommunitySearch />
+              <Suspense fallback={<div>Loading search...</div>}>
+                <CommunitySearch />
+              </Suspense>
             </div>
-            <DiscussionList />
+
+            <Suspense fallback={<div>Loading discussions...</div>}>
+              <DiscussionList />
+            </Suspense>
           </div>
 
           <div className="space-y-8">

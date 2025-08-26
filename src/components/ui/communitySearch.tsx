@@ -108,7 +108,7 @@ export const CommunitySearch = () => {
 
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId)
-    router.push(`?tag=${tabId}`, { shallow: true })
+    router.push(`?tag=${tabId}`)
   }
 
   const renderContent = () => {
