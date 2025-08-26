@@ -154,10 +154,6 @@ export const MainNavbar = () => {
             showDropdown={true}
           />
           <ThemeToggle />
-          <Button>
-            {" "}
-            <Link href={`/admin/courses`}>Go to Admin</Link>
-          </Button>
         </div>
       </div>
     </header>
