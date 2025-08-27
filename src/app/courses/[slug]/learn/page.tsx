@@ -8,9 +8,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useCourseProgress } from "@/hook/CourseProgress"
 import { useCourseModules } from "@/hook/useCourseModules"
 import { useCourses } from "@/hook/useFetchCourse"
 import { Lesson } from "@root/global"
+import { createClient } from "@root/utils/supabase/client"
 import {
   Clock,
   CheckCircle,
@@ -44,9 +46,43 @@ export default function LearnPage() {
     enabled: !!course,
   })
 
+  const supabase = createClient()
   const [currentModuleIndex, setCurrentModuleIndex] = useState(0)
   const [currentLessonIndex, setCurrentLessonIndex] = useState(0)
 
+  const [lessonCompleted, setLessonCompleted] = useState(false)
+  const {
+    progress: courseProgress,
+    isLoading: progressLoading,
+    refreshProgress,
+  } = useCourseProgress(course?.id)
+  // Replace your problematic useEffect with this:
+  useEffect(() => {
+    const fetchProgress = async () => {
+      if (!selectedLesson) return
+
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+
+      if (!user) return
+
+      const { data, error } = await supabase
+        .from("lesson_progress")
+        .select("completed")
+        .eq("user_id", user.id)
+        .eq("lesson_id", selectedLesson.id)
+        .single()
+
+      if (data) {
+        setLessonCompleted(data.completed)
+      } else {
+        setLessonCompleted(false)
+      }
+    }
+
+    fetchProgress()
+  }, [selectedLesson])
   const filteredModules = useMemo(() => {
     if (!modules) return []
 
@@ -156,10 +192,11 @@ export default function LearnPage() {
 
   if (isLoading)
     return (
-      <p>
+      <div>
         <LearnPageSkeleton />
-      </p>
+      </div>
     )
+
   if (error)
     return (
       <div className="flex h-screen items-center justify-center p-4">
@@ -238,7 +275,10 @@ export default function LearnPage() {
           style={{ minWidth: 250 }}
         >
           <SidebarContent
-            course={course}
+            course={{
+              ...course,
+              progress: courseProgress,
+            }}
             modules={filteredModules}
             onSelectLesson={selectLesson}
             selectedModuleIndex={currentModuleIndex}
@@ -343,21 +383,29 @@ export default function LearnPage() {
               </p>
             )}
           </div>
-          <Footer
-            onPrevious={goToPreviousLesson}
-            onNext={goToNextLesson}
-            onComplete={() => {
-              alert("Completed!")
-            }}
-            disablePrevious={
-              currentModuleIndex === 0 && currentLessonIndex === 0
-            }
-            disableNext={
-              currentModuleIndex === filteredModules.length - 1 &&
-              currentLessonIndex ===
-                filteredModules[currentModuleIndex].lessons.length - 1
-            }
-          />
+          {selectedLesson ? (
+            <Footer
+              onPrevious={goToPreviousLesson}
+              onNext={goToNextLesson}
+              disablePrevious={
+                currentModuleIndex === 0 && currentLessonIndex === 0
+              }
+              disableNext={
+                currentModuleIndex === filteredModules.length - 1 &&
+                currentLessonIndex ===
+                  filteredModules[currentModuleIndex].lessons.length - 1
+              }
+              courseId={course.id}
+              lessonId={selectedLesson.id}
+              onProgressUpdate={refreshProgress}
+            />
+          ) : (
+            <div className="flex items-center justify-between border-t px-4 py-2">
+              <div className="text-muted-foreground">
+                Select a lesson to begin
+              </div>
+            </div>
+          )}
         </main>
       </div>
     </div>

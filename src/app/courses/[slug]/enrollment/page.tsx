@@ -234,16 +234,55 @@ function enrollment() {
 
   const allLessons = modulesWithLessons.flatMap((m) => m.lessons)
 
-  const handleEnrollment = () => {
+  async function handleEnrollment(course: any) {
     if (course.price === 0) {
-      // Free course - skip payment
+      // free course → enroll immediately
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser()
+      if (userError || !user) {
+        throw new Error("Not authenticated")
+      }
+
+      const { error } = await supabase.from("enrollments").insert({
+        user_id: user.id,
+        course_id: course.id,
+      })
+
+      if (error) {
+        console.error("Enrollment failed:", error)
+        return
+      }
+
       setEnrollmentStep("confirmation")
     } else {
+      // paid course → move to payment step
       setEnrollmentStep("payment")
     }
   }
 
-  const handlePaymentSuccess = () => {
+  const handlePaymentSuccess = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    if (!user) {
+      console.error("Not authenticated")
+      return
+    }
+
+    // Insert enrollment after successful payment
+    const { error } = await supabase.from("enrollments").insert({
+      user_id: user.id,
+      course_id: course.id,
+    })
+
+    if (error) {
+      console.error("Enrollment failed after payment:", error)
+      return
+    }
+
     setEnrollmentStep("confirmation")
   }
 
@@ -529,7 +568,7 @@ function enrollment() {
                   {/* Enroll Button */}
                   <Button
                     className="mb-6 w-full bg-gradient-to-r from-blue-600 to-purple-600 py-3 text-lg font-semibold text-white hover:from-blue-700 hover:to-purple-700"
-                    onClick={handleEnrollment}
+                    onClick={() => handleEnrollment(course)}
                   >
                     {course.price === 0 ? "Enroll for Free" : "Enroll Now"}
                   </Button>

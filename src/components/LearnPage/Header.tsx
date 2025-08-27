@@ -52,9 +52,7 @@ export function Header({
               {course.title}
             </span>
             <span className="text-xs text-muted-foreground">
-              {selectedModule
-                ? `Module ${currentModuleIndex + 1}: ${selectedModule.title}`
-                : "No module selected"}
+              By {course.instructor}
             </span>
             {selectedLesson && (
               <span className="text-xs text-muted-foreground">

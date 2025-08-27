@@ -1,58 +1,48 @@
+// Footer.tsx
+"use client"
 import { Button } from "@/components/ui/button"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { LessonCompleteButton } from "../ui/LessonCompleteButton"
 
 interface FooterProps {
   onPrevious?: () => void
   onNext?: () => void
-  onComplete?: () => void
   disablePrevious?: boolean
   disableNext?: boolean
-  disableComplete?: boolean
+  courseId: string
+  lessonId?: string
+  onProgressUpdate?: () => void
 }
 
 export function Footer({
   onPrevious,
   onNext,
-  onComplete,
   disablePrevious,
   disableNext,
-  disableComplete,
+  courseId,
+  lessonId,
+  onProgressUpdate,
 }: FooterProps) {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 border-t bg-card p-4">
-      <div className="container flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={onPrevious}
-            disabled={disablePrevious}
-            className="flex items-center"
-          >
-            <ChevronLeft className="mr-1 h-4 w-4" />
+    <div className="flex items-center justify-between border-t px-4 py-2">
+      <div className="flex gap-2">
+        {onPrevious && (
+          <Button onClick={onPrevious} disabled={disablePrevious}>
             Previous
           </Button>
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={onNext}
-            disabled={disableNext}
-            className="flex items-center"
-          >
+        )}
+        {onNext && (
+          <Button onClick={onNext} disabled={disableNext}>
             Next
-            <ChevronRight className="ml-1 h-4 w-4" />
           </Button>
-        </div>
-
-        <Button
-          className="bg-accent text-white hover:bg-blue-700"
-          onClick={onComplete}
-          disabled={disableComplete}
-        >
-          Complete
-        </Button>
+        )}
       </div>
+      {lessonId && (
+        <LessonCompleteButton
+          courseId={courseId}
+          lessonId={lessonId}
+          onProgressUpdate={onProgressUpdate} // Pass it down
+        />
+      )}
     </div>
   )
 }

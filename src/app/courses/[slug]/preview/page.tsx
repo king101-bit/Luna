@@ -31,6 +31,7 @@ import { Progress } from "@/components/ui/progress"
 import EnrollmentButton from "@/components/ui/EnrollmentButton"
 import { useEffect, useState } from "react"
 import { CourseTag, Lesson, Tag } from "@root/global"
+import { PreviewPageSkeleton } from "@/components/PreviewPage/PreviewpageSkeleton"
 
 export default function PreviewPage() {
   const supabase = createClient()
@@ -150,11 +151,7 @@ export default function PreviewPage() {
   }, [slug])
 
   if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p>Loading...</p>
-      </div>
-    )
+    return <PreviewPageSkeleton />
   }
 
   if (!course) {
