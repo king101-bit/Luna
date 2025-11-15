@@ -117,7 +117,7 @@ export const formSchema = z.object({
         description: z
           .string()
           .min(1, "Module description is required")
-          .optional(), // Changed from 10 to 1
+          .optional(),
         lessons: z.array(LessonSchema).default([]),
       })
     )
@@ -128,16 +128,20 @@ export type FormValues = z.infer<typeof formSchema>
 export default function CourseForm({
   categories,
   loading,
+  initialData,
+  mode = "create",
 }: {
   categories: Category[] | null
   loading: boolean
+  initialData?: FormValues & { id?: string | number }
+  mode?: "create" | "edit"
 }) {
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null)
   const [currentStep, setCurrentStep] = useState(1)
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: initialData ?? {
       title: "",
       description: "",
       category: "",
@@ -175,46 +179,22 @@ export default function CourseForm({
   const onSubmit = async (data: FormValues) => {
     console.log("🚀 onSubmit called with data:", data)
 
-    // Manual validation trigger to catch any hidden validation errors
+    // Validate first
     const isValid = await form.trigger()
-    console.log("Manual validation result:", isValid)
-
-    // Get current form state
-    const formState = form.formState
-    console.log("Form state:", {
-      isValid: formState.isValid,
-      isSubmitting: formState.isSubmitting,
-      errors: formState.errors,
-      isDirty: formState.isDirty,
-    })
-
-    // Check for validation errors
-    const errors = form.formState.errors
-    if (Object.keys(errors).length > 0) {
-      console.log("❌ Form errors found:", errors)
-      console.log("❌ Detailed errors:", JSON.stringify(errors, null, 2))
-
-      // Show specific error messages
-      Object.entries(errors).forEach(([field, error]) => {
-        if (error?.message) {
-          toast.error(`${field}: ${error.message}`)
-        }
-      })
-      return // Don't proceed if there are validation errors
+    if (!isValid) {
+      toast.error("Please fix the validation errors before continuing.")
+      return
     }
 
-    console.log("✅ Form validation passed, proceeding with submission...")
-
     setIsLoading(true)
-    try {
-      // Your existing submission logic...
-      console.log("Starting database operations...")
 
-      // 1. Insert course
-      const { data: course, error: courseError } = await supabase
-        .from("courses")
-        .insert([
-          {
+    try {
+      if (mode === "edit" && initialData?.id) {
+        console.log("🛠 Updating existing course:", initialData.id)
+
+        const { error: updateError } = await supabase
+          .from("courses")
+          .update({
             title: data.title,
             description: data.description,
             category_id: data.category,
@@ -227,82 +207,170 @@ export default function CourseForm({
             requires_prerequisites: data.requiresPrerequisites,
             allow_comments: data.allowComments,
             certificate_enabled: data.certificateEnabled,
-          },
-        ])
-        .select()
+          })
+          .eq("id", initialData.id)
 
-      if (courseError) {
-        console.error("Course insertion error:", courseError)
-        throw courseError
-      }
+        if (updateError) throw updateError
 
-      console.log("Course inserted successfully:", course)
-      const courseId = course[0].id
-
-      if (data.tags && data.tags.length > 0) {
-        const courseTagsPayload = data.tags.map((tag) => ({
-          course_id: courseId,
-          tag_id: tag.id,
-        }))
-
-        const { error: tagsError } = await supabase
+        await supabase
           .from("course_tags")
-          .insert(courseTagsPayload)
-
-        if (tagsError) {
-          console.warn("Tags insertion failed:", tagsError)
+          .delete()
+          .eq("course_id", initialData.id)
+        if (data.tags && data.tags.length > 0) {
+          const tagPayload = data.tags.map((t) => ({
+            course_id: initialData.id,
+            tag_id: t.id,
+          }))
+          await supabase.from("course_tags").insert(tagPayload)
         }
-      }
 
-      // 2. Insert modules
-      for (const module of data.modules) {
-        const { data: insertedModule, error: moduleError } = await supabase
+        await supabase
           .from("course_modules")
+          .delete()
+          .eq("course_id", initialData.id)
+
+        for (const module of data.modules) {
+          const { data: insertedModule, error: moduleError } = await supabase
+            .from("course_modules")
+            .insert([
+              {
+                course_id: initialData.id,
+                title: module.title,
+                description: module.description,
+                order_index: module.order_index,
+              },
+            ])
+            .select()
+            .single()
+
+          if (moduleError) throw moduleError
+
+          const moduleId = insertedModule.id
+
+          // 🧠 Convert duration helper
+          const convertDurationToSeconds = (duration: string) => {
+            const [minutes, seconds] = duration.split(":").map(Number)
+            return minutes * 60 + seconds
+          }
+
+          if (module.lessons?.length) {
+            const lessonPayload = module.lessons.map((lesson) => ({
+              module_id: moduleId,
+              order_index: lesson.order_index,
+              title: lesson.title,
+              type: lesson.type,
+              duration: Math.round(
+                convertDurationToSeconds(lesson.duration) / 60
+              ),
+              description: lesson.description,
+              content: lesson.content,
+              required: lesson.required,
+              video_url: lesson.video_url,
+              visibility: lesson.visibility,
+              submission_type: lesson.submissionType,
+              instructions: lesson.instructions,
+              due_date: lesson.dueDate ? lesson.dueDate.toISOString() : null,
+              points: lesson.points,
+            }))
+
+            const { error: lessonError } = await supabase
+              .from("course_lessons")
+              .insert(lessonPayload)
+            if (lessonError) throw lessonError
+          }
+        }
+
+        toast.success("Course updated successfully!")
+      } else {
+        console.log("🆕 Creating new course...")
+
+        const { data: course, error: courseError } = await supabase
+          .from("courses")
           .insert([
             {
-              course_id: courseId,
-              title: module.title,
-              description: module.description,
-              order_index: module.order_index,
+              title: data.title,
+              description: data.description,
+              category_id: data.category,
+              level: data.level,
+              hours: data.hours,
+              price: data.price,
+              instructor: data.instructor,
+              thumbnail: data.thumbnail,
+              is_published: data.isPublished,
+              requires_prerequisites: data.requiresPrerequisites,
+              allow_comments: data.allowComments,
+              certificate_enabled: data.certificateEnabled,
             },
           ])
           .select()
 
-        if (moduleError) throw moduleError
-        const moduleId = insertedModule[0].id
-        const convertDurationToSeconds = (duration: string) => {
-          const [minutes, seconds] = duration.split(":").map(Number)
-          return minutes * 60 + seconds
+        if (courseError) throw courseError
+        const courseId = course[0].id
+
+        if (data.tags?.length) {
+          const tagPayload = data.tags.map((t) => ({
+            course_id: courseId,
+            tag_id: t.id,
+          }))
+          await supabase.from("course_tags").insert(tagPayload)
         }
-        // 3. Insert lessons for this module
-        const lessonsPayload = module.lessons.map((lesson) => ({
-          module_id: moduleId,
-          order_index: lesson.order_index,
-          title: lesson.title,
-          type: lesson.type,
-          duration: Math.round(convertDurationToSeconds(lesson.duration) / 60),
-          description: lesson.description,
-          content: lesson.content,
-          required: lesson.required,
-          video_url: lesson.video_url,
-          visibility: lesson.visibility,
-          submission_type: lesson.submissionType,
-          instructions: lesson.instructions,
-          due_date: lesson.dueDate ? lesson.dueDate.toISOString() : null,
-          points: lesson.points,
-        }))
 
-        const { error: lessonError } = await supabase
-          .from("course_lessons")
-          .insert(lessonsPayload)
+        for (const module of data.modules) {
+          const { data: insertedModule, error: moduleError } = await supabase
+            .from("course_modules")
+            .insert([
+              {
+                course_id: courseId,
+                title: module.title,
+                description: module.description,
+                order_index: module.order_index,
+              },
+            ])
+            .select()
+            .single()
 
-        if (lessonError) throw lessonError
+          if (moduleError) throw moduleError
+          const moduleId = insertedModule.id
+
+          const convertDurationToSeconds = (duration: string) => {
+            const [minutes, seconds] = duration.split(":").map(Number)
+            return minutes * 60 + seconds
+          }
+
+          if (module.lessons?.length) {
+            const lessonPayload = module.lessons.map((lesson) => ({
+              module_id: moduleId,
+              order_index: lesson.order_index,
+              title: lesson.title,
+              type: lesson.type,
+              duration: Math.round(
+                convertDurationToSeconds(lesson.duration) / 60
+              ),
+              description: lesson.description,
+              content: lesson.content,
+              required: lesson.required,
+              video_url: lesson.video_url,
+              visibility: lesson.visibility,
+              submission_type: lesson.submissionType,
+              instructions: lesson.instructions,
+              due_date: lesson.dueDate ? lesson.dueDate.toISOString() : null,
+              points: lesson.points,
+            }))
+
+            const { error: lessonError } = await supabase
+              .from("course_lessons")
+              .insert(lessonPayload)
+            if (lessonError) throw lessonError
+          }
+        }
+
+        toast.success("Course created successfully!")
       }
-
-      toast.success("Course created successfully!")
     } catch (error: any) {
-      console.error("Error during submission:", error)
-      toast.error(`Failed to create course: ${error.message}`)
+      console.error("❌ Error during submission:", error)
+      toast.error(
+        `Failed to ${mode === "edit" ? "update" : "create"} course: ${error.message}`
+      )
     } finally {
       setIsLoading(false)
     }
@@ -917,12 +985,14 @@ export default function CourseForm({
                 Test Submit
               </Button>
 
-              <Button
-                type="submit"
-                disabled={isLoading}
-                onClick={() => console.log("Submit button clicked")}
-              >
-                {isLoading ? "Creating..." : "Create Course"}
+              <Button type="submit" disabled={isLoading}>
+                {isLoading
+                  ? mode === "edit"
+                    ? "Updating..."
+                    : "Creating..."
+                  : mode === "edit"
+                    ? "Update Course"
+                    : "Create Course"}
               </Button>
             </div>
           )}
